@@ -1,7 +1,7 @@
 <?php echo $this->head->header(0,$title,$metas,$version); ?>
 <body>
 
-    <nav class="navbar navbar-default navfarm">
+ <nav class="navbar navbar-default navfarm">
 
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -24,16 +24,6 @@
                 <ul class="nav navbar-nav navbar-right" id="linksheader">
                     <li><a href="#" class="active">Home</a></li>
                     <li><a href="#">Quem Somos</a></li>
-
-                    <li class="dropdown" style="background: none;text-decoration: none;">
-                        <a href="#"  style="background: none;text-decoration: none;" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categorias <span class="caret"></span></a>
-                        <ul class="dropdown-menu" style=" background: #b01b1f; position: absolute; z-index: 100;">
-                            <li><a href="#"  style="background: none;text-decoration: none;">Home</a></li>
-                            <li><a href="#"  style="background: none;text-decoration: none;">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#"  style="background: none;text-decoration: none;">Separated link</a></li>
-                        </ul>
-                    </li>
                     <li><a href="#">Fale conosco</a></li>
 
                 </ul>

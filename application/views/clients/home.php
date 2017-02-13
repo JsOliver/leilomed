@@ -1,5 +1,14 @@
 <?php $this->load->view('clients/fixed_files/header'); ?>
     <br>
+    <script>
+
+        window.onload = function () {
+
+            categoria('1', '1');
+
+        }
+
+    </script>
     <div class="navbar faixa-darkred">
         <div class="container-fluid">
             <div class="collapse navbar-collapse faixa-darkred-sub" id="bs-example-navbar-collapse-1"></div>
@@ -42,8 +51,12 @@
     </div>
     <style>
 
+        .explication {
+            margin-top: 15px;
+        }
 
     </style>
+
 
     <div class="filtro">
         <div class="inputs-filtro">
@@ -51,27 +64,40 @@
 
 
             <i style="color: #940f14;" class="glyphicon glyphicon-th-large"></i>
-            <select class="categoria-filtro">
+            <select onchange="categoria(this.value,'1');" class="categoria-filtro">
                 <option style="display: none;" disabled selected>Categorias</option>
-                <option>teste</option>
-                <option>teste</option>
-                <option>teste</option>
-                <option>teste</option>
+                <option value="1">teste</option>
+                <option value="2">teste</option>
+                <option value="3">teste</option>
+
 
             </select>
             &nbsp;&nbsp;&nbsp;
             <i style="color: #940f14;" class="glyphicon glyphicon-th-list"></i>
-            <select class="farmaceutica-filtro">
+            <select onchange="categoria(this.value,'1');" class="farmaceutica-filtro">
                 <option style="display: none;" selected disabled>Farmaceuticas</option>
-                <option>teste</option>
-                <option>teste</option>
-                <option>teste</option>
-                <option>teste</option>
+                <option value="1">teste</option>
+                <option value="2">teste</option>
+                <option value="3">teste</option>
+
 
             </select>
         </div>
 
 
+        <div class="container explication">
+
+            <div id="Loading">
+
+            </div>
+
+            <div id="produtos">
+
+            </div>
+
+        </div>
+
     </div>
+
 
 <?php $this->load->view('clients/fixed_files/footer'); ?>

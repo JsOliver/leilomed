@@ -33,4 +33,9 @@ class UserController extends CI_Controller {
         $dados['page'] = 'estatisticas';
         $this->load->view('clients/home',$dados);
     }
+
+    public function produtoshome(){
+
+        $this->load->view('clients/ajax/produtos/home');
+    }
 }
