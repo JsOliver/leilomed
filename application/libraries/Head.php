@@ -153,12 +153,11 @@ class Head
         if ($guide == 2):
 
             $return = '<!DOCTYPE html>' . $this->quebra . '
-                <html lang="pt-br">' . $this->quebra . '<head>' . $this->quebra . $this->meta(2) . $this->quebra . '
-               <title> Narrador Cast</title>' .
-                $this->css(2,$version) . $this->quebra . $this->js(2,$version) . $this->quebra .
-                '
-              </head> 
-               ';
+                       <html lang="pt-br">' . $this->quebra . '<head>' . $this->quebra . $this->meta(2) . $this->quebra . '
+                       <title> Narrador Cast</title>' .
+                       $this->css(2,$version) . $this->quebra . $this->js(2,$version) . $this->quebra .' 
+                       </head> 
+                       ';
 
 
         endif;

@@ -1,0 +1,179 @@
+
+a{
+    text-decoration: none;
+}
+
+.navbar-brand {
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+    color: #ffffff;
+    font-size: 30pt;
+    margin-top: 30px;
+}
+#busca {
+    transform: translateX(-50%);
+    left: 50%;
+    position: absolute;
+    color: #ffffff;
+    margin-top: 60px;
+    width: 40%;
+    z-index: 0;
+    border: none;
+
+
+}
+#busca input{
+    width: 95%;
+    border-radius: 20px;
+    position: absolute;
+    z-index: 0;
+}
+#busca #submit{
+    float: left;
+    margin: 0 0 0 90%;
+    z-index: 1;
+    position: absolute;
+    background:#facf0d ;
+    border-radius: 0 20px 20px 0;
+    border: none;
+    padding: 7px 15px 7px 8px;
+
+}
+
+.navfarm{
+    background: #b01b1f;
+    border: none;
+    border-radius: 0px;
+    height: 200px;
+}
+
+#linksheader li{
+    padding: 0;
+}
+
+#linksheader li a {
+    color: #ffffff;
+
+}
+
+#linksheader .open
+{
+    background: none;
+}
+
+
+
+#linksheader li a {
+    border-top: 3px solid #b01b1f;
+}
+#linksheader li .active{
+
+
+    border-top: 3px solid #facf0d;
+    color: #facf0d;
+}
+
+.dropdown-menu-top{
+    background: #b01b1f;
+}
+
+.faixa-darkred{
+
+    background: #940f14;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 0px;
+}
+
+
+.faixa-darkred-sub{
+    transform: translateX(-35%);
+    left: 35%;
+    position: absolute;
+    color: #ffffff;
+    width: 90%;
+    padding: 0 0 0 10%;
+}
+
+.cards{
+
+    margin: -50px 0 0 19%;
+    float: left;
+}
+
+.cards-pill{
+    float: left;
+}
+
+.cards-pill i {
+
+    color: white;
+    font-size: 40pt;
+}
+
+.cards-pill p {
+
+    text-align: center;
+    margin: 0 0 0 -140px;
+}
+.licards{
+    width: 25%;
+    margin: 0 75px 0 0;
+
+}
+#cardlink{
+    margin: 0 180px 0 0;
+    padding:20px 80px 25px 25px;
+    border-radius:50%;
+    border:5px solid #ffffff;
+    background:#b01b1f;
+
+}
+.licards-last{
+    width: 30%;
+}
+#cardlink-last{
+    margin: 0 180px 0 0;
+    padding:20px 80px 25px 25px;
+    border-radius:50%;
+    border:5px solid #ffffff;
+    background:#b01b1f;
+
+}
+.banner-top{
+    margin: 0 0 0 22%;
+    float: left;
+}
+
+.filtro {
+    float: left;
+    width: 95%;
+    margin-top: 25px;
+}
+
+.inputs-filtro {
+
+    float: right;
+
+}
+
+.categoria-filtro {
+
+    margin-top: 3px;
+    border: none;
+    resize: none;
+    padding: 5px 5px 5px 2px;
+    outline: 0;
+    color: #940f14;
+}
+
+.farmaceutica-filtro {
+
+    margin-top: 3px;
+    border: none;
+    resize: none;
+    outline: 0;
+    padding: 5px 5px 5px 2px;
+    color: #940f14;
+
+}
