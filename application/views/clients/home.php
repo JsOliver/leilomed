@@ -91,7 +91,7 @@
 
             </div>
 
-            <div id="produtos">
+            <div id="produtos" style="z-index: 10; position: relative;">
 
             </div>
 
@@ -100,4 +100,44 @@
     </div>
 
 
+    <div class="container carrosecontent" style="margin-top: 50px;z-index: 0;">
+
+        <div class="row"><br>
+
+            <br>
+            <div class="col-md-12">
+                <h3 style="margin-top: 60px;">Farmácias Anunciantes</h3>
+
+                <div id="Carousel" class="carousel slide">
+
+
+
+                    <!-- Carousel items -->
+                    <div class="carousel-inner" >
+
+                        <?php for($i=0;$i<=4;$i++):?>
+
+
+
+
+                        <div class="item <?php if($i == 0):echo 'active'; endif;?>">
+                            <div class="row">
+                                <?php for($o=0;$o<4;$o++):?>
+                                <div class="col-md-3"><a href="#" class="thumbnail" style="border: none;"><img class="imgCarrossel" src="<?php echo base_url('assets/'.$version.'/img/site/partiner/1.png');?>" alt="Image" style="max-width:100%;"></a></div>
+                                <?php endfor; ?>
+
+                            </div><!--.row-->
+                        </div><!--.item-->
+
+                        <?php endfor; ?>
+
+
+                    </div><!--.carousel-inner-->
+                    <a data-slide="prev" href="#Carousel" class="left carousel-control">‹</a>
+                    <a data-slide="next" href="#Carousel" class="right carousel-control">›</a>
+                </div><!--.Carousel-->
+
+            </div>
+        </div>
+    </div><!--.container-->
 <?php $this->load->view('clients/fixed_files/footer'); ?>

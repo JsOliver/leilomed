@@ -1,6 +1,6 @@
 function categoria(tipo,page) {
 
-    $("#Loading").html('<h1 style="left: 40%;top: 50%;position: fixed;z-index: 10;">Carregando...</h1>');
+    $("#Loading").html('<h1 style="left: 40%;top: 50%;position: fixed;z-index: 100;">Carregando...</h1>');
 
 
 
@@ -20,7 +20,7 @@ function categoria(tipo,page) {
     });
 
     $('body,html').animate({
-        scrollTop: 600
+        scrollTop: 550
     }, 800);
     return false;
 }

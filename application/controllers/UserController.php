@@ -18,20 +18,20 @@ class UserController extends CI_Controller {
         ];
         $dados['title'] = 'LeiloFarma';
         $dados['version'] = '1';
-        $dados['page'] = 'estatisticas';
+        $dados['page'] = 'home';
         $this->load->view('clients/home',$dados);
     }
-    public function teste()
+    public function produto()
     {
         $dados['metas'] = [
-            "title" => "Leilomed, Medicamentos com os melhores preços",
-            "description" => "Encontre os melhoeres preços no leilo med",
-            "keywords" => "Medicamentos,leilão,leilão de medicamentos"
+            "title" => "Comprar ".ucwords(str_replace('-',' ',$this->uri->segment(2)))." na MedFarma",
+            "description" => "Compre ".$this->uri->segment(2)."",
+            "keywords" => "Medicamentos,leilão,leilão de medicamentos,".ucwords(str_replace('-',' ',$this->uri->segment(2))).""
         ];
-        $dados['title'] = 'Leilo Med';
+        $dados['title'] = 'Comprar '. ucwords(str_replace('-',' ',$this->uri->segment(2))).'';
         $dados['version'] = '1';
-        $dados['page'] = 'estatisticas';
-        $this->load->view('clients/home',$dados);
+        $dados['page'] = 'produtos';
+        $this->load->view('clients/produto',$dados);
     }
 
     public function produtoshome(){

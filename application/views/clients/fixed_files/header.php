@@ -1,7 +1,7 @@
-<?php echo $this->head->header(0,$title,$metas,$version); ?>
+<?php echo $this->head->header(0,$title,$metas,$version,$page); ?>
 <body>
 
- <nav class="navbar navbar-default navfarm">
+ <nav style=" background: #b01b1f; border: none;border-radius: 0;" class="navbar navbar-default navfarm">
 
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -12,7 +12,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="<?php echo base_url('');?>">
                     <img style="margin: -25px 0 0 0;" src="<?php echo base_url('assets/'.$version.'/img/site/logo/logo1.png');?>">
                 </a>
             </div>
