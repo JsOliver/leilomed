@@ -69,7 +69,21 @@
 echo $this->head->js(0,$version,$page);
 ?>
 
+<script>
+    $(window).scroll(function() {
+        var scroll = $(window).scrollTop();
 
+        if (scroll > 200) {
+            $('.menufixed').css('position','fixed');
+            $('.menufixed').css('top','0');
+
+        } else {
+            $('.menufixed').css('position','absolute');
+            $('.menufixed').css('margin-top','0');
+
+        }
+    });
+    </script>
 <script>
     jQuery(document).ready(function() {
         App.init();

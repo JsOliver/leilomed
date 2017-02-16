@@ -63,7 +63,7 @@
                 <div style="padding: 0 0 0 20%; text-align: center;">
                     <h4>Não Achou o preço justo?</h4>
                     <h4><b>Quer pagar Quanto?</b></h4>
-                    <a class="btn" style="background:#dc0000;width: 100%;color: white;border-radius: 0;padding: 6%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>
+                    <a data-toggle="modal" data-target="#lance" class="btn" style="background:#dc0000;width: 100%;color: white;border-radius: 0;padding: 6%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>
                     <ul class="list-inline add-to-wishlist add-to-wishlist-brd">
                        <br>
                         <li class="wishlist-in">
@@ -72,6 +72,25 @@
 
                     </ul>
 
+
+                    <!-- Modal -->
+                    <div style="top: 10%;border-radius: 0;" class="modal fade" id="lance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                </div>
+                                <div class="modal-body">
+                                    ...
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div><!--/end shop product social-->
 
             </div>

@@ -61,16 +61,19 @@
 
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="  transform: translateX(-35%);
+        <div class="collapse navbar-collapse menufixed" id="bs-example-navbar-collapse-1" style="  transform: translateX(-35%);
         left: 35%;
         position: absolute;
         color: #ffffff;
-        width: 90%;
+        z-index: 10000;
+         background: #b01b1f;
+        width: 100%;
         padding: 0 0 0 10%;
+        float: left;
 
 
       ">
-            <ul class="nav navbar-nav" >
+            <ul class="nav navbar-nav" style="float: left;" >
                 <li style="border-right: 1px solid rgba(0, 0, 0, 0.10);"><a style="color: white;" href="#">MEDICAMENTOS</a></li>
                 <li style="border-right: 1px solid rgba(0, 0, 0, 0.10);"><a style="color: white;" href="#">GENÉRICOS</a></li>
                 <li style="border-right: 1px solid rgba(0, 0, 0, 0.10);"><a style="color: white;"  href="#">DERMOCOSMÉTICOS</a></li>
