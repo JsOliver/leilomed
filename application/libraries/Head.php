@@ -19,6 +19,13 @@ class Head
         <link rel="stylesheet" href="' . base_url('assets/' . $version . '/css/detalhes/style.css') . '">
 
             ';
+
+        elseif($page == 'logcad'):
+            $add = '
+                    <link rel="stylesheet"  href="' . base_url('assets/' . $version . '/css/logreg.css') . '"> 
+
+            ';
+
         else:
 
             $add = '';

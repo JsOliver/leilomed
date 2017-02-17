@@ -34,20 +34,20 @@
 <?php for($i=0;$i<=20;$i++):?>
     <div class="col-sm-5 col-md-4 illustration-v2" id="compra" style="border: none;">
         <div class="thumbnail product-img" style="border:none; border-radius:0;box-shadow:none; border-right: 1px solid #f2f2f2; ">
-            <span style="position: absolute;left: 68%; padding: 1% 3% 1% 2% ;color: white;font-weight: 600; background: #972227; float: right;">- 15% OFF</span>
+            <span style="position: absolute;left: 68%; padding: 1% 3% 1% 2% ;color: white;font-weight: 600; background: #972227; float: right;">- 5% OFF</span>
 
-            <a style="position: absolute;top:30%; text-decoration:none;left: 38%; padding: 2% 4% 2% 4% ;color: white;font-weight: 600; background: #972227; float: right;"  class="add-to-cart" href="<?php echo base_url('produto/imecap-hear/1514');?>"><i class="fa fa-shopping-cart"></i> Ver Detalhes</a>
-            <img  style="height: 200px;" src="http://www.opas.org.br/wp-content/uploads/2015/09/imecap_hair.jpg" alt="...">
+            <a style="position: absolute;top:30%; text-decoration:none;left: 38%; padding: 2% 4% 2% 4% ;color: white;font-weight: 600; background: #972227; float: right;"  class="add-to-cart" href="<?php echo base_url('produto/dipirona/1514');?>"><i class="fa fa-shopping-cart"></i> Ver Detalhes</a>
+            <img  style="height: 200px;" src="https://i0.wp.com/biosom.com.br/blog/wp-content/uploads/2016/05/o-que-e-dipirona-capa.png?fit=1000%2C600&ssl=1" alt="...">
 
             <div class="caption">
                 <div style="float: left; width: 60%; padding-left: -10px;margin-right: 10px; ">
-                <h4 style="margin-bottom: 0;"><b><a style="color: black;text-decoration: none;" href="<?php echo base_url('produto/imecap-hear/1514');?>">Imecap HEAR 500 MG</a></b></h4>
+                <h4 style="margin-bottom: 0;"><b><a style="color: black;text-decoration: none;" href="<?php echo base_url('produto/dipirona/1514');?>">Imecap HEAR 500 MG</a></b></h4>
                     <span>Em <a href="" style="color: #940f14;font-weight: 600;">Drogaria Unida</a></span>
                 </div>
 
                 <div style="float: right;border-left: 1px solid #d6d6d6; padding-left: 10px;">
-           <span style="color: #a9acb1;">de R$20.00</span><br>
-           <span style="font-size: 14pt;font-weight: 600; color: #940f14;">R$200.00</span>
+           <span style="color: #a9acb1;">de R$10.00</span><br>
+           <span style="font-size: 14pt;font-weight: 600; color: #940f14;">R$8.90</span>
 
                 </div>
 
@@ -78,5 +78,14 @@
 </div>
 <br>
 <div class="banner-top" style="position: relative;">
-    <a href="#"><img src="http://www.eatingforenergy.ca/images/728X90.jpg"></a>
-</div>
+    <!-- LOMADEE - BEGIN -->
+    <script type="text/javascript" language="javascript">
+        lmd_source="35752991";
+        lmd_si="33857233";
+        lmd_pu="22719751";
+        lmd_c="BR";
+        lmd_wi="728";
+        lmd_he="90";
+    </script>
+    <script src="http://image.lomadee.com/js/ad_lomadee.js" type="text/javascript" language="javascript"></script>
+    <!-- LOMADEE - END --></div>

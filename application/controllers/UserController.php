@@ -34,8 +34,22 @@ class UserController extends CI_Controller {
         $this->load->view('clients/produto',$dados);
     }
 
+    public function logcad(){
+        $dados['metas'] = [
+            "title" => "Leilomed, Medicamentos com os melhores preços",
+            "description" => "Encontre os melhoeres preços no leilo med",
+            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+        ];
+        $dados['title'] = 'LeiloFarma';
+        $dados['version'] = '1';
+        $dados['page'] = 'logcad';
+        $this->load->view('clients/acesso/logcad',$dados);
+    }
+
     public function produtoshome(){
 
         $this->load->view('clients/ajax/produtos/home');
     }
+
+
 }

@@ -47,8 +47,17 @@
     <br>
 
     <div class="banner-top" style="position: relative;">
-        <a href="#"><img src="http://www.eatingforenergy.ca/images/728X90.jpg"></a>
-    </div>
+        <!-- LOMADEE - BEGIN -->
+        <script type="text/javascript" language="javascript">
+            lmd_source="35752991";
+            lmd_si="33857233";
+            lmd_pu="22719751";
+            lmd_c="BR";
+            lmd_wi="728";
+            lmd_he="90";
+        </script>
+        <script src="http://image.lomadee.com/js/ad_lomadee.js" type="text/javascript" language="javascript"></script>
+        <!-- LOMADEE - END -->    </div>
     <style>
 
         .explication {

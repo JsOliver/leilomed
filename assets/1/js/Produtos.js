@@ -20,7 +20,7 @@ function categoria(tipo,page) {
     });
 
     $('body,html').animate({
-        scrollTop: 550
-    }, 800);
+        scrollTop: 0
+    }, 100);
     return false;
 }
