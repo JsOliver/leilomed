@@ -36,12 +36,12 @@
         <div class="thumbnail product-img" style="border:none; border-radius:0;box-shadow:none; border-right: 1px solid #f2f2f2; ">
             <span style="position: absolute;left: 68%; padding: 1% 3% 1% 2% ;color: white;font-weight: 600; background: #972227; float: right;">- 5% OFF</span>
 
-            <a style="position: absolute;top:30%; text-decoration:none;left: 38%; padding: 2% 4% 2% 4% ;color: white;font-weight: 600; background: #972227; float: right;"  class="add-to-cart" href="<?php echo base_url('produto/dipirona/1514');?>"><i class="fa fa-shopping-cart"></i> Ver Detalhes</a>
+            <a style="position: absolute;top:30%; text-decoration:none;left: 38%; padding: 2% 4% 2% 4% ;color: white;font-weight: 600; background: #972227; float: right;"  class="add-to-cart" href="<?php echo base_url('loja/drogaria-unida/produto/dipirona-monohidratada-generico/1514');?>"><i class="fa fa-shopping-cart"></i> Ver Detalhes</a>
             <img  style="height: 200px;" src="https://i0.wp.com/biosom.com.br/blog/wp-content/uploads/2016/05/o-que-e-dipirona-capa.png?fit=1000%2C600&ssl=1" alt="...">
 
             <div class="caption">
                 <div style="float: left; width: 60%; padding-left: -10px;margin-right: 10px; ">
-                <h4 style="margin-bottom: 0;"><b><a style="color: black;text-decoration: none;" href="<?php echo base_url('produto/dipirona/1514');?>">Imecap HEAR 500 MG</a></b></h4>
+                <h4 style="margin-bottom: 0;"><b><a style="color: black;text-decoration: none;" href="<?php echo base_url('loja/drogaria-unida/produto/dipirona-monohidratada-generico/1514');?>">Imecap HEAR 500 MG</a></b></h4>
                     <span>Em <a href="" style="color: #940f14;font-weight: 600;">Drogaria Unida</a></span>
                 </div>
 

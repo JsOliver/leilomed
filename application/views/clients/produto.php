@@ -7,9 +7,9 @@
         <ul class="breadcrumb-v5">
             <li><a href="<?php echo base_url(''); ?>"><i class="fa fa-home"></i></a></li>
             <li>
-                <a href="<?php echo base_url('busca/' . $this->uri->segment(2)); ?>"><?php echo ucwords(str_replace('-', ' ', $this->uri->segment(2))); ?></a>
+                <a href="<?php echo base_url('loja/' . $this->uri->segment(2)); ?>/"><?php echo ucwords('Drogaria Unida'); ?></a>
             </li>
-            <li class="active" style="color: #940f14;font-weight: 600;"><?php echo ucwords('Drogaria Unida'); ?></li>
+            <li class="active" style="color: #940f14;font-weight: 600;"><?php echo ucwords(str_replace('-', ' ', str_replace('%20','',$this->uri->segment(4)))); ?></li>
         </ul>
     </div>
 
@@ -45,7 +45,7 @@
 
             <div class="col-md-4">
                 <div class="shop-product-heading">
-                    <h2>IDipirona Monohidratada - Generico</h2><br>
+                    <h2>Dipirona Monohidratada - Generico</h2><br>
                     <ul class="list-inline shop-product-social">
                         <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                         <li><a href="#"><i class="fa fa-twitter"></i></a></li>

@@ -21,6 +21,20 @@ class UserController extends CI_Controller {
         $dados['page'] = 'home';
         $this->load->view('clients/home',$dados);
     }
+
+    public function profile()
+    {
+        $dados['metas'] = [
+            "title" => "Leilomed, Medicamentos com os melhores preços",
+            "description" => "Encontre os melhoeres preços no leilo med",
+            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+        ];
+        $dados['title'] = 'LeiloFarma';
+        $dados['version'] = '1';
+        $dados['page'] = 'profile';
+        $this->load->view('clients/account/profile',$dados);
+    }
+
     public function produto()
     {
         $dados['metas'] = [

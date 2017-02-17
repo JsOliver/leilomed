@@ -26,6 +26,15 @@ class Head
 
             ';
 
+        elseif($page == 'profile'):
+
+            $add = '
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'style.css">
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'profile.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
+            ';
         else:
 
             $add = '';
@@ -86,6 +95,17 @@ class Head
 <script src="' . base_url('assets/' . $version . '/js/detalhes/style-switcher.js') . '"></script>
             
                 ';
+
+
+            elseif($page == 'profile'):
+                $add = '
+                <script src="' . base_url('assets/' . $version . '/js/detalhes/shop.app.js') . '"></script>
+	<script type="text/javascript" src="'.base_url('assets/'.$version.'/js/profile').'/js/profile/app.js"></script>
+
+                
+                ';
+
+
             else:
 
                 $add = '';
