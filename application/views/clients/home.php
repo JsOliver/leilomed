@@ -4,7 +4,7 @@
 
         window.onload = function () {
 
-            categoria('1', '1');
+            categoria('1', '1','0','produtoshome','produtos');
 
         }
 
@@ -73,7 +73,7 @@
 
 
             <i style="color: #940f14;" class="glyphicon glyphicon-th-large"></i>
-            <select onchange="categoria(this.value,'1');" class="categoria-filtro">
+            <select onchange="categoria(this.value,'1','1','produtoshome','produtos');" class="categoria-filtro">
                 <option style="display: none;" disabled selected>Categorias</option>
                 <option value="1">teste</option>
                 <option value="2">teste</option>
@@ -83,7 +83,7 @@
             </select>
             &nbsp;&nbsp;&nbsp;
             <i style="color: #940f14;" class="glyphicon glyphicon-th-list"></i>
-            <select onchange="categoria(this.value,'1');" class="farmaceutica-filtro">
+            <select onchange="categoria(this.value,'1','1','produtoshome','produtos');" class="farmaceutica-filtro">
                 <option style="display: none;" selected disabled>Farmaceuticas</option>
                 <option value="1">teste</option>
                 <option value="2">teste</option>

@@ -1,15 +1,15 @@
-function categoria(tipo,page) {
-
-    $("#Loading").html('<h1 style="left: 40%;top: 50%;position: fixed;z-index: 100;">Carregando...</h1>');
-
+function categoria(tipo,page,scroll,bpg,resutblock) {
+    if(scroll == 1) {
+        $("#Loading").html('<h1 style="left: 40%;top: 50%;position: fixed;z-index: 100;">Carregando...</h1>');
+    }
 
 
     $.ajax({
         type: "POST",
-        url: 'usercontroller/produtoshome',
-        data: {tipo: tipo,page:page},
+        url: 'ajaxcontroler/'+bpg,
+        data: {tipo: tipo,page:page,resutblock:resutblock},
         success: function (result) {
-            $("#produtos").html(result);
+            $("#"+resutblock+"").html(result);
             $("#Loading").html('');
 
         },
@@ -19,8 +19,38 @@ function categoria(tipo,page) {
         }
     });
 
-    $('body,html').animate({
-        scrollTop: 400
-    }, 800);
+    if(scroll == 1){
+
+        if(tipo == 21 || tipo == 22 || tipo == 23){
+            $('body,html').animate({
+                scrollTop: 200
+            }, 800);
+        }
+
+        if(tipo == 31)
+        {
+            $('body,html').animate({
+                scrollTop: 200
+            }, 800);
+
+        }
+        if(tipo == 41)
+        {
+            $('body,html').animate({
+                scrollTop: 200
+            }, 800);
+
+        }
+
+        else{
+
+            $('body,html').animate({
+                scrollTop: 400
+            }, 800);
+        }
+
+    }
+
+
     return false;
 }

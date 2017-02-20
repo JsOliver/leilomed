@@ -1,13 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class UserController extends CI_Controller {
-  public function __construct(){
-    parent::__construct();
-    $this->load->library('head');
+class UserController extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('head');
+        $this->load->model('sessionsverify_model');
 
 
-}
+    }
 
     public function index()
     {
@@ -19,11 +22,50 @@ class UserController extends CI_Controller {
         $dados['title'] = 'LeiloFarma';
         $dados['version'] = '1';
         $dados['page'] = 'home';
-        $this->load->view('clients/home',$dados);
+        $dados['status'] = $this->sessionsverify_model->logver();
+        $this->load->view('clients/home', $dados);
+    }
+
+   public function busca()
+    {
+        $dados['metas'] = [
+            "title" => "Leilomed, Medicamentos com os melhores preços",
+            "description" => "Encontre os melhoeres preços no leilo med",
+            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+        ];
+        $dados['title'] = 'LeiloFarma';
+        $dados['version'] = '1';
+        $dados['page'] = 'busca';
+        $dados['status'] = $this->sessionsverify_model->logver();
+        $this->load->view('clients/busca', $dados);
     }
 
     public function profile()
     {
+        if ($this->sessionsverify_model->logver() == true):
+
+            $dados['metas'] = [
+                "title" => "Leilomed, Medicamentos com os melhores preços",
+                "description" => "Encontre os melhoeres preços no leilo med",
+                "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+            ];
+            $dados['title'] = 'LeiloFarma';
+            $dados['version'] = '1';
+            $dados['page'] = 'profile';
+            $dados['status'] = $this->sessionsverify_model->logver();
+            $this->load->view('clients/account/profile', $dados);
+        else:
+
+            redirect(base_url('entrar'), 'refresh');
+
+        endif;
+
+    }
+
+    public function meus_lances()
+    {
+        if ($this->sessionsverify_model->logver() == true):
+
         $dados['metas'] = [
             "title" => "Leilomed, Medicamentos com os melhores preços",
             "description" => "Encontre os melhoeres preços no leilo med",
@@ -31,39 +73,180 @@ class UserController extends CI_Controller {
         ];
         $dados['title'] = 'LeiloFarma';
         $dados['version'] = '1';
-        $dados['page'] = 'profile';
-        $this->load->view('clients/account/profile',$dados);
+        $dados['page'] = 'meus-lances';
+        $dados['status'] = $this->sessionsverify_model->logver();
+        $this->load->view('clients/account/meus-lances', $dados);
+
+
+            else:
+
+                redirect(base_url('entrar'), 'refresh');
+
+                endif;
+    }
+
+    public function itens_salvos()
+    {
+        if ($this->sessionsverify_model->logver() == true):
+
+        $dados['metas'] = [
+            "title" => "Leilomed, Medicamentos com os melhores preços",
+            "description" => "Encontre os melhoeres preços no leilo med",
+            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+        ];
+        $dados['title'] = 'LeiloFarma';
+        $dados['version'] = '1';
+        $dados['page'] = 'itens-salvos';
+        $dados['status'] = $this->sessionsverify_model->logver();
+        $this->load->view('clients/account/itens-salvos', $dados);
+
+            else:
+                redirect(base_url('entrar'), 'refresh');
+
+                endif;
+
+    }
+
+    public function farmacias_salvas()
+    {
+
+        if ($this->sessionsverify_model->logver() == true):
+
+        $dados['metas'] = [
+            "title" => "Leilomed, Medicamentos com os melhores preços",
+            "description" => "Encontre os melhoeres preços no leilo med",
+            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+        ];
+        $dados['title'] = 'LeiloFarma';
+        $dados['version'] = '1';
+        $dados['page'] = 'farmacias-salvas';
+        $dados['status'] = $this->sessionsverify_model->logver();
+        $this->load->view('clients/account/farmacias-salvas', $dados);
+
+            else:
+
+                redirect(base_url('entrar'), 'refresh');
+
+                endif;
+
+    }
+
+    public function historico()
+    {
+
+        if ($this->sessionsverify_model->logver() == true):
+
+        $dados['metas'] = [
+            "title" => "Leilomed, Medicamentos com os melhores preços",
+            "description" => "Encontre os melhoeres preços no leilo med",
+            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+        ];
+        $dados['title'] = 'LeiloFarma';
+        $dados['version'] = '1';
+        $dados['page'] = 'historico';
+        $dados['status'] = $this->sessionsverify_model->logver();
+        $this->load->view('clients/account/historico', $dados);
+
+            else:
+                redirect(base_url('entrar'), 'refresh');
+
+                endif;
+
+    }
+
+    public function configuracao()
+    {
+
+        if ($this->sessionsverify_model->logver() == true):
+
+
+        $dados['metas'] = [
+            "title" => "Leilomed, Medicamentos com os melhores preços",
+            "description" => "Encontre os melhoeres preços no leilo med",
+            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+        ];
+        $dados['title'] = 'LeiloFarma';
+        $dados['version'] = '1';
+        $dados['page'] = 'configuracao';
+        $dados['status'] = $this->sessionsverify_model->logver();
+        $this->load->view('clients/account/configuracao', $dados);
+
+
+            else:
+
+                redirect(base_url('entrar'), 'refresh');
+
+                endif;
+
+    }
+
+    public function carrinho()
+    {
+
+        $dados['metas'] = [
+            "title" => "Leilomed, Medicamentos com os melhores preços",
+            "description" => "Encontre os melhoeres preços no leilo med",
+            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+        ];
+        $dados['title'] = 'LeiloFarma';
+        $dados['version'] = '1';
+        $dados['page'] = 'carrinho';
+        $dados['status'] = $this->sessionsverify_model->logver();
+        $this->load->view('clients/carrinho', $dados);
+
+
     }
 
     public function produto()
     {
+
         $dados['metas'] = [
-            "title" => "Comprar ".ucwords(str_replace('-',' ',$this->uri->segment(2)))." na MedFarma",
-            "description" => "Compre ".$this->uri->segment(2)."",
-            "keywords" => "Medicamentos,leilão,leilão de medicamentos,".ucwords(str_replace('-',' ',$this->uri->segment(2))).""
+            "title" => "Compre " . ucwords(str_replace('-', ' ', $this->uri->segment(4))) . " na " . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . " pelo site da MedFarma",
+            "description" => "Comprar " . ucwords(str_replace('-', ' ', $this->uri->segment(4))) . " na " . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . " || MedFarma",
+            "keywords" => "" . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . "," . ucwords(str_replace('-', ' ', $this->uri->segment(4))) . ",MedFarma,medfarma,Medicamentos,leilão,leilão de medicamentos"
         ];
-        $dados['title'] = 'Comprar '. ucwords(str_replace('-',' ',$this->uri->segment(2))).'';
+        $dados['title'] = "Comprar " . ucwords(str_replace('-', ' ', $this->uri->segment(4))) . " na " . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . " || MedFarma";
         $dados['version'] = '1';
+        $dados['status'] = $this->sessionsverify_model->logver();
         $dados['page'] = 'produtos';
-        $this->load->view('clients/produto',$dados);
+        $this->load->view('clients/produto', $dados);
     }
 
-    public function logcad(){
-        $dados['metas'] = [
-            "title" => "Leilomed, Medicamentos com os melhores preços",
-            "description" => "Encontre os melhoeres preços no leilo med",
-            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
-        ];
-        $dados['title'] = 'LeiloFarma';
-        $dados['version'] = '1';
-        $dados['page'] = 'logcad';
-        $this->load->view('clients/acesso/logcad',$dados);
+    public function logcad()
+    {
+        if ($this->sessionsverify_model->logver() == false):
+
+            $dados['metas'] = [
+                "title" => "Leilomed, Medicamentos com os melhores preços",
+                "description" => "Encontre os melhoeres preços no leilo med",
+                "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+            ];
+            $dados['title'] = 'LeiloFarma';
+            $dados['version'] = '1';
+            $dados['status'] = $this->sessionsverify_model->logver();
+            $dados['page'] = 'logcad';
+            $this->load->view('clients/acesso/logcad', $dados);
+        else:
+
+            redirect(base_url('minha-conta'), 'refresh');
+        endif;
+
     }
 
-    public function produtoshome(){
 
-        $this->load->view('clients/ajax/produtos/home');
+    public function logout()
+    {
+
+        if ($this->sessionsverify_model->logver() == true):
+
+            @session_destroy();
+            redirect(base_url('home'), 'refresh');
+
+        else:
+            redirect(base_url('home'), 'refresh');
+
+        endif;
+
     }
-
 
 }

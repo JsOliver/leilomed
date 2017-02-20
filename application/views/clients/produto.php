@@ -135,32 +135,38 @@
                                         <div class="col-md-4" style="border: 1px solid #dfdfdf;">
                                             <a><img style="width: 100%;" src="http://araujo.vteximg.com.br/arquivos/ids/2777086-1000-1000/07896714201177img-imagem-id-54544.jpg"></a>
                                         </div>
-                                        <div class="col-md-12">
+                                        <?php if($status == false):?>
+                                            <div class="col-md-12">
 
-                                            <h5 style="font-weight: 600; color: black;">Preencha corretamente os campos abaixo para que nossos especialistas entrem em contato.</h5>
-                                            <div style="text-align: left;">
-<br>
-                                                <label style="width: 48%;">
-                                                    <b>Nome:</b>
-                                                    <input style="padding: 2%;outline: none;border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="Seu nome">
+                                                <h5 style="font-weight: 600; color: black;">Preencha corretamente os campos abaixo para que nossos especialistas entrem em contato.</h5>
+                                                <div style="text-align: left;">
+                                                    <br>
+                                                    <label style="width: 48%;">
+                                                        <b>Nome:</b>
+                                                        <input style="padding: 2%;outline: none;border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="Seu nome">
                                                     </label>
 
-                                                <label style="width: 47%;">
-                                                    <b>E-mail:</b>
-                                                    <input style="padding: 2%;outline: none;border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="Seu e-mail">
+                                                    <label style="width: 47%;">
+                                                        <b>E-mail:</b>
+                                                        <input style="padding: 2%;outline: none;border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="Seu e-mail">
                                                     </label>
-                                                <br>
-                                                <br>
-                                                <label style="width: 100%;">
-                                                    <b>Telefone:</b>
-                                                    <input style="padding: 1%;outline: none;border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="DDD" size="2">
-                                                    <input style="padding: 1%;outline: none; border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="" size="14">
-                                                    <a  class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>
+                                                    <br>
+                                                    <br>
+                                                    <label style="width: 100%;">
+                                                        <b>Telefone:</b>
+                                                        <input style="padding: 1%;outline: none;border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="DDD" size="2">
+                                                        <input style="padding: 1%;outline: none; border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="" size="14">
+                                                        <a  class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>
                                                     </label>
 
 
                                                 </div>
-                                        </div>
+                                            </div>
+
+                                        <?php else:?>
+                                            <a  class="btn" style="background:#ae1b21;color: white; width:30%; float: right; margin: 10px 0 0 1%;border-radius: 5px;padding: 2.1% 0.5% 2.1% 0.5%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>
+
+                                        <?php endif;?>
                                         </div>
 
                                 </div>

@@ -33,6 +33,75 @@ class Head
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'style.css">
 
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'profile.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'shortcode_timeline2.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
+            ';
+        elseif($page == 'meus-lances'):
+
+            $add = '
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'style.css">
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'profile.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
+            ';
+
+        elseif($page == 'itens-salvos'):
+
+            $add = '
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'style.css">
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'profile.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
+            ';
+        elseif($page == 'farmacias-salvas'):
+
+            $add = '
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'style.css">
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'profile.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
+            ';
+
+        elseif($page == 'historico'):
+
+            $add = '
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'style.css">
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'profile.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'shortcode_timeline2.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
+            ';
+        elseif($page == 'configuracao'):
+
+            $add = '
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'style.css">
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'profile.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'shortcode_timeline2.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
+            ';
+        elseif($page == 'busca'):
+
+            $add = '
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'style.css">
+
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'profile.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'shortcode_timeline2.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
+            ';
+
+        elseif($page == 'carrinho'):
+
+            $add = '
+
+        <link rel="stylesheet"  href="' . base_url('assets/' . $version . '/css/detalhes/shop.style.css') . '"> 
+
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
             ';
         else:
@@ -97,14 +166,16 @@ class Head
                 ';
 
 
-            elseif($page == 'profile'):
+
+            elseif($page == 'logcad'):
+
                 $add = '
-                <script src="' . base_url('assets/' . $version . '/js/detalhes/shop.app.js') . '"></script>
-	<script type="text/javascript" src="'.base_url('assets/'.$version.'/js/profile').'/js/profile/app.js"></script>
+            	<script type="text/javascript" src="'.base_url('assets/'.$version.'/js/jquery.validate.js').'"></script>
+            	<script type="text/javascript" src="'.base_url('assets/'.$version.'/js/login.js').'"></script>
+            	<script type="text/javascript" src="'.base_url('assets/'.$version.'/js/cadastro.js').'"></script>
+            	<script type="text/javascript" src="'.base_url('assets/'.$version.'/js/jquery.mask.js').'"></script>
 
-                
-                ';
-
+            ';
 
             else:
 
@@ -112,11 +183,9 @@ class Head
             endif;
             $return = '
 
-            <script src="https://code.jquery.com/jquery-3.1.1.js"
-  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
-  crossorigin="anonymous"></script>' . $this->quebra . '
-
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>' . $this->quebra . '
+            <script src="'.base_url('assets/'.$version.'/js/jquery-3.1.1.js').'"></script>' . $this->quebra . '
+            <script src="'.base_url('assets/'.$version.'/js/jquery-3.1.1.min.js').'"></script>' . $this->quebra . '
+            <script src="'.base_url('assets/'.$version.'/js/bootstrap.min.js').'"></script>' . $this->quebra . '
             <script src="' . base_url('assets/' . $version . '/js/Produtos.js') . '"></script>
             <script src="' . base_url('assets/' . $version . '/js/carrosel.js') . '"></script>
             ' . $add . '

@@ -30,9 +30,26 @@
         visibility: visible;
     }
 
+    <?php if($_POST['tipo'] == 11): ?>
+
+
+    @media (min-width: 880px) {
+        #compra{
+            width:40%;
+        }
+    }
+    @media (max-width: 881px) {
+        #compra{
+            width: 100%;
+        }
+
+    }
+
+
+    <?php  endif;?>
 </style>
 <?php for($i=0;$i<=20;$i++):?>
-    <div class="col-sm-5 col-md-4 illustration-v2" id="compra" style="border: none;">
+    <div class="col-sm-5 col-md-<?php if($_POST['tipo'] == 11): echo '3'; else: echo '4'; endif; ?> illustration-v2" id="compra" style="border: none; float: left;">
         <div class="thumbnail product-img" style="border:none; border-radius:0;box-shadow:none; border-right: 1px solid #f2f2f2; ">
             <span style="position: absolute;left: 68%; padding: 1% 3% 1% 2% ;color: white;font-weight: 600; background: #972227; float: right;">- 5% OFF</span>
 
@@ -60,21 +77,25 @@
     </div>
 <?php endfor;?>
 
+    <?php if($_POST['tipo'] <> 01):?>
+
     <nav aria-label="Page navigation">
         <ul class="pager">
             <li>
-                <a href="javascript:categoria(<?php echo $_POST['tipo'];?>,<?php echo $_POST['page'] - 1;?>);" aria-label="Previous">
+                <a href="javascript:categoria(<?php echo $_POST['tipo'];?>,<?php echo $_POST['page'] - 1;?>,'1','produtoshome','produtos');" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li><a href="javascript:categoria(<?php echo $_POST['tipo'];?>,<?php echo 1;?>);">1</a></li>
+            <li><a href="javascript:categoria(<?php echo $_POST['tipo'];?>,<?php echo 1;?>,'1','produtoshome','produtos');">1</a></li>
             <li>
-                <a href="javascript:categoria(<?php echo $_POST['tipo'];?>,<?php echo $_POST['page'] + 1;?>);" aria-label="Next">
+                <a href="javascript:categoria(<?php echo $_POST['tipo'];?>,<?php echo $_POST['page'] + 1;?>,'1','produtoshome','produtos');" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
     </nav>
+
+    <?php endif;?>
 </div>
 <br>
 <div class="banner-top" style="position: relative;">

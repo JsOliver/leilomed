@@ -40,16 +40,30 @@
 
             <div class="navbar-form navbar-right">
 
-
+<?php
+if($status == false):
+?>
 
                 <li class="dropdown open" style="text-decoration: none;list-style: none; ">
                     <ul class="dropdown-menu dropdown-menu-top" style="text-align:center;background:rgba(0, 0, 0, 0.19);z-index: 0; position:relative;margin: 0px 160px 0 -100px; width: 20%; border: none;">
 
                         <li> <a href="<?php echo base_url('entrar');?>" style="text-align:center;font-size:9pt;color: white;background: none;text-decoration: none;"><i style="font-size: 15pt;float: left;margin: 6px 0 0 -2px;" class="glyphicon glyphicon-user"></i> Olá Visitante,<br> já e cadastrado?</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#"  style="font-size:9pt;color: white;background: none;text-decoration: none;"><i style="font-size: 15pt;float: left;margin: 6px 0 0 -2px;" class="glyphicon glyphicon-list"></i> Criar minha lista<br> de produtos</a></li>
+                        <li><a href="<?php echo base_url('carrinho'); ?>"  style="font-size:9pt;color: white;background: none;text-decoration: none;"><i style="font-size: 15pt;float: left;margin: 6px 0 0 -2px;" class="glyphicon glyphicon-list"></i> Criar minha lista<br> de produtos</a></li>
                     </ul>
                 </li>
+
+                <?php else:?>
+    <li class="dropdown open" style="text-decoration: none;list-style: none; ">
+        <ul class="dropdown-menu dropdown-menu-top" style="text-align:center;background:rgba(0, 0, 0, 0.19);z-index: 0; position:relative;margin: 0px 160px 0 -100px; width: 20%; border: none;">
+
+            <li> <a href="<?php echo base_url('minha-conta');?>" style="padding-bottom:5%;text-align:center;font-size:9pt;color: white;background: none;text-decoration: none;"><i style="font-size: 15pt;float: left;margin: 6px 0 0 -2px;" class="glyphicon glyphicon-user"></i> <span style=" margin: 8% 0 0 8%;float:left ">Minha Conta</span></a></li><br>
+            <li role="separator" class="divider"></li>
+            <li><a href="<?php echo base_url('carrinho'); ?>"  style="padding-bottom:5%;font-size:9pt;color: white;background: none;text-decoration: none;"><i style="font-size: 15pt;float: left;margin: 0px 0 0 -2px;" class="fa fa-shopping-cart"></i> <span style=" margin: 4% 0 0 8%;float:left ">Meu Carrinho</span></a></li><br>
+        </ul>
+    </li>
+
+                <?php endif;?>
 
             </div>
 
@@ -90,7 +104,7 @@
     </div>
 </nav>
 <?php
-if($page == 'profile'):
+if($page == 'profile' or $page == 'meus-lances' or $page == 'itens-salvos' or $page == 'farmacias-salvas' or $page == 'historico' or $page == 'configuracao'):
 ?>
 
  <div class="container content profile">
@@ -98,26 +112,29 @@ if($page == 'profile'):
          <!--Left Sidebar-->
          <div class="col-md-3 md-margin-bottom-40">
              <img class="img-responsive profile-img margin-bottom-20" src="https://htmlstream.com/preview/unify-v1.9.8/assets/img/team/img32-md.jpg" alt="">
+             <a class="btn-u btn-u-sm" style="margin: 0;" href="#">Alterar Imagem</a>
+             <br>
+             <br>
 
              <ul class="list-group sidebar-nav-v1 margin-bottom-40" id="sidebar-nav-1">
-                 <li class="list-group-item active">
-                     <a href="page_profile.html"><i class="fa fa-bar-chart-o"></i> Resumo</a>
+                 <li class="list-group-item <?php if($page == 'profile'): echo 'active'; endif;?>">
+                     <a href="<?php echo base_url('minha-conta');?>"><i class="fa fa-bar-chart-o"></i> Resumo</a>
                  </li>
-                 <li class="list-group-item">
-                     <a href="page_profile_me.html"><i class="fa fa-gavel"></i> Meus Lances</a>
+                 <li class="list-group-item <?php if($page == 'meus-lances'): echo 'active'; endif;?>">
+                     <a href="<?php echo base_url('meus-lances');?>"><i class="fa fa-gavel"></i> Meus Lances</a>
                  </li>
-                 <li class="list-group-item">
-                     <a href="page_profile_users.html"><i class="fa fa-bookmark"></i> Itens Salvos</a>
+                 <li class="list-group-item <?php if($page == 'itens-salvos'): echo 'active'; endif;?>">
+                     <a href="<?php echo base_url('itens-salvos');?>"><i class="fa fa-bookmark"></i> Itens Salvos</a>
                  </li>
-                 <li class="list-group-item">
-                     <a href="page_profile_projects.html"><i class="fa fa-medkit"></i> Farmacias Salvas</a>
+                 <li class="list-group-item <?php if($page == 'farmacias-salvas'): echo 'active'; endif;?>">
+                     <a href="<?php echo base_url('farmacias-salvas');?>"><i class="fa fa-medkit"></i> Farmacias Salvas</a>
                  </li>
 
-                 <li class="list-group-item">
-                     <a href="page_profile_history.html"><i class="fa fa-history"></i> Historico</a>
+                 <li class="list-group-item <?php if($page == 'historico'): echo 'active'; endif;?>">
+                     <a href="<?php echo base_url('historico');?>"><i class="fa fa-history"></i> Historico</a>
                  </li>
-                 <li class="list-group-item">
-                     <a href="page_profile_settings.html"><i class="fa fa-cog"></i> Configurações</a>
+                 <li class="list-group-item <?php if($page == 'configuracao'): echo 'active'; endif;?>">
+                     <a href="<?php echo base_url('configuracoes');?>"><i class="fa fa-cog"></i> Configurações</a>
                  </li>
              </ul>
 
@@ -144,20 +161,9 @@ if($page == 'profile'):
                          <?php endfor;?>
                      </div>
                  </div>
-                 <div id="mCSB_1_scrollbar_vertical"
-                      class="mCSB_scrollTools mCSB_1_scrollbar mCS-minimal-dark mCSB_scrollTools_vertical"
-                      style="display: block;">
-                     <div class="mCSB_draggerContainer">
-                         <div id="mCSB_1_dragger_vertical" class="mCSB_dragger"
-                              style="position: absolute; min-height: 50px; display: block; height: 240px; max-height: 286px;"
-                              oncontextmenu="return false;">
-                             <div class="mCSB_dragger_bar" style="line-height: 50px;"></div>
-                         </div>
-                         <div class="mCSB_draggerRail"></div>
-                     </div>
-                 </div>
+
              </ul>
-             <button type="button" class="btn-u btn-u-default btn-u-sm btn-block">Load More</button>
+             <a href="<?php echo base_url('notificacoes');?>" type="button" class="btn-u btn-u-default btn-u-sm btn-block">Ver Tudo</a>
              <!--End Notification-->
 
              <div class="margin-bottom-50"></div>
