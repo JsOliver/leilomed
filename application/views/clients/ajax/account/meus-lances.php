@@ -20,7 +20,7 @@
 
                 <li>
                     <time datetime="" class="cbp_tmtime"><a style="cursor:pointer;" data-toggle="modal"
-                                                            data-target="#lance<?php echo $i; ?>"<span>Dipirona 100 MG</span>
+                                                            data-target="#<?php if($_POST['tipo'] == 21): echo 't'; elseif($_POST['tipo'] == 22): echo 'a';  else: echo 'f'; endif; ?>lance<?php echo $i; ?>"<span>Dipirona 100 MG</span>
                         <span>20/02/2017 as 13:56</span></a></time>
                     <i class="cbp_tmicon rounded-x hidden-xs"></i>
                     <div class="dropdown show pull-right">
@@ -40,22 +40,22 @@
                         <h2>
                             <?php if($_POST['tipo'] == 21):?>
                             <a style="cursor:pointer;" data-toggle="modal"
-                               data-target="#lance<?php echo $i; ?>">Lance Ofertado</a>
+                               data-target="#<?php if($_POST['tipo'] == 21): echo 't'; elseif($_POST['tipo'] == 22): echo 'a';  else: echo 'f'; endif; ?>lance<?php echo $i; ?>">Lance Ofertado</a>
 
                     <?php else:?>
                                 <a style="cursor:pointer;" data-toggle="modal"
-                                   data-target="#lance<?php echo $i; ?>">Solicitado Compra</a>
+                                   data-target="#<?php if($_POST['tipo'] == 21): echo 't'; elseif($_POST['tipo'] == 22): echo 'a';  else: echo 'f'; endif; ?>lance<?php echo $i; ?>">Solicitado Compra</a>
                     <?php endif;?>
                     </h2>
 
-                        <p><a style="cursor:pointer;" data-toggle="modal" data-target="#lance<?php echo $i; ?>">Winter
+                        <p><a style="cursor:pointer;" data-toggle="modal" data-target="#<?php if($_POST['tipo'] == 21): echo 't'; elseif($_POST['tipo'] == 22): echo 'a';  else: echo 'f'; endif; ?>lance<?php echo $i; ?>">Winter
                                 purslane courgette pumpkin quandong komatsuna fennel green bean cucumber
                                 watercress. Peasprouts wattle seed rutabaga okra yarrow cress avocado grape.</a>
                         </p>
                     </div>
                 </li>
                 <div style="top: 10%;border-radius: 0; z-index: 200000;" class="modal fade"
-                     id="lance<?php echo $i; ?>" tabindex="-1" role="dialog"
+                     id="<?php if($_POST['tipo'] == 21): echo 't'; elseif($_POST['tipo'] == 22): echo 'a';  else: echo 'f'; endif; ?>lance<?php echo $i; ?>" tabindex="-1" role="dialog"
                      aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content" style="border-radius:0px;">
