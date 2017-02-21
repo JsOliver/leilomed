@@ -67,4 +67,41 @@ class AjaxControler extends CI_Controller
 
 
     }
+    public function exibir(){
+
+        if($_GET['tp'] == 1 ):
+            $database = 'medicamentos';
+
+        else:
+            $database = 'medicamentos';
+
+        endif;
+        $this->db->from($database);
+        $this->db->where('id',addslashes($_GET['image']));
+        $query =  $this->db->get();
+        $fetch = $query->result_array();
+        header("content-type: jpg");
+        if($_GET['im'] == 1):
+            echo $fetch[0]['image_1'];
+
+            elseif ($_GET['im'] == 2):
+                echo $fetch[0]['image_2'];
+
+
+            elseif ($_GET['im'] == 3):
+
+                echo $fetch[0]['image_3'];
+
+            elseif ($_GET['im'] == 4):
+
+
+                echo $fetch[0]['image_4'];
+
+                else:
+                    echo $fetch[0]['image_1'];
+
+
+            endif;
+
+    }
 }

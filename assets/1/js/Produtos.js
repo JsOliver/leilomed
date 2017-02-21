@@ -1,21 +1,14 @@
-function categoria(tipo,page,scroll,bpg,resutblock,keyword) {
+function categoria(tipo,page,scroll,bpg,resutblock,keyword,pg1) {
     if(scroll == 1) {
         $("#Loading").html('<h1 style="left: 40%;top: 50%;position: fixed;z-index: 100;">Carregando...</h1>');
     }
-    if(tipo == 11)
-    {
-        var key = keyword;
-    }else{
 
-        var key = '';
-
-    }
 
     $.ajax({
         type: "POST",
         url: 'ajaxcontroler/'+bpg,
 
-        data: {tipo: tipo,page:page,resutblock:resutblock,keyword:key},
+        data: {tipo: tipo,page:page,resutblock:resutblock,keyword:keyword,pg1:pg1},
         success: function (result) {
             $("#"+resutblock+"").html(result);
             $("#Loading").html('');

@@ -9,7 +9,7 @@
             <li>
                 <a href="<?php echo base_url('loja/' . $this->uri->segment(2)); ?>/"><?php echo ucwords('Drogaria Unida'); ?></a>
             </li>
-            <li class="active" style="color: #940f14;font-weight: 600;"><?php echo ucwords(str_replace('-', ' ', str_replace('%20','',$this->uri->segment(4)))); ?></li>
+            <li class="active" style="color: #940f14;font-weight: 600;"><?php echo ucwords(str_replace('-', ' ', str_replace('%20','',$this->uri->segment(3)))); ?></li>
         </ul>
     </div>
 
@@ -53,7 +53,7 @@
                         <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
                     </ul>
                     <br>
-                    <small style="float: left;">Codigo do Produto: <?php echo $this->uri->segment(3); ?></small>
+                    <small style="float: left;">Codigo do Produto: <?php echo $this->uri->segment(4); ?></small>
                     <br><br><br>
                 </div><!--/end shop product social-->
 

@@ -5,7 +5,7 @@
 
     window.onload = function () {
 
-        categoria('11', '1', '1', 'produtoshome', 'produtos','<?php echo $_GET['q'];?>');
+        categoria('0', '1', '1', 'produtoshome', 'produtos','<?php echo $_GET['q'];?>','11');
 
     }
 
@@ -81,7 +81,7 @@
 
 
                     <i style="color: #940f14;" class="glyphicon glyphicon-th-large"></i>
-                    <select onchange="categoria('11','1','1','produtoshome','produtos','<?php echo $_GET['q'];?>');" class="categoria-filtro">
+                    <select onchange="categoria(this.value,'1','1','produtoshome','produtos','<?php echo $_GET['q'];?>','11');" class="categoria-filtro">
                         <option style="display: none;" disabled selected>Categorias</option>
                         <?php
                         $this->db->from('categorias');
@@ -110,7 +110,7 @@
                     </select>
                     &nbsp;&nbsp;&nbsp;
                     <i style="color: #940f14;" class="glyphicon glyphicon-th-list"></i>
-                    <select onchange="categoria('11','1','1','produtoshome','produtos','<?php echo $_GET['q'];?>');" class="farmaceutica-filtro">
+                    <select onchange="categoria(this.value,'1','1','produtoshome','produtos','<?php echo $_GET['q'];?>','11');" class="farmaceutica-filtro">
                         <option style="display: none;" selected disabled>Farmaceuticas</option>
                         <?php
                         $this->db->from('categorias');
@@ -170,13 +170,7 @@
             <!-- LOMADEE - END -->    </div>
             <div class="margin-bottom-30"></div>
 
-            <div class="text-left">
-                <ul class="pagination">
-                    <li><a href="javascript:categoria(11,<?php echo 1;?>,'1','produtoshome','produtos');">«</a></li>
-                    <li class="active"><a href="javascript:categoria(11,<?php echo 1;?>,'1','produtoshome','produtos');">1</a></li>
-                    <li><a href="javascript:categoria(11,<?php echo 1;?>,'1','produtoshome','produtos');">»</a></li>
-                </ul>
-            </div>
+
         </div><!--/col-md-10-->
     </div>
 </div>

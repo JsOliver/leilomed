@@ -16,3 +16,4 @@ $route['historico'] = 'usercontroller/historico';
 $route['configuracoes'] = 'usercontroller/configuracao';
 $route['carrinho'] = 'usercontroller/carrinho';
 $route['busca'] = 'usercontroller/busca';
+$route['imagem'] = 'ajaxcontroler/exibir';
