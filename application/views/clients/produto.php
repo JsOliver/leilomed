@@ -1,4 +1,46 @@
-<?php $this->load->view('clients/fixed_files/header'); ?>
+<?php $this->load->view('clients/fixed_files/header');
+
+
+$this->db->from('produtos_disponiveis');
+$this->db->where('id_pdp', $this->uri->segment(4));
+$this->db->where('visible', 1);
+$get = $this->db->get();
+$count = $get->num_rows();
+if ($count == 0):
+    redirect(base_url('home'), 'refresh');
+else:
+    $result = $get->result_array();
+
+
+    $this->db->from('medicamentos');
+    $this->db->where('id', $this->uri->segment(4));
+    $getmed = $this->db->get();
+    $countmd = $getmed->num_rows();
+    if ($countmd == 0):
+
+        redirect(base_url('home'), 'refresh');
+
+    else:
+        $resultmed = $getmed->result_array();
+
+    endif;
+
+    $this->db->from('lojas');
+    $this->db->where('id_loja', $result[0]['id_loja']);
+    $getlj = $this->db->get();
+    if ($getlj->num_rows() == 0):
+
+        redirect(base_url('home'), 'refresh');
+
+    else:
+
+        $resultlj = $getlj->result_array();
+        $arrayreplace = array("(", ")", "-");
+
+    endif;
+
+endif;
+?>
 
 
 <br>
@@ -7,9 +49,10 @@
         <ul class="breadcrumb-v5">
             <li><a href="<?php echo base_url(''); ?>"><i class="fa fa-home"></i></a></li>
             <li>
-                <a href="<?php echo base_url('loja/' . $this->uri->segment(2)); ?>/"><?php echo ucwords('Drogaria Unida'); ?></a>
+                <a href="<?php echo base_url('loja/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($resultlj[0]['nome_loja'])))); ?>"><?php echo ucwords($resultlj[0]['nome_loja']); ?></a>
             </li>
-            <li class="active" style="color: #940f14;font-weight: 600;"><?php echo ucwords(str_replace('-', ' ', str_replace('%20','',$this->uri->segment(3)))); ?></li>
+            <li class="active"
+                style="color: #940f14;font-weight: 600;"><?php echo ucwords(str_replace('%20', '', $resultmed[0]['nome'])); ?></li>
         </ul>
     </div>
 
@@ -19,25 +62,43 @@
                 <div class="ms-showcase2-template">
                     <!-- Master Slider -->
                     <div class="master-slider ms-skin-default" id="masterslider">
+
                         <div class="ms-slide">
                             <img class="ms-brd"
-                                 src="http://araujo.vteximg.com.br/arquivos/ids/2777086-1000-1000/07896714201177img-imagem-id-54544.jpg"
-                                 data-src="http://araujo.vteximg.com.br/arquivos/ids/2777086-1000-1000/07896714201177img-imagem-id-54544.jpg"
+                                 src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
                                  alt="lorem ipsum dolor sit">
                             <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
-                                 src="http://araujo.vteximg.com.br/arquivos/ids/2777086-1000-1000/07896714201177img-imagem-id-54544.jpg"
+                                 src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
+                                 alt="thumb">
+                        </div>
+                        <div class="ms-slide">
+                            <img class="ms-brd"
+                                 src="<?php echo base_url('imagem?tp=1&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
+                                 alt="lorem ipsum dolor sit">
+                            <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                 src="<?php echo base_url('imagem?tp=1&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
                                  alt="thumb">
                         </div>
 
                         <div class="ms-slide">
                             <img class="ms-brd"
-                                 src="http://ultrafarma.r.worldssl.net/media/imagens_produtos/800px/00/700/90/1/00791349.jpg"
-                                 data-src="http://ultrafarma.r.worldssl.net/media/imagens_produtos/800px/00/700/90/1/00791349.jpg""
-                            alt="lorem ipsum dolor sit"> <img class="ms-thumb"
-                                                              style="height: 110px;object-fit: cover; object-position: center;"
-                                                              src="http://ultrafarma.r.worldssl.net/media/imagens_produtos/800px/00/700/90/1/00791349.jpg"
-                                                              alt="thumb">
+                                 src="<?php echo base_url('imagem?tp=1&&im=3&&image=' . $this->uri->segment(4) . '') ?>"
+                                 alt="lorem ipsum dolor sit">
+                            <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                 src="<?php echo base_url('imagem?tp=1&&im=3&&image=' . $this->uri->segment(4) . '') ?>"
+                                 alt="thumb">
                         </div>
+
+                        <div class="ms-slide">
+                            <img class="ms-brd"
+                                 src="<?php echo base_url('imagem?tp=1&&im=4&&image=' . $this->uri->segment(4) . '') ?>"
+                                 alt="lorem ipsum dolor sit">
+                            <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                 src="<?php echo base_url('imagem?tp=1&&im=4&&image=' . $this->uri->segment(4) . '') ?>"
+                                 alt="thumb">
+                        </div>
+
+
                     </div>
                     <!-- End Master Slider -->
                 </div>
@@ -45,7 +106,7 @@
 
             <div class="col-md-4">
                 <div class="shop-product-heading">
-                    <h2>Dipirona Monohidratada - Generico</h2><br>
+                    <h2><?php echo ucwords(str_replace('%20', '', $resultmed[0]['nome'])); ?></h2><br>
                     <ul class="list-inline shop-product-social">
                         <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                         <li><a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -53,30 +114,55 @@
                         <li><a href="#"><i class="fa fa-pinterest"></i></a></li>
                     </ul>
                     <br>
-                    <small style="float: left;">Codigo do Produto: <?php echo $this->uri->segment(4); ?></small>
+                    <small style="float: left;">Codigo do Produto: <b>#MD0<?php echo $resultmed[0]['id']; ?></b></small>
                     <br><br><br>
                 </div><!--/end shop product social-->
 
-                <h6><b>Melhor Oferta:</b></h6>
-                <p>Integer <strong>dapibus ut elit</strong> non volutpat. Integer auctor purus a lectus suscipit
-                    fermentum. Vivamus lobortis nec erat consectetur elementum.</p><br>
+                <h6><b>Informações do Produto:</b></h6>
+
+                <?php echo $resultmed[0]['fixa_cal']; ?>
+
+                <br>
 
                 <ul class="list-inline shop-product-prices margin-bottom-30">
-                    <li class="shop-red">R$8.90</li>
-                    <li class="line-through">R$10.00</li>
+
+                    <?php if(empty($result[0]['desconto'])):
+                        ?>
+                        <li class="shop-red">R$<?php echo number_format($result[0]['preco'],2,',','.'); ?></li>
+
+                        <?php
+                    else:
+                        ?>
+                        <li class="shop-red">R$<?php echo number_format($result[0]['preco'],2,',','.'); ?></li>
+                        <li class="line-through">R$<?php echo number_format($result[0]['preco'] - $result[0]['preco'] / 100 * $result[0]['desconto'],2,',','.');?></li>
+
+
+                    <?php endif;?>
+<?php if(!empty($result[0]['data_vencimento'])):
+
+    echo ' <li> <small class="shop-bg-red time-day-left">1 days left</small>
+      
+                    </li>';
+
+else:
+
+
+    echo '<br>';
+endif;
+?>
+
                     <li>
-                        <small class="shop-bg-red time-day-left">1 days left</small>
-                    </li>
-                    <li>
-                        <small style="font-size: 11pt;top:0;margin-top: 0;">Em <a href=""
-                                                                                  style="color: #940f14;font-weight: 600;">Drogarias
-                                Pacheco</a></small>
+                        <small style="font-size: 11pt;top:0;margin-top: 0;">Em <a
+                                href="<?php echo base_url('loja/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($resultlj[0]['nome_loja'])))); ?>"
+                                style="color: #940f14;font-weight: 600;"><?php echo ucwords($resultlj[0]['nome_loja']); ?></a>
+                        </small>
                     </li>
                 </ul><!--/end shop product prices-->
 
 
-                <p class="wishlist-category"><strong>Categories:</strong> <a href="#">Clothing,</a> <a
-                        href="#">Shoes</a></p>
+                <p class="wishlist-category"><strong>Categorias:</strong>
+                    <a href="#">Clothing,</a>
+                    <a href="#">Shoes</a></p>
             </div>
 
 
@@ -97,77 +183,114 @@
 
 
                     <!-- Modal -->
-                    <div style="top: 10%;border-radius: 0; z-index: 200000;" class="modal fade" id="lance" tabindex="-1" role="dialog"
+                    <div style="top: 10%;border-radius: 0; z-index: 200000;" class="modal fade" id="lance" tabindex="-1"
+                         role="dialog"
                          aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content" style="border-radius:0px;">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                             aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel" style="float: left;color: black;">FAÇA SEU LANCE</h4>
+                                    <h4 class="modal-title" id="myModalLabel" style="float: left;color: black;">FAÇA SEU
+                                        LANCE</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row" style="padding: 2%">
                                         <div class="col-md-8">
-                                    <h4 style="font-weight: bold;color: black; font-size: 12pt;">Você quer dar um lance para adiquirir este produto? <a style="color: #940f14;">Dorflex Safoni 30 Comprimidos</a></h4>
+                                            <h4 style="font-weight: bold;color: black; font-size: 12pt;">Você quer dar
+                                                um lance para adiquirir este produto? <a style="color: #940f14;">Dorflex
+                                                    Safoni 30 Comprimidos</a></h4>
                                             <hr>
-                                            <h5 style="color: black;text-align: left;">Indique a quantidade desejada e o valor de sua proposta</h5>
+                                            <h5 style="color: black;text-align: left;">Indique a quantidade desejada e o
+                                                valor de sua proposta</h5>
 
                                             <div style="text-align: left;">
                                                 <form>
                                                     <label style="width: 50%;">
                                                         <b style="font-size: 15pt;">R$</b>
 
-                                                        <input style="outline: none;border-radius: 5px;padding: 2%; font-size: 12pt; margin-top:-12px;box-shadow: none !important; border: 1px solid #cccccc;" size="9" type="text" id="valor" placeholder="8,25">
-                                                        </label>
+                                                        <input
+                                                            style="outline: none;border-radius: 5px;padding: 2%; font-size: 12pt; margin-top:-12px;box-shadow: none !important; border: 1px solid #cccccc;"
+                                                            size="9" type="text" id="valor" placeholder="<?php if(empty($result[0]['desconto'])):
+
+                                                        echo number_format($result[0]['preco'],2,',','.');
+
+                                                        else:
+
+                                                            echo number_format($result[0]['preco'] - $result[0]['preco'] / 100 * $result[0]['desconto'],2,',','.');
+
+                                                        endif;
+
+ ?>
+
+">
+                                                    </label>
                                                     <label style="width:35%;">
                                                         <b style="font-size: 12pt;">Qntd.</b>
 
-                                                        <input style="outline: none;width:70px;border-radius: 5px;padding: 2%; font-size: 12pt; margin-top:-12px;box-shadow: none !important; border: 1px solid #cccccc;" size="2" type="number" id="valor" placeholder="1" value="1">
-                                                        </label>
-                                                    </form>
+                                                        <input
+                                                            style="outline: none;width:70px;border-radius: 5px;padding: 2%; font-size: 12pt; margin-top:-12px;box-shadow: none !important; border: 1px solid #cccccc;"
+                                                            size="2" type="number" id="valor" placeholder="1" value="1">
+                                                    </label>
+                                                </form>
                                                 <p style="margin-top: 5px;">
-                                                    Integer <strong>dapibus ut elit</strong> non volutpat. Integer auctor purus a lectus suscipit
+                                                    Integer <strong>dapibus ut elit</strong> non volutpat. Integer
+                                                    auctor purus a lectus suscipit
                                                     fermentum. Vivamus lobortis nec erat consectetur elementum.
                                                 </p>
-                                                </div>
-                                </div>
-                                        <div class="col-md-4" style="border: 1px solid #dfdfdf;">
-                                            <a><img style="width: 100%;" src="http://araujo.vteximg.com.br/arquivos/ids/2777086-1000-1000/07896714201177img-imagem-id-54544.jpg"></a>
+                                            </div>
                                         </div>
-                                        <?php if($status == false):?>
+                                        <div class="col-md-4" style="border: 1px solid #dfdfdf;">
+                                            <a><img style="width: 100%;"
+                                                    src="http://araujo.vteximg.com.br/arquivos/ids/2777086-1000-1000/07896714201177img-imagem-id-54544.jpg"></a>
+                                        </div>
+                                        <?php if ($status == false): ?>
                                             <div class="col-md-12">
 
-                                                <h5 style="font-weight: 600; color: black;">Preencha corretamente os campos abaixo para que nossos especialistas entrem em contato.</h5>
+                                                <h5 style="font-weight: 600; color: black;">Preencha corretamente os
+                                                    campos abaixo para que nossos especialistas entrem em contato.</h5>
                                                 <div style="text-align: left;">
                                                     <br>
                                                     <label style="width: 48%;">
                                                         <b>Nome:</b>
-                                                        <input style="padding: 2%;outline: none;border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="Seu nome">
+                                                        <input
+                                                            style="padding: 2%;outline: none;border-radius: 5px;border: 1px solid #cccccc;"
+                                                            type="text" placeholder="Seu nome">
                                                     </label>
 
                                                     <label style="width: 47%;">
                                                         <b>E-mail:</b>
-                                                        <input style="padding: 2%;outline: none;border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="Seu e-mail">
+                                                        <input
+                                                            style="padding: 2%;outline: none;border-radius: 5px;border: 1px solid #cccccc;"
+                                                            type="text" placeholder="Seu e-mail">
                                                     </label>
                                                     <br>
                                                     <br>
                                                     <label style="width: 100%;">
                                                         <b>Telefone:</b>
-                                                        <input style="padding: 1%;outline: none;border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="DDD" size="2">
-                                                        <input style="padding: 1%;outline: none; border-radius: 5px;border: 1px solid #cccccc;" type="text" placeholder="" size="14">
-                                                        <a  class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>
+                                                        <input
+                                                            style="padding: 1%;outline: none;border-radius: 5px;border: 1px solid #cccccc;"
+                                                            type="text" placeholder="DDD" size="2">
+                                                        <input
+                                                            style="padding: 1%;outline: none; border-radius: 5px;border: 1px solid #cccccc;"
+                                                            type="text" placeholder="" size="14">
+                                                        <a class="btn"
+                                                           style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i
+                                                                class="fa fa-gavel" aria-hidden="true"></i> DAR
+                                                            LANCE</a>
                                                     </label>
 
 
                                                 </div>
                                             </div>
 
-                                        <?php else:?>
-                                            <a  class="btn" style="background:#ae1b21;color: white; width:30%; float: right; margin: 10px 0 0 1%;border-radius: 5px;padding: 2.1% 0.5% 2.1% 0.5%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>
+                                        <?php else: ?>
+                                            <a class="btn"
+                                               style="background:#ae1b21;color: white; width:30%; float: right; margin: 10px 0 0 1%;border-radius: 5px;padding: 2.1% 0.5% 2.1% 0.5%;font-weight: 600;"><i
+                                                    class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>
 
-                                        <?php endif;?>
-                                        </div>
+                                        <?php endif; ?>
+                                    </div>
 
                                 </div>
 

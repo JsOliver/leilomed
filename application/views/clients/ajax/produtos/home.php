@@ -87,11 +87,11 @@ endif;
 
     $this->db->order_by('produtos_disponiveis.preco','min');
     $get = $this->db->get();
-    $count = $get->num_rows();
+    $count1 = $get->num_rows();
 
 
     $max = 20;
-    $pages = ceil($count / 20);
+    $pages = ceil($count1 / 20);
     if($_POST['page'] <=1):
 
         $limit = 1;
@@ -227,7 +227,7 @@ endif;
 
 
 </div>
-
+<?php if($count1 > 20):?>
 <nav aria-label="Page navigation">
     <ul class="pager">
         <li>
@@ -243,3 +243,5 @@ endif;
         </li>
     </ul>
 </nav>
+
+<?php endif;?>
