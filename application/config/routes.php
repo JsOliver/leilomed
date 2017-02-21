@@ -15,4 +15,4 @@ $route['farmacias-salvas'] = 'usercontroller/farmacias_salvas';
 $route['historico'] = 'usercontroller/historico';
 $route['configuracoes'] = 'usercontroller/configuracao';
 $route['carrinho'] = 'usercontroller/carrinho';
-$route['busca/(.+)'] = 'usercontroller/busca/$1';
+$route['busca'] = 'usercontroller/busca';

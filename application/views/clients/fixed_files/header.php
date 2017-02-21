@@ -29,8 +29,10 @@
                 </ul>
             </div><!-- /.navbar-collapse -->
 
-            <form style="border: none;" class="navbar-form navbar-left" id="busca">
-                    <input style="border: none; margin-top: 10px;" type="text" class="form-control" placeholder="Pesquise pelo nome, farmacêutica, substância">
+            <form style="border: none;" method="get" action="<?php echo base_url('busca');?>" class="navbar-form navbar-left" id="busca">
+
+
+                    <input name="q" style="border: none; margin-top: 10px;" type="text" class="form-control" placeholder="Pesquise pelo nome, farmacêutica, substância" value="<?php if(isset($_GET['q'])):  echo $_GET['q']; endif;?>">
 
                 <button style="border: none;margin-top: 10px;" type="submit" id="submit"><i class="glyphicon glyphicon-search"></i></button>
 

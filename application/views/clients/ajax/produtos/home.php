@@ -1,4 +1,10 @@
-<h3>Produtos em destaque</h3>
+<?php if($_POST['tipo'] == 11):
+echo '<h4>Exibindo resultados de <small>'.ucwords($_POST['keyword']).'</small></h4>';
+else:
+    echo '<h3>Produtos em destaque</h3>';
+
+endif;
+?>
 <br>
 <br>
 <div class="row" style="padding: 0 0 0 3%;">

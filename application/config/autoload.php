@@ -6,6 +6,7 @@ $autoload['packages'] = array();
 
 
 $autoload['libraries'] = array('database', 'session','upload');
+
 $autoload['helper'] = array('url', 'form','string','download');
 
 

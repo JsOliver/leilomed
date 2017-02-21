@@ -75,9 +75,28 @@
             <i style="color: #940f14;" class="glyphicon glyphicon-th-large"></i>
             <select onchange="categoria(this.value,'1','1','produtoshome','produtos');" class="categoria-filtro">
                 <option style="display: none;" disabled selected>Categorias</option>
-                <option value="1">teste</option>
-                <option value="2">teste</option>
-                <option value="3">teste</option>
+                <?php
+                $this->db->from('categorias');
+                $this->db->where('tipo',1);
+                $this->db->order_by('id','desc');
+                $get = $this->db->get();
+                $count = $get->num_rows();
+                if($count > 0):
+
+                    $result = $get->result_array();
+                    foreach ($result as $dds){
+
+                        echo '<option value="'.$dds['id'].'">'.$dds['nome'].'</option>';
+                    }
+
+                else:
+
+                    echo '<option value="0" disabled>Nenhuma Categoria</option>';
+
+                endif;
+
+                ?>
+
 
 
             </select>
@@ -85,9 +104,28 @@
             <i style="color: #940f14;" class="glyphicon glyphicon-th-list"></i>
             <select onchange="categoria(this.value,'1','1','produtoshome','produtos');" class="farmaceutica-filtro">
                 <option style="display: none;" selected disabled>Farmaceuticas</option>
-                <option value="1">teste</option>
-                <option value="2">teste</option>
-                <option value="3">teste</option>
+                <?php
+                $this->db->from('categorias');
+                $this->db->where('tipo',2);
+                $this->db->order_by('id','desc');
+                $get = $this->db->get();
+                $count = $get->num_rows();
+                if($count > 0):
+
+                    $result = $get->result_array();
+                    foreach ($result as $dds){
+
+                        echo '<option value="'.$dds['id'].'">'.$dds['nome'].'</option>';
+                    }
+
+                else:
+
+                    echo '<option value="0" disabled>Nenhuma Categoria</option>';
+
+                endif;
+
+                ?>
+
 
 
             </select>
