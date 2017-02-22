@@ -3,7 +3,7 @@
 else:
 
     $this->db->from('categorias');
-    $this->db->where('tipo', $_POST['tipo']);
+    $this->db->where('id', $_POST['tipo']);
     $this->db->order_by('id', 'desc');
     $get = $this->db->get();
     $count = $get->num_rows();
@@ -11,14 +11,14 @@ else:
 
         $result = $get->result_array();
 
-        echo '<h3>' . $result[0]['titulo'] . ' <small style="font-weight:bold;">' . ucwords($_POST['keyword']) . '</small></h3>';
+        echo '<h3>' . $result[0]['titulo'] . ' <small style="font-weight:bold; color:#972227;">' . ucwords($_POST['keyword']) . '</small></h3>';
 
     else:
-if($_POST['tipo'] <> 777):
+        if ($_POST['tipo'] <> 777):
 
-        echo '<h3>Recomendados para você</h3>';
+            echo '<h3>Recomendados para você</h3>';
 
-    endif;
+        endif;
     endif;
 
 
@@ -134,6 +134,20 @@ endif;
 
             $result = $get->result_array();
             foreach ($result as $dds) {
+
+
+                if ($_POST['pg1'] == 11):
+                    $this->db->from('medicamentos');
+                    $this->db->where('id', $dds['id']);
+                    $get = $this->db->get();
+                    $buscas = $get->result_array()[0]['pesquisas'];
+
+
+                    $buscan = $buscas + 1;
+                    $dado['pesquisas'] = $buscan;
+                    $this->db->where('id', $dds['id']);
+                    $this->db->update('medicamentos', $dado);
+                endif;
                 ?>
                 <?php
                 $this->db->from('lojas');
@@ -236,16 +250,16 @@ endif;
     <nav aria-label="Page navigation">
         <ul class="pager">
             <li>
-                <a href="javascript:categoria('<?php echo base_url('');?>',<?php echo $_POST['tipo']; ?>,<?php echo $_POST['page'] - 1; ?>,'1','produtoshome','produtos','<?php echo $_POST['keyword'] ?>','<?php echo $_POST['pg1']; ?>');"
+                <a href="javascript:categoria('<?php echo base_url(''); ?>',<?php echo $_POST['tipo']; ?>,<?php echo $_POST['page'] - 1; ?>,'1','produtoshome','produtos','<?php echo $_POST['keyword'] ?>','<?php echo $_POST['pg1']; ?>');"
                    aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li>
-                <a href="javascript:categoria('<?php echo base_url('');?>',<?php echo $_POST['tipo']; ?>,<?php echo 1; ?>,'1','produtoshome','produtos','<?php echo $_POST['keyword'] ?>','<?php echo $_POST['pg1']; ?>');">1</a>
+                <a href="javascript:categoria('<?php echo base_url(''); ?>',<?php echo $_POST['tipo']; ?>,<?php echo 1; ?>,'1','produtoshome','produtos','<?php echo $_POST['keyword'] ?>','<?php echo $_POST['pg1']; ?>');">1</a>
             </li>
             <li>
-                <a href="javascript:categoria('<?php echo base_url('');?>',<?php echo $_POST['tipo']; ?>,<?php echo $_POST['page'] + 1; ?>,'1','produtoshome','produtos','<?php echo $_POST['keyword'] ?>','<?php echo $_POST['pg1']; ?>');"
+                <a href="javascript:categoria('<?php echo base_url(''); ?>',<?php echo $_POST['tipo']; ?>,<?php echo $_POST['page'] + 1; ?>,'1','produtoshome','produtos','<?php echo $_POST['keyword'] ?>','<?php echo $_POST['pg1']; ?>');"
                    aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>

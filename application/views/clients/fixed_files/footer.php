@@ -68,6 +68,43 @@
 <?php
 echo $this->head->js(0,$version,$page);
 ?>
+<script>
+    var file = 'fileUpload';
+    var url = '<?php echo base_url('ajaxcontroler/uploadimage');?>';
+    var preview = 'profileimg';
+</script>
+<script type="text/javascript" id="ajax-upload">
+
+    $(function () {
+        var form;
+        $('#' + file + '').change(function (event) {
+            form = new FormData();
+            form.append(file, event.target.files[0]);
+            $("#errorData").html('Carregando...');
+
+            $.ajax({
+                url: url,
+                data: form,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data) {
+
+                    if (data > 0) {
+                        $("#" + preview + "").attr("src", "<?php echo base_url('imagem?tp=2&&im=22&&image='.$_SESSION['ID'].'');?>");
+                        $("#errorData").html('');
+
+                    } else {
+                        $("#errorData").html(data);
+                    }
+
+                }
+            });
+        });
+
+
+    });
+</script>
 <?php if($page == 'logcad'):?>
 <script>
     var SPMaskBehavior = function (val) {

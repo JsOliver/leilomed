@@ -8,6 +8,7 @@ class UserController extends CI_Controller
         parent::__construct();
         $this->load->library('head');
         $this->load->model('sessionsverify_model');
+        $this->load->helper('text');
 
 
     }
@@ -59,17 +60,17 @@ class UserController extends CI_Controller
 
         endif;
 
-        if(!empty($categ)):
+        if (!empty($categ)):
 
 
             $categ = $categ;
 
             $this->db->from('categorias');
-            $this->db->where('tipo',1);
+            $this->db->where('tipo', 1);
             $this->db->like('nome', $categ);
             $get = $this->db->get();
             $countct = $get->num_rows();
-            if($countct > 0):
+            if ($countct > 0):
                 $fetchct = $get->result_array();
 
                 $categ = $fetchct[0]['id'];
@@ -78,16 +79,15 @@ class UserController extends CI_Controller
 
                 $categ = 777;
 
-                    endif;
+            endif;
 
 
-            else:
+        else:
 
-                $categ = 0;
-                endif;
+            $categ = 0;
+        endif;
 
         $this->db->from('medicamentos');
-        $this->db->like('nome', '');
         $this->db->like('nome', $key);
         $this->db->or_like('nome', ucwords($key));
         $this->db->or_like('nome', strtoupper($key));
@@ -107,32 +107,54 @@ class UserController extends CI_Controller
             $subcategoria = $result[0]['categorias'];
 
         else:
+
+
+            $this->db->from('produtos_disponiveis');
+            $this->db->like('keywords', $key);
+            $this->db->or_like('keywords', ucwords($key));
+            $this->db->or_like('keywords', strtoupper($key));
+            $this->db->or_like('keywords', ucfirst($key));
+            $this->db->or_like('keywords', str_replace(' ', '-', $key));
+            $this->db->order_by('pesquisas_farma', 'max');
+            $get = $this->db->get();
+            $count = $get->num_rows();
+            if($count > 0):
+                $result = $get->result_array();
+
+                $keywords = ',' . $result[0]['keywords'];
+                $nome = $key;
+                $categoria = $result[0]['categorias'];
+                $subcategoria = $result[0]['categorias'];
+
+                else:
+
             $keywords = '';
             $nome = $key;
             $categoria = 0;
             $subcategoria = 0;
         endif;
+        endif;
 
-        if($categ <> 0):
+        if ($categ <> 0):
             $categs = ucwords($this->uri->segment(2));
-            else:
+        else:
 
-                $categs = '';
+            $categs = '';
 
         endif;
         $dados['metas'] = [
-            "title" => "Buscar " .$categs." ". ucwords($nome) . " || LeiloFarma",
-            "description" => "Ofertas de  " .$categs." ". ucwords($nome) . " para você, na LeiloFarma",
-            "keywords" => "LeiloFarma,leilão" . $keywords.",".$categs." "
+            "title" => "Buscar " . $categs . " " . ucwords($nome) . " || LeiloFarma",
+            "description" => "Ofertas de  " . $categs . " " . ucwords($nome) . " para você, na LeiloFarma",
+            "keywords" => "LeiloFarma,leilão" . $keywords . "," . $categs . " "
         ];
-        $dados['title'] = "Busca de "  .$categs." ".ucwords($nome) . " na LeiloFarma ";
+        $dados['title'] = "Busca de " . $categs . " " . ucwords($nome) . " na LeiloFarma ";
         $dados['version'] = '1';
         $dados['page'] = 'busca';
         $dados['key'] = $key;
         $dados['categ'] = $categ;
         $dados['status'] = $this->sessionsverify_model->logver();
 
-        if(!empty($key)):
+        if (!empty($key)):
             $dado['keyword'] = $key;
             $dado['categoria'] = $categoria;
             $dado['subcategoria'] = $subcategoria;
@@ -312,14 +334,52 @@ class UserController extends CI_Controller
     {
 
         $dados['metas'] = [
-            "title" => "Compre " . ucwords(str_replace('-', ' ', $this->uri->segment(4))) . " na " . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . " pelo site da MedFarma",
-            "description" => "Comprar " . ucwords(str_replace('-', ' ', $this->uri->segment(4))) . " na " . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . " || MedFarma",
+            "title" => "Compre " . ucwords(str_replace('-', ' ', $this->uri->segment(3))) . " na " . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . " pelo site da MedFarma",
+            "description" => "Comprar " . ucwords(str_replace('-', ' ', $this->uri->segment(3))) . " na " . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . " || MedFarma",
             "keywords" => "" . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . "," . ucwords(str_replace('-', ' ', $this->uri->segment(4))) . ",MedFarma,medfarma,Medicamentos,leilão,leilão de medicamentos"
         ];
-        $dados['title'] = "Comprar " . ucwords(str_replace('-', ' ', $this->uri->segment(4))) . " na " . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . " || MedFarma";
+        $dados['title'] = "Comprar " . ucwords(str_replace('-', ' ', $this->uri->segment(3))) . " na " . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . " || MedFarma";
         $dados['version'] = '1';
         $dados['status'] = $this->sessionsverify_model->logver();
         $dados['page'] = 'produtos';
+
+        $this->db->from('produtos_disponiveis');
+        $this->db->where('id_pdp', $this->uri->segment(4));
+        $get = $this->db->get();
+        $countn = $get->num_rows();
+        if ($countn > 0):
+
+            $prt = $get->result_array();
+
+            $prts = $prt[0]['id_produto'];
+            $bstfarm = $prt[0]['pesquisas_farma'];
+            $iditen = $prt[0]['id_pdp'];
+
+            $this->db->from('medicamentos');
+            $this->db->where('id',$prts);
+            $get = $this->db->get();
+            $buscas = $get->result_array()[0]['cliques'];
+            $buscan = $buscas + 1;
+            $dado['cliques'] = $buscan;
+            $this->db->where('id',$prts);
+            $this->db->update('medicamentos',$dado);
+
+
+            $mypesquise = $bstfarm + 1;
+            $dadosbs['pesquisas_farma'] = $mypesquise;
+            $this->db->where('id_pdp',$iditen);
+            $this->db->update('produtos_disponiveis',$dadosbs);
+
+            if($this->sessionsverify_model->logver() == true):
+                $dvisita['id_user'] = $_SESSION['ID'];
+                $dvisita['id_item'] = $this->uri->segment(4);
+                $dvisita['data_visita'] = date('YmdHis');
+                $this->db->insert('visitados',$dvisita);
+
+            endif;
+
+        endif;
+
         $this->load->view('clients/produto', $dados);
     }
 

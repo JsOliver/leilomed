@@ -152,9 +152,32 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'itens-salvos' or $
     <div class="row">
         <!--Left Sidebar-->
         <div class="col-md-3 md-margin-bottom-40">
-            <img class="img-responsive profile-img margin-bottom-20"
-                 src="https://htmlstream.com/preview/unify-v1.9.8/assets/img/team/img32-md.jpg" alt="">
-            <a class="btn-u btn-u-sm" style="margin: 0;" href="#">Alterar Imagem</a>
+
+            <?php
+            $this->db->from('users');
+            $this->db->where('id',$_SESSION['ID']);
+            $query = $this->db->get();
+            if(empty($query->result_array()[0]['profile_image'])):
+                ?>
+                <img id="profileimg" class="img-responsive profile-img margin-bottom-20"
+                     src="<?php echo base_url('assets/'.$version.'/img/user.png'); ?>"
+                     style="height: 250px; object-fit: cover; object-position: center;" alt="">
+
+            <?php else: ?>
+                <img id="profileimg" class="img-responsive profile-img margin-bottom-20"
+                     src="<?php echo base_url('imagem?tp=2&&im=22&&image=' . $_SESSION['ID']); ?>"
+                     style="height: 250px; object-fit: cover; object-position: center;" alt="<?php echo $_SESSION['NAME']?>">
+            <?php endif;?>
+
+
+
+            <b id="errorData"></b>
+            <form enctype="multipart/form-data" method="post">
+                <label class="btn-u btn-u-sm" style="cursor: pointer; margin: 0;">Alterar imagem
+                    <input style="display: none;" id="fileUpload" name="fileUpload" type="file"/>
+                </label>
+            </form>
+
             <br>
             <br>
 
