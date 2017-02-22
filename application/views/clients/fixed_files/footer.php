@@ -68,6 +68,9 @@
 <?php
 echo $this->head->js(0,$version,$page);
 ?>
+<?php
+if ($page == 'profile' or $page == 'meus-lances' or $page == 'itens-salvos' or $page == 'farmacias-salvas' or $page == 'historico' or $page == 'configuracao'):
+?>
 <script>
     var file = 'fileUpload';
     var url = '<?php echo base_url('ajaxcontroler/uploadimage');?>';
@@ -105,6 +108,8 @@ echo $this->head->js(0,$version,$page);
 
     });
 </script>
+
+<?php endif;?>
 <?php if($page == 'logcad'):?>
 <script>
     var SPMaskBehavior = function (val) {

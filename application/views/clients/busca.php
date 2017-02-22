@@ -237,7 +237,7 @@
         </div><!--/col-md-2-->
 
         <div class="col-md-10">
-            <span class="results-number">384,907 resultados encontrados</span>.
+            <span class="results-number"><?php echo number_format($buscasn);  if($buscasn == 1): echo ' resultado'; else:  echo 'resultados'; endif;?>  encontrados</span>.
 
             <div class="filtro" style="width: 100%; overflow: hidden;">
                 <div class="inputs-filtro" >

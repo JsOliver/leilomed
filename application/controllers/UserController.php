@@ -152,6 +152,9 @@ class UserController extends CI_Controller
         $dados['page'] = 'busca';
         $dados['key'] = $key;
         $dados['categ'] = $categ;
+        $dados['buscas'] = 'produtos';
+        $dados['buscasn'] = $count;
+
         $dados['status'] = $this->sessionsverify_model->logver();
 
         if (!empty($key)):
@@ -343,6 +346,7 @@ class UserController extends CI_Controller
         $dados['status'] = $this->sessionsverify_model->logver();
         $dados['page'] = 'produtos';
 
+
         $this->db->from('produtos_disponiveis');
         $this->db->where('id_pdp', $this->uri->segment(4));
         $get = $this->db->get();
@@ -379,6 +383,7 @@ class UserController extends CI_Controller
             endif;
 
         endif;
+
 
         $this->load->view('clients/produto', $dados);
     }
