@@ -112,12 +112,20 @@ class UserController extends CI_Controller
             $categoria = 0;
             $subcategoria = 0;
         endif;
+
+        if($categ <> 0):
+            $categs = ucwords($this->uri->segment(2));
+            else:
+
+                $categs = '';
+
+        endif;
         $dados['metas'] = [
-            "title" => "Buscar " . ucwords($nome) . " || LeiloFarma",
-            "description" => "Ofertas de  " . ucwords($nome) . " para você, na LeiloFarma",
-            "keywords" => "LeiloMed,leilão" . $keywords
+            "title" => "Buscar " .$categs." ". ucwords($nome) . " || LeiloFarma",
+            "description" => "Ofertas de  " .$categs." ". ucwords($nome) . " para você, na LeiloFarma",
+            "keywords" => "LeiloFarma,leilão" . $keywords.",".$categs." "
         ];
-        $dados['title'] = "Busca de " . ucwords($nome) . " na LeiloFarma ";
+        $dados['title'] = "Busca de "  .$categs." ".ucwords($nome) . " na LeiloFarma ";
         $dados['version'] = '1';
         $dados['page'] = 'busca';
         $dados['key'] = $key;

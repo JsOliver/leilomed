@@ -45,7 +45,7 @@ function categoria(base,tipo,page,scroll,bpg,resutblock,keyword,pg1) {
         else{
 
             $('body,html').animate({
-                scrollTop: 400
+                scrollTop: 300
             }, 800);
         }
 

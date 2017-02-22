@@ -160,7 +160,7 @@ endif;
                             <?php
                             if ($countlg > 0):
 
-                                echo 'href="' . base_url('loja/' . str_replace(' ', '-', strtolower($fetchad[0]['nome_loja'])) . '/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($dds['nome'])))) . '/' . $dds['id_pdp'] . '"';
+                                echo 'href="' . base_url('produto/' . str_replace(' ', '-', strtolower($fetchad[0]['nome_loja'])) . '/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($dds['nome'])))) . '/' . $dds['id_pdp'] . '"';
                             endif;
                             ?>
                         ><i
@@ -176,7 +176,7 @@ endif;
                                             <?php
                                             if ($countlg > 0):
 
-                                                echo 'href="' . base_url('loja/' . str_replace(' ', '-', strtolower($fetchad[0]['nome_loja'])) . '/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($dds['nome'])))) . '/' . $dds['id_pdp'] . '"';
+                                                echo 'href="' . base_url('produto/' . str_replace(' ', '-', strtolower($fetchad[0]['nome_loja'])) . '/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($dds['nome'])))) . '/' . $dds['id_pdp'] . '"';
                                             endif;
                                             ?>
                                         >
@@ -185,7 +185,7 @@ endif;
                                 <?php
 
                                 if ($countlg > 0):
-                                    echo '<span>Em <a href="' . base_url('loja/' . str_replace(' ', '-', strtolower($fetchad[0]['nome_loja']))) . '" style="color: #940f14;font-weight: 600;">' . ucwords($fetchad[0]['nome_loja']) . '</a></span>';
+                                    echo '<span>Em <a href="' . base_url('produto/' . str_replace(' ', '-', strtolower($fetchad[0]['nome_loja']))) . '" style="color: #940f14;font-weight: 600;">' . ucwords($fetchad[0]['nome_loja']) . '</a></span>';
 
                                 else:
 
