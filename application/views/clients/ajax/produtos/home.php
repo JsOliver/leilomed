@@ -14,9 +14,11 @@ else:
         echo '<h3>' . $result[0]['titulo'] . ' <small style="font-weight:bold;">' . ucwords($_POST['keyword']) . '</small></h3>';
 
     else:
+if($_POST['tipo'] <> 777):
 
         echo '<h3>Recomendados para você</h3>';
 
+    endif;
     endif;
 
 
@@ -128,7 +130,7 @@ endif;
         $get = $this->db->get();
         $count = $get->num_rows();
 
-        if ($count > 0):
+        if ($count > 0 and $_POST['tipo'] <> 777):
 
             $result = $get->result_array();
             foreach ($result as $dds) {

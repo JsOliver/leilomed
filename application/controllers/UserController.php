@@ -76,7 +76,7 @@ class UserController extends CI_Controller
 
             else:
 
-                $categ = 0;
+                $categ = 777;
 
                     endif;
 
