@@ -1,4 +1,4 @@
-function categoria(tipo,page,scroll,bpg,resutblock,keyword,pg1) {
+function categoria(base,tipo,page,scroll,bpg,resutblock,keyword,pg1) {
     if(scroll == 1) {
         $("#Loading").html('<h1 style="left: 40%;top: 50%;position: fixed;z-index: 100;">Carregando...</h1>');
     }
@@ -6,8 +6,7 @@ function categoria(tipo,page,scroll,bpg,resutblock,keyword,pg1) {
 
     $.ajax({
         type: "POST",
-        url: 'ajaxcontroler/'+bpg,
-
+        url: base+'ajaxcontroler/'+bpg,
         data: {tipo: tipo,page:page,resutblock:resutblock,keyword:keyword,pg1:pg1},
         success: function (result) {
             $("#"+resutblock+"").html(result);
@@ -22,7 +21,7 @@ function categoria(tipo,page,scroll,bpg,resutblock,keyword,pg1) {
 
     if(scroll == 1){
 
-        if(tipo == 21 || tipo == 22 || tipo == 23 || tipo == 11){
+        if(tipo == 21 || tipo == 22 || tipo == 23){
             $('body,html').animate({
                 scrollTop: 200
             }, 100);

@@ -1,15 +1,8 @@
 <?php $this->load->view('clients/fixed_files/header'); ?>
 
 <br>
-<script>
 
-    window.onload = function () {
 
-        categoria('0', '1', '1', 'produtoshome', 'produtos','<?php echo $_GET['q'];?>','11');
-
-    }
-
-</script>
 <br>
 <br>
 <br>
@@ -20,6 +13,7 @@
                 <div class="col-md-12 col-sm-4">
                     <h3>Relacionados</h3>
                     <ul class="list-unstyled">
+
                         <li><a href="#">Web design company</a></li>
                         <li><a href="#">Web design tutorials</a></li>
                         <li><a href="#">Self designing</a></li>
@@ -81,7 +75,7 @@
 
 
                     <i style="color: #940f14;" class="glyphicon glyphicon-th-large"></i>
-                    <select onchange="categoria(this.value,'1','1','produtoshome','produtos','<?php echo $_GET['q'];?>','11');" class="categoria-filtro">
+                    <select onchange="categoria('<?php echo base_url('');?>',this.value,'1','1','produtoshome','produtos','<?php echo $key;?>','11');" class="categoria-filtro">
                         <option style="display: none;" disabled selected>Categorias</option>
                         <?php
                         $this->db->from('categorias');
@@ -110,7 +104,7 @@
                     </select>
                     &nbsp;&nbsp;&nbsp;
                     <i style="color: #940f14;" class="glyphicon glyphicon-th-list"></i>
-                    <select onchange="categoria(this.value,'1','1','produtoshome','produtos','<?php echo $_GET['q'];?>','11');" class="farmaceutica-filtro">
+                    <select onchange="categoria('<?php echo base_url('');?>',this.value,'1','1','produtoshome','produtos','<?php echo $key;?>','11');" class="farmaceutica-filtro">
                         <option style="display: none;" selected disabled>Farmaceuticas</option>
                         <?php
                         $this->db->from('categorias');

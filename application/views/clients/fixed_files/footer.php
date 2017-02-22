@@ -83,6 +83,29 @@ echo $this->head->js(0,$version,$page);
 </script>
 
 <?php endif;?>
+
+<?php if($page == 'busca'):
+
+    if(isset($_GET['c'])):
+        $categoria = $_GET['c'];
+
+    else:
+
+
+        $categoria = '0';
+
+    endif;
+    ?>
+    <script>
+
+        window.onload = function () {
+
+            categoria('<?php echo base_url('');?>',<?php echo $categ;?>, '1', '1', 'produtoshome', 'produtos','<?php echo $key;?>','11');
+
+        }
+
+    </script>
+<?php endif;?>
 <script>
     $(window).scroll(function() {
         var scroll = $(window).scrollTop();

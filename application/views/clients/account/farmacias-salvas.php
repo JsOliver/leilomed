@@ -4,7 +4,7 @@
 
     window.onload = function () {
 
-        categoria('31', '1','0','farmaciassalvas','fsvas');
+        categoria('<?php echo base_url('');?>','31', '1','0','farmaciassalvas','fsvas');
 
     }
 

@@ -5,7 +5,7 @@
 
     window.onload = function () {
 
-        categoria('21', '1','0','meuslances','todos');
+        categoria('<?php echo base_url('');?>','21', '1','0','meuslances','todos');
 
     }
 
@@ -16,9 +16,9 @@
         <div class="profile-body margin-bottom-20">
             <div class="tab-v1">
                 <ul class="nav nav-justified nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#todos" aria-expanded="true" onclick="categoria('21', '1','0','meuslances','todos');">Todos os Lances</a></li>
-                    <li><a data-toggle="tab" href="#abertos" onclick="categoria('22', '1','0','meuslances','abertos');">Lances em Aberto</a></li>
-                    <li><a data-toggle="tab" href="#encerrados" onclick="categoria('23', '1','0','meuslances','encerrados');">Lances Finalizados</a></li>
+                    <li class="active"><a data-toggle="tab" href="#todos" aria-expanded="true" onclick="categoria('<?php echo base_url('');?>','21', '1','0','meuslances','todos');">Todos os Lances</a></li>
+                    <li><a data-toggle="tab" href="#abertos" onclick="categoria('<?php echo base_url('');?>','22', '1','0','meuslances','abertos');">Lances em Aberto</a></li>
+                    <li><a data-toggle="tab" href="#encerrados" onclick="categoria('<?php echo base_url('');?>','23', '1','0','meuslances','encerrados');">Lances Finalizados</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="todos" class="profile-edit tab-pane fade active in">

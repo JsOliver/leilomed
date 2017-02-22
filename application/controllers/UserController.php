@@ -26,18 +26,121 @@ class UserController extends CI_Controller
         $this->load->view('clients/home', $dados);
     }
 
-   public function busca()
+    public function busca()
     {
+
+
+        if (!isset($_GET['q'])):
+            $key = '';
+
+        else:
+            $key = $_GET['q'];
+
+        endif;
+
+        if (!isset($_GET['c'])):
+
+            if (strripos($this->uri->segment(2), '?') == true):
+
+                $explode = explode('?', $this->uri->segment(2));
+                $categ = $explode[0];
+
+
+            else:
+                $categ = $this->uri->segment(2);
+
+
+            endif;
+
+        else:
+
+
+            $categ = $_GET['c'];
+
+        endif;
+
+        if(!empty($categ)):
+
+
+            $categ = $categ;
+
+            $this->db->from('categorias');
+            $this->db->where('tipo',1);
+            $this->db->like('nome', $categ);
+            $get = $this->db->get();
+            $countct = $get->num_rows();
+            if($countct > 0):
+                $fetchct = $get->result_array();
+
+                $categ = $fetchct[0]['id'];
+
+            else:
+
+                $categ = 0;
+
+                    endif;
+
+
+            else:
+
+                $categ = 0;
+                endif;
+
+        $this->db->from('medicamentos');
+        $this->db->like('nome', '');
+        $this->db->like('nome', $key);
+        $this->db->or_like('nome', ucwords($key));
+        $this->db->or_like('nome', strtoupper($key));
+        $this->db->or_like('substancia', ucwords($key));
+        $this->db->or_like('substancia', strtoupper($key));
+        $this->db->or_like('medicamentos.nome', ucfirst($key));
+        $this->db->or_like('keywords', $key);
+        $this->db->or_like('keywords', str_replace(' ', '-', $key));
+        $this->db->order_by('cliques', 'max');
+        $get = $this->db->get();
+        $count = $get->num_rows();
+        if ($count > 0):
+            $result = $get->result_array();
+            $keywords = ',' . $result[0]['keywords'];
+            $nome = $result[0]['nome'];
+            $categoria = $result[0]['categorias'];
+            $subcategoria = $result[0]['categorias'];
+
+        else:
+            $keywords = '';
+            $nome = $key;
+            $categoria = 0;
+            $subcategoria = 0;
+        endif;
         $dados['metas'] = [
-            "title" => "Leilomed, Medicamentos com os melhores preços",
-            "description" => "Encontre os melhoeres preços no leilo med",
-            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+            "title" => "Buscar " . ucwords($nome) . " || LeiloFarma",
+            "description" => "Ofertas de  " . ucwords($nome) . " para você, na LeiloFarma",
+            "keywords" => "LeiloMed,leilão" . $keywords
         ];
-        $dados['title'] = 'LeiloFarma';
+        $dados['title'] = "Busca de " . ucwords($nome) . " na LeiloFarma ";
         $dados['version'] = '1';
         $dados['page'] = 'busca';
+        $dados['key'] = $key;
+        $dados['categ'] = $categ;
         $dados['status'] = $this->sessionsverify_model->logver();
+
+        if(!empty($key)):
+            $dado['keyword'] = $key;
+            $dado['categoria'] = $categoria;
+            $dado['subcategoria'] = $subcategoria;
+            if ($this->sessionsverify_model->logver() == true):
+                $dado['id_user'] = $_SESSION['ID'];
+
+            else:
+                $dado['id_user'] = 0;
+
+            endif;
+            $dado['data_busca'] = date('YmdHis');
+            $this->db->insert('buscas', $dado);
+
+        endif;
         $this->load->view('clients/busca', $dados);
+
     }
 
     public function profile()
@@ -66,44 +169,44 @@ class UserController extends CI_Controller
     {
         if ($this->sessionsverify_model->logver() == true):
 
-        $dados['metas'] = [
-            "title" => "Leilomed, Medicamentos com os melhores preços",
-            "description" => "Encontre os melhoeres preços no leilo med",
-            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
-        ];
-        $dados['title'] = 'LeiloFarma';
-        $dados['version'] = '1';
-        $dados['page'] = 'meus-lances';
-        $dados['status'] = $this->sessionsverify_model->logver();
-        $this->load->view('clients/account/meus-lances', $dados);
+            $dados['metas'] = [
+                "title" => "Leilomed, Medicamentos com os melhores preços",
+                "description" => "Encontre os melhoeres preços no leilo med",
+                "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+            ];
+            $dados['title'] = 'LeiloFarma';
+            $dados['version'] = '1';
+            $dados['page'] = 'meus-lances';
+            $dados['status'] = $this->sessionsverify_model->logver();
+            $this->load->view('clients/account/meus-lances', $dados);
 
 
-            else:
+        else:
 
-                redirect(base_url('entrar'), 'refresh');
+            redirect(base_url('entrar'), 'refresh');
 
-                endif;
+        endif;
     }
 
     public function itens_salvos()
     {
         if ($this->sessionsverify_model->logver() == true):
 
-        $dados['metas'] = [
-            "title" => "Leilomed, Medicamentos com os melhores preços",
-            "description" => "Encontre os melhoeres preços no leilo med",
-            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
-        ];
-        $dados['title'] = 'LeiloFarma';
-        $dados['version'] = '1';
-        $dados['page'] = 'itens-salvos';
-        $dados['status'] = $this->sessionsverify_model->logver();
-        $this->load->view('clients/account/itens-salvos', $dados);
+            $dados['metas'] = [
+                "title" => "Leilomed, Medicamentos com os melhores preços",
+                "description" => "Encontre os melhoeres preços no leilo med",
+                "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+            ];
+            $dados['title'] = 'LeiloFarma';
+            $dados['version'] = '1';
+            $dados['page'] = 'itens-salvos';
+            $dados['status'] = $this->sessionsverify_model->logver();
+            $this->load->view('clients/account/itens-salvos', $dados);
 
-            else:
-                redirect(base_url('entrar'), 'refresh');
+        else:
+            redirect(base_url('entrar'), 'refresh');
 
-                endif;
+        endif;
 
     }
 
@@ -112,22 +215,22 @@ class UserController extends CI_Controller
 
         if ($this->sessionsverify_model->logver() == true):
 
-        $dados['metas'] = [
-            "title" => "Leilomed, Medicamentos com os melhores preços",
-            "description" => "Encontre os melhoeres preços no leilo med",
-            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
-        ];
-        $dados['title'] = 'LeiloFarma';
-        $dados['version'] = '1';
-        $dados['page'] = 'farmacias-salvas';
-        $dados['status'] = $this->sessionsverify_model->logver();
-        $this->load->view('clients/account/farmacias-salvas', $dados);
+            $dados['metas'] = [
+                "title" => "Leilomed, Medicamentos com os melhores preços",
+                "description" => "Encontre os melhoeres preços no leilo med",
+                "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+            ];
+            $dados['title'] = 'LeiloFarma';
+            $dados['version'] = '1';
+            $dados['page'] = 'farmacias-salvas';
+            $dados['status'] = $this->sessionsverify_model->logver();
+            $this->load->view('clients/account/farmacias-salvas', $dados);
 
-            else:
+        else:
 
-                redirect(base_url('entrar'), 'refresh');
+            redirect(base_url('entrar'), 'refresh');
 
-                endif;
+        endif;
 
     }
 
@@ -136,21 +239,21 @@ class UserController extends CI_Controller
 
         if ($this->sessionsverify_model->logver() == true):
 
-        $dados['metas'] = [
-            "title" => "Leilomed, Medicamentos com os melhores preços",
-            "description" => "Encontre os melhoeres preços no leilo med",
-            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
-        ];
-        $dados['title'] = 'LeiloFarma';
-        $dados['version'] = '1';
-        $dados['page'] = 'historico';
-        $dados['status'] = $this->sessionsverify_model->logver();
-        $this->load->view('clients/account/historico', $dados);
+            $dados['metas'] = [
+                "title" => "Leilomed, Medicamentos com os melhores preços",
+                "description" => "Encontre os melhoeres preços no leilo med",
+                "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+            ];
+            $dados['title'] = 'LeiloFarma';
+            $dados['version'] = '1';
+            $dados['page'] = 'historico';
+            $dados['status'] = $this->sessionsverify_model->logver();
+            $this->load->view('clients/account/historico', $dados);
 
-            else:
-                redirect(base_url('entrar'), 'refresh');
+        else:
+            redirect(base_url('entrar'), 'refresh');
 
-                endif;
+        endif;
 
     }
 
@@ -160,23 +263,23 @@ class UserController extends CI_Controller
         if ($this->sessionsverify_model->logver() == true):
 
 
-        $dados['metas'] = [
-            "title" => "Leilomed, Medicamentos com os melhores preços",
-            "description" => "Encontre os melhoeres preços no leilo med",
-            "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
-        ];
-        $dados['title'] = 'LeiloFarma';
-        $dados['version'] = '1';
-        $dados['page'] = 'configuracao';
-        $dados['status'] = $this->sessionsverify_model->logver();
-        $this->load->view('clients/account/configuracao', $dados);
+            $dados['metas'] = [
+                "title" => "Leilomed, Medicamentos com os melhores preços",
+                "description" => "Encontre os melhoeres preços no leilo med",
+                "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+            ];
+            $dados['title'] = 'LeiloFarma';
+            $dados['version'] = '1';
+            $dados['page'] = 'configuracao';
+            $dados['status'] = $this->sessionsverify_model->logver();
+            $this->load->view('clients/account/configuracao', $dados);
 
 
-            else:
+        else:
 
-                redirect(base_url('entrar'), 'refresh');
+            redirect(base_url('entrar'), 'refresh');
 
-                endif;
+        endif;
 
     }
 

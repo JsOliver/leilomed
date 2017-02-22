@@ -126,30 +126,31 @@ endif;
 
                 <ul class="list-inline shop-product-prices margin-bottom-30">
 
-                    <?php if(empty($result[0]['desconto'])):
+                    <?php if (empty($result[0]['desconto'])):
                         ?>
-                        <li class="shop-red">R$<?php echo number_format($result[0]['preco'],2,',','.'); ?></li>
+                        <li class="shop-red">R$<?php echo number_format($result[0]['preco'], 2, ',', '.'); ?></li>
 
                         <?php
                     else:
                         ?>
-                        <li class="shop-red">R$<?php echo number_format($result[0]['preco'],2,',','.'); ?></li>
-                        <li class="line-through">R$<?php echo number_format($result[0]['preco'] - $result[0]['preco'] / 100 * $result[0]['desconto'],2,',','.');?></li>
+                        <li class="shop-red">R$<?php echo number_format($result[0]['preco'], 2, ',', '.'); ?></li>
+                        <li class="line-through">
+                            R$<?php echo number_format($result[0]['preco'] - $result[0]['preco'] / 100 * $result[0]['desconto'], 2, ',', '.'); ?></li>
 
 
-                    <?php endif;?>
-<?php if(!empty($result[0]['data_vencimento'])):
+                    <?php endif; ?>
+                    <?php if (!empty($result[0]['data_vencimento'])):
 
-    echo ' <li> <small class="shop-bg-red time-day-left">1 days left</small>
+                        echo ' <li> <small class="shop-bg-red time-day-left">1 days left</small>
       
                     </li>';
 
-else:
+                    else:
 
 
-    echo '<br>';
-endif;
-?>
+                        echo '<br>';
+                    endif;
+                    ?>
 
                     <li>
                         <small style="font-size: 11pt;top:0;margin-top: 0;">Em <a
@@ -161,8 +162,39 @@ endif;
 
 
                 <p class="wishlist-category"><strong>Categorias:</strong>
-                    <a href="#">Clothing,</a>
-                    <a href="#">Shoes</a></p>
+                    <?php
+
+                    $arraycategoria = explode(',', $result[0]['categorias']);
+                    $narrays = count($arraycategoria);
+
+                    $this->db->from('categorias');
+                    for ($i = 10; $i < $narrays; $i++):
+                        $this->db->where('id', $arraycategoria[$i]);
+                    endfor;
+                    $this->db->where('tipo', 1);
+
+                    $get = $this->db->get();
+                    $countc = $get->num_rows();
+                    if ($countc > 0):
+                        $fetch = $get->result_array();
+
+                        $o = 0;
+                        foreach ($fetch as $ddsc) {
+                            $o++;
+                            if ($o == count($fetch)):
+                                $v = '';
+                            else:
+
+                                $v = ',';
+                            endif;
+                            echo '<a href="' . base_url('busca/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($ddsc['nome'])))) . '">' . $ddsc['nome'].'</a>'.$v.'';
+
+                        }
+                    else:
+
+                    endif;
+                    ?>
+
             </div>
 
 
@@ -211,17 +243,18 @@ endif;
 
                                                         <input
                                                             style="outline: none;border-radius: 5px;padding: 2%; font-size: 12pt; margin-top:-12px;box-shadow: none !important; border: 1px solid #cccccc;"
-                                                            size="9" type="text" id="valor" placeholder="<?php if(empty($result[0]['desconto'])):
+                                                            size="9" type="text" id="valor"
+                                                            placeholder="<?php if (empty($result[0]['desconto'])):
 
-                                                        echo number_format($result[0]['preco'],2,',','.');
+                                                                echo number_format($result[0]['preco'], 2, ',', '.');
 
-                                                        else:
+                                                            else:
 
-                                                            echo number_format($result[0]['preco'] - $result[0]['preco'] / 100 * $result[0]['desconto'],2,',','.');
+                                                                echo number_format($result[0]['preco'] - $result[0]['preco'] / 100 * $result[0]['desconto'], 2, ',', '.');
 
-                                                        endif;
+                                                            endif;
 
- ?>
+                                                            ?>
 
 ">
                                                     </label>
