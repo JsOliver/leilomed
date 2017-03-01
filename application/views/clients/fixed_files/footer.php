@@ -148,6 +148,27 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'itens-salvos' or $
 
     </script>
 <?php endif;?>
+
+<?php if($page == 'produtos'): ?>
+    <script>
+        $('#moneys').mask('000.000.000.000.000,00', {reverse: true});
+        $('#moneyscard').mask('000.000.000.000.000,00', {reverse: true});
+
+
+        var SPMaskBehavior = function (val) {
+                return val.replace(/\D/g, '').length === 11 ? '00000-0000' : '0000-00009';
+            },
+            spOptions = {
+                onKeyPress: function(val, e, field, options) {
+                    field.mask(SPMaskBehavior.apply({}, arguments), options);
+                }
+            };
+
+        $('#telefonenl').mask(SPMaskBehavior, spOptions);
+        $('#dddnl').mask('(00)');
+
+    </script>
+<?php endif;?>
 <script>
     $(window).scroll(function() {
         var scroll = $(window).scrollTop();
@@ -172,5 +193,145 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'itens-salvos' or $
         MasterSliderShowcase2.initMasterSliderShowcase2();
     });
 </script>
+<?php if($page == 'produtos'):?>
+<script>
+    function lance(loja,codigo,produto) {
+
+        <?php
+        if($status == true):
+        ?>
+        $("#btns").html('<a class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> AGUARDE</a>');
+
+        var value = $("#moneys").val();
+        var quantidade = $("#quantidade").val();
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url('ajaxlance');?>" ,
+            data: {valor: value,quantidade:quantidade,loja:loja,codigo:codigo,produto:produto},
+            success: function (result) {
+                if(result == 11){
+                    $("#lanceresult").html('Proposta Enviada');
+                    $("#btns").html('<a class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> PROPOSTA ENVIADA</a>');
+                    $("#LoadingLance").html('');
+                }else{
+                    $("#lanceresult").html(result);
+                    $("#btns").html('<a href="javascript:lance('+loja+','+codigo+','+produto+');" class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>');
+                    $("#LoadingLance").html('');
+                }
+            },
+            error: function (result) {
+                alert('erro');
+                loja = ' \'\ '+loja+' \'\ ';
+                codigo = ' \'\ '+codigo+' \'\ ';
+                produto = ' \'\ '+produto+' \'\ ';
+                $("#lanceresult").html(result);
+                $("#btns").html('<a href="javascript:lance('+loja+', '+codigo+' , '+produto+');" class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>');
+            }
+        });
+
+        <?php
+        else:
+        ?>
+
+        $("#btns").html('<a class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> AGUARDE</a>');
+
+        var value = $("#moneys").val();
+        var quantidade = $("#quantidade").val();
+        var email = $("#emailnl").val();
+        var nome = $("#nomenl").val();
+        var telefone = $("#dddnl").val() + $("#telefonenl").val();
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url('ajaxlance');?>" ,
+            data: {nome:nome,email:email,telefone:telefone,valor: value,quantidade:quantidade,loja:loja,codigo:codigo,produto:produto},
+            success: function (result) {
+                if(result == 11){
+                    $("#lanceresult").html('Proposta Enviada');
+                    $("#btns").html('<a class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> PROPOSTA ENVIADA</a>');
+                    $("#LoadingLance").html('');
+                }else{
+                    $("#lanceresult").html(result);
+                    $("#btns").html('<a href="javascript:lance('+loja+','+codigo+','+produto+');" class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>');
+                    $("#LoadingLance").html('');
+                }
+
+            },
+            error: function (result) {
+                alert(result);
+
+                loja = ' \'\ '+loja+' \'\ ';
+                codigo = ' \'\ '+codigo+' \'\ ';
+                produto = ' \'\ '+produto+' \'\ ';
+                $("#lanceresult").html(result);
+                $("#btns").html('<a href="javascript:lance('+loja+', '+codigo+' , '+produto+');" class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>');
+            }
+        });
+
+        <?php endif;?>
+
+
+    }
+    </script>
+<?php endif;?>
+
+
+
+
+<?php if($page == 'produtos'):?>
+<script>
+    function addcard(loja,codigo,produto) {
+
+        $("#btnscr").html('<a class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> AGUARDE</a>');
+
+        var value = $("#moneyscard").val();
+        var quantidade = $("#quantidadecard").val();
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url('ajaxcard');?>" ,
+            data: {valor: value,quantidade:quantidade,loja:loja,codigo:codigo,produto:produto},
+            success: function (result) {
+                loja = ' \'\ '+loja+' \'\ ';
+                codigo = ' \'\ '+codigo+' \'\ ';
+                produto = ' \'\ '+produto+' \'\ ';
+                if(result == 11){
+                    $("#lanceresultcr").html('Proposta Enviada');
+                    $("#btnscr").html('<a class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> Adicionado</a>');
+                    $("#LoadingLance").html('');
+                }else{
+
+                    $("#lanceresultcr").html(result);
+                    $("#btnscr").html('<a href="javascript:addcard('+loja+', '+codigo+' , '+produto+');" class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> Adicionar ao Carrinho</a>');
+                    $("#LoadingLance").html('');
+                }
+            },
+            error: function (result) {
+                alert('erro');
+                loja = ' \'\ '+loja+' \'\ ';
+                codigo = ' \'\ '+codigo+' \'\ ';
+                produto = ' \'\ '+produto+' \'\ ';
+
+                $("#lanceresultcr").html(result);
+                $("#btnscr").html('<a href="javascript:addcard('+loja+', '+codigo+' , '+produto+');" class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> Adicionar ao Carrinho</a>');
+            }
+        });
+
+
+
+    }
+    </script>
+<?php endif;?>
+
+<?php
+if($page == 'carrinho'):
+?>
+    <script>
+
+
+        </script>
+
+<?php endif;?>
 </body>
 </html>

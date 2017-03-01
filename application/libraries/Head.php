@@ -9,10 +9,11 @@ class Head
     public function css($guide, $version, $page)
     {
 
-        if ($page == 'produtos'):
+        if ($page == 'produtos' or $page == 'loja'):
 
             $add = '
 
+	    <link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
         <link rel="stylesheet"  href="' . base_url('assets/' . $version . '/css/detalhes/shop.style.css') . '"> 
         <link rel="stylesheet"  href="' . base_url('assets/' . $version . '/css/detalhes/custom/custom-sky-forms.css') . '">
         <link rel="stylesheet"  href="' . base_url('assets/' . $version . '/css/detalhes/masterslider.css') . '">
@@ -148,7 +149,7 @@ class Head
     {
         if ($guide == 0):
 
-            if ($page == 'produtos'):
+            if ($page == 'produtos' or $page == 'loja'):
 
                 $add = '
                    
@@ -162,7 +163,8 @@ class Head
 <script src="' . base_url('assets/' . $version . '/js/detalhes/owl-carousel.js') . '"></script>
 <script src="' . base_url('assets/' . $version . '/js/detalhes/master-slider.js') . '"></script>
 <script src="' . base_url('assets/' . $version . '/js/detalhes/style-switcher.js') . '"></script>
-            
+<script type="text/javascript" src="'.base_url('assets/'.$version.'/js/jquery.mask.js').'"></script>
+
                 ';
 
 
@@ -184,7 +186,6 @@ class Head
             $return = '
 
             <script src="'.base_url('assets/'.$version.'/js/jquery-3.1.1.js').'"></script>' . $this->quebra . '
-            <script src="'.base_url('assets/'.$version.'/js/jquery-3.1.1.min.js').'"></script>' . $this->quebra . '
             <script src="'.base_url('assets/'.$version.'/js/bootstrap.min.js').'"></script>' . $this->quebra . '
             <script src="' . base_url('assets/' . $version . '/js/Produtos.js') . '"></script>
             <script src="' . base_url('assets/' . $version . '/js/carrosel.js') . '"></script>

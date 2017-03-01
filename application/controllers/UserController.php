@@ -388,6 +388,37 @@ class UserController extends CI_Controller
         $this->load->view('clients/produto', $dados);
     }
 
+
+    public function loja()
+    {
+
+
+        $this->db->from('lojas');
+        $this->db->where('id_loja', $this->uri->segment(3));
+        $get = $this->db->get();
+        $countn = $get->num_rows();
+        if ($countn > 0):
+            $resultLj = $get->result_array();
+
+            $nome = $resultLj[0]['nome_loja'];
+            $descricao_loja = strip_tags($resultLj[0]['descricao_loja']);
+
+        endif;
+
+        $dados['metas'] = [
+            "title" => $nome.'|| MedFarma',
+            "description" => $descricao_loja,
+            "keywords" => "" . ucwords(str_replace('-', ' ', $this->uri->segment(2))) . "," . ucwords(str_replace('-', ' ', $this->uri->segment(4))) . ",MedFarma,medfarma,Medicamentos,leilão,leilão de medicamentos"
+        ];
+        $dados['title'] = $nome.' || MedFarma';
+        $dados['version'] = '1';
+        $dados['status'] = $this->sessionsverify_model->logver();
+        $dados['page'] = 'loja';
+
+
+        $this->load->view('clients/loja', $dados);
+    }
+
     public function logcad()
     {
         if ($this->sessionsverify_model->logver() == false):

@@ -199,7 +199,7 @@ endif;
                                 <?php
 
                                 if ($countlg > 0):
-                                    echo '<span>Em <a href="' . base_url('produto/' . str_replace(' ', '-', strtolower($fetchad[0]['nome_loja']))) . '" style="color: #940f14;font-weight: 600;">' . ucwords($fetchad[0]['nome_loja']) . '</a></span>';
+                                    echo '<span>Em <a href="' . base_url('loja/' . str_replace(' ', '-', strtolower($fetchad[0]['nome_loja'])).'/'.$dds['id_loja']) . '" style="color: #940f14;font-weight: 600;">' . ucwords($fetchad[0]['nome_loja']) . '</a></span>';
 
                                 else:
 

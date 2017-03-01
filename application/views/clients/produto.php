@@ -49,7 +49,7 @@ endif;
         <ul class="breadcrumb-v5">
             <li><a href="<?php echo base_url(''); ?>"><i class="fa fa-home"></i></a></li>
             <li>
-                <a href="<?php echo base_url('loja/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($resultlj[0]['nome_loja'])))); ?>"><?php echo ucwords($resultlj[0]['nome_loja']); ?></a>
+                <a href="<?php echo base_url('loja/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($resultlj[0]['nome_loja']))).'/'.$resultlj[0]['id_loja']); ?>"><?php echo ucwords($resultlj[0]['nome_loja']); ?></a>
             </li>
             <li class="active"
                 style="color: #940f14;font-weight: 600;"><?php echo ucwords(str_replace('%20', '', $resultmed[0]['nome'])); ?></li>
@@ -152,9 +152,10 @@ endif;
                     endif;
                     ?>
 
+
                     <li>
                         <small style="font-size: 11pt;top:0;margin-top: 0;">Em <a
-                                href="<?php echo base_url('loja/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($resultlj[0]['nome_loja'])))); ?>"
+                                href="<?php echo base_url('loja/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($resultlj[0]['nome_loja']))).'/'.$result[0]['id_loja']); ?>"
                                 style="color: #940f14;font-weight: 600;"><?php echo ucwords($resultlj[0]['nome_loja']); ?></a>
                         </small>
                     </li>
@@ -194,7 +195,10 @@ endif;
 
                     endif;
                     ?>
+</p>
+                <p class=""><i class=""></i><strong>Salvar Produto</strong>
 
+</p>
             </div>
 
 
@@ -208,7 +212,7 @@ endif;
                     <ul class="list-inline add-to-wishlist add-to-wishlist-brd">
                         <br>
                         <li class="wishlist-in">
-                            <a href="#" style="font-size: 9pt;font-weight: 600;">Adicionar a Lista de Interesse</a>
+                            <a  data-toggle="modal" data-target="#addcard"  style="font-size: 9pt;font-weight: 600;">Adicionar a Lista de Interesse</a>
                         </li>
 
                     </ul>
@@ -243,7 +247,7 @@ endif;
 
                                                         <input
                                                             style="outline: none;border-radius: 5px;padding: 2%; font-size: 12pt; margin-top:-12px;box-shadow: none !important; border: 1px solid #cccccc;"
-                                                            size="9" type="text" id="valor"
+                                                            size="9" type="text" id="moneys"
                                                             placeholder="<?php if (empty($result[0]['desconto'])):
 
                                                                 echo number_format($result[0]['preco'], 2, ',', '.');
@@ -256,14 +260,24 @@ endif;
 
                                                             ?>
 
-">
+" value="<?php if (empty($result[0]['desconto'])):
+
+                                                            echo number_format($result[0]['preco'], 2, ',', '.');
+
+                                                        else:
+
+                                                            echo number_format($result[0]['preco'] - $result[0]['preco'] / 100 * $result[0]['desconto'], 2, ',', '.');
+
+                                                        endif;
+
+                                                        ?>">
                                                     </label>
                                                     <label style="width:35%;">
                                                         <b style="font-size: 12pt;">Qntd.</b>
 
                                                         <input
                                                             style="outline: none;width:70px;border-radius: 5px;padding: 2%; font-size: 12pt; margin-top:-12px;box-shadow: none !important; border: 1px solid #cccccc;"
-                                                            size="2" type="number" id="valor" placeholder="1" value="1">
+                                                            size="2" type="number" id="quantidade" placeholder="1" value="1">
                                                     </label>
                                                 </form>
                                                 <p style="margin-top: 5px;">
@@ -286,14 +300,14 @@ endif;
                                                     <br>
                                                     <label style="width: 48%;">
                                                         <b>Nome:</b>
-                                                        <input
+                                                        <input id="nomenl"
                                                             style="padding: 2%;outline: none;border-radius: 5px;border: 1px solid #cccccc;"
                                                             type="text" placeholder="Seu nome">
                                                     </label>
 
                                                     <label style="width: 47%;">
                                                         <b>E-mail:</b>
-                                                        <input
+                                                        <input id="emailnl"
                                                             style="padding: 2%;outline: none;border-radius: 5px;border: 1px solid #cccccc;"
                                                             type="text" placeholder="Seu e-mail">
                                                     </label>
@@ -301,16 +315,18 @@ endif;
                                                     <br>
                                                     <label style="width: 100%;">
                                                         <b>Telefone:</b>
-                                                        <input
+                                                        <input id="dddnl"
                                                             style="padding: 1%;outline: none;border-radius: 5px;border: 1px solid #cccccc;"
                                                             type="text" placeholder="DDD" size="2">
-                                                        <input
+                                                        <input id="telefonenl"
                                                             style="padding: 1%;outline: none; border-radius: 5px;border: 1px solid #cccccc;"
                                                             type="text" placeholder="" size="14">
-                                                        <a class="btn"
+                                                        <span id="btns">   <a href="javascript:lance('<?php echo $result[0]['id_loja'];?>' , '<?php echo '#MD0'.$resultmed[0]['id'].''; ?>' , '<?php echo $this->uri->segment(4);?>');" class="btn"
                                                            style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i
                                                                 class="fa fa-gavel" aria-hidden="true"></i> DAR
-                                                            LANCE</a>
+                                                            LANCE</a> </span>
+                                                        <br>
+                                                        <b id="lanceresult"></b>
                                                     </label>
 
 
@@ -318,11 +334,98 @@ endif;
                                             </div>
 
                                         <?php else: ?>
-                                            <a class="btn"
+                                           <span id="btns"> <a href="javascript:lance('<?php echo $result[0]['id_loja'];?>' , '<?php echo '#MD0'.$resultmed[0]['id'].''; ?>' , '<?php echo $this->uri->segment(4);?>');" class="btn"
                                                style="background:#ae1b21;color: white; width:30%; float: right; margin: 10px 0 0 1%;border-radius: 5px;padding: 2.1% 0.5% 2.1% 0.5%;font-weight: 600;"><i
-                                                    class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>
-
+                                                    class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a> </span>
+                                            <br>
+                                            <b id="lanceresult"></b>
                                         <?php endif; ?>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div style="top: 10%;border-radius: 0; z-index: 200000;" class="modal fade" id="addcard" tabindex="-1"
+                         role="dialog"
+                         aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" style="border-radius:0px;">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel" style="float: left;color: black;">Adicionar ao Carrinho</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row" style="padding: 2%">
+                                        <div class="col-md-8">
+                                            <h4 style="font-weight: bold;color: black; font-size: 12pt;">Você quer dar
+                                                um lance para adiquirir este produto? <a style="color: #940f14;">Dorflex
+                                                    Safoni 30 Comprimidos</a></h4>
+                                            <hr>
+                                            <h5 style="color: black;text-align: left;">Indique a quantidade desejada e o
+                                                valor de sua proposta</h5>
+
+                                            <div style="text-align: left;">
+                                                <form>
+                                                    <label style="width: 50%;">
+                                                        <b style="font-size: 15pt;">R$</b>
+
+                                                        <input
+                                                            style="outline: none;border-radius: 5px;padding: 2%; font-size: 12pt; margin-top:-12px;box-shadow: none !important; border: 1px solid #cccccc;"
+                                                            size="9" type="text" id="moneyscard"
+                                                            placeholder="<?php if (empty($result[0]['desconto'])):
+
+                                                                echo number_format($result[0]['preco'], 2, ',', '.');
+
+                                                            else:
+
+                                                                echo number_format($result[0]['preco'] - $result[0]['preco'] / 100 * $result[0]['desconto'], 2, ',', '.');
+
+                                                            endif;
+
+                                                            ?>
+
+" value="<?php if (empty($result[0]['desconto'])):
+
+                                                            echo number_format($result[0]['preco'], 2, ',', '.');
+
+                                                        else:
+
+                                                            echo number_format($result[0]['preco'] - $result[0]['preco'] / 100 * $result[0]['desconto'], 2, ',', '.');
+
+                                                        endif;
+
+                                                        ?>">
+                                                    </label>
+                                                    <label style="width:35%;">
+                                                        <b style="font-size: 12pt;">Qntd.</b>
+
+                                                        <input
+                                                            style="outline: none;width:70px;border-radius: 5px;padding: 2%; font-size: 12pt; margin-top:-12px;box-shadow: none !important; border: 1px solid #cccccc;"
+                                                            size="2" type="number" id="quantidadecard" placeholder="1" value="1">
+                                                    </label>
+                                                </form>
+                                                <p style="margin-top: 5px;">
+                                                    Integer <strong>dapibus ut elit</strong> non volutpat. Integer
+                                                    auctor purus a lectus suscipit
+                                                    fermentum. Vivamus lobortis nec erat consectetur elementum.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="border: 1px solid #dfdfdf;">
+                                            <a><img style="width: 100%;"
+                                                    src="http://araujo.vteximg.com.br/arquivos/ids/2777086-1000-1000/07896714201177img-imagem-id-54544.jpg"></a>
+                                        </div>
+
+                                           <span id="btnscr"> <a href="javascript:addcard('<?php echo $result[0]['id_loja'];?>' , '<?php echo '#MD0'.$resultmed[0]['id'].''; ?>' , '<?php echo $this->uri->segment(4);?>');" class="btn"
+                                               style="background:#ae1b21;color: white; width:30%; float: right; margin: 10px 0 0 1%;border-radius: 5px;padding: 2.1% 0.5% 2.1% 0.5%;font-weight: 600;"><i
+                                                    class="fa fa-card" aria-hidden="true"></i> Add ao Carrinho</a> </span>
+                                            <br>
+                                            <b id="lanceresult"></b>
                                     </div>
 
                                 </div>

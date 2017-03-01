@@ -34,6 +34,7 @@ class Cadastro_Model extends CI_Model
             $_SESSION['EMAIL'] = $result[0]['email'];
             $_SESSION['PASS'] = $result[0]['pass'];
             $_SESSION['ID'] = $result[0]['id'];
+            $_SESSION['TEL'] = $result[0]['telefone'];
             return 11;
             else:
                 return 'Email ou senha incorretos, tente novamente.';
@@ -85,6 +86,8 @@ class Cadastro_Model extends CI_Model
                                     $_SESSION['EMAIL'] = $email;
                                     $_SESSION['PASS'] = hash('whirlpool',md5(sha1($pass)));
                                     $_SESSION['ID'] = $this->db->insert_id();
+                                    $_SESSION['TEL'] = $telefone;
+
                                     return 11;
                                     else:
                                     return 0;

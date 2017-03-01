@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-group group">
                     <label for="log-password2">Senha</label>
-                    <input style="padding: 5%;" type="text" class="form-control" name="passlog" id="log-password2"
+                    <input style="padding: 5%;" type="password" class="form-control" name="passlog" id="log-password2"
                            placeholder="Digite sua Senha" required="">
                     <a class="help-link" href="#">Esqueceu sua Senha?</a>
                 </div>
