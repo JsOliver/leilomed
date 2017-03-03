@@ -79,8 +79,8 @@ endif;
             $this->db->like('produtos_disponiveis.categorias', $_POST['tipo']);
         endif;
         if ($_POST['pg1'] == 11):
-            $this->db->like('medicamentos.nome', $_POST['keyword']);
-            $this->db->or_like('produtos_disponiveis.keywords', $_POST['keyword']);
+          /*  $this->db->like('medicamentos.nome', $_POST['keyword']);
+            $this->db->or_like('produtos_disponiveis.keywords', $_POST['keyword']); */
         endif;
 
         $this->db->order_by('produtos_disponiveis.preco', 'min');
@@ -114,8 +114,9 @@ endif;
         if ($_POST['tipo'] <> 0):
             $this->db->like('produtos_disponiveis.categorias', $_POST['tipo']);
         endif;
-        if ($_POST['pg1'] == 11):
-            $this->db->like('medicamentos.nome', $_POST['keyword']);
+        if ($_POST['pg1'] == 11 and !empty($_POST['keyword'])):
+
+           $this->db->like('medicamentos.nome', $_POST['keyword']);
             $this->db->or_like('medicamentos.nome', ucwords($_POST['keyword']));
             $this->db->or_like('medicamentos.nome', strtoupper($_POST['keyword']));
             $this->db->or_like('medicamentos.nome', ucfirst($_POST['keyword']));

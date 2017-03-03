@@ -1,4 +1,10 @@
-<?php $this->load->view('clients/fixed_files/header'); ?>
+<?php $this->load->view('clients/fixed_files/header');
+
+$this->db->from('users');
+$this->db->where('id',$_SESSION['ID']);
+$get = $this->db->get();
+$result = $get->result_array();
+?>
 
 
 <div class="col-md-9">
@@ -7,83 +13,82 @@
 
         <div class="tab-v1">
             <ul class="nav nav-justified nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#profile" aria-expanded="true">Edit Profile</a></li>
-                <li class=""><a data-toggle="tab" href="#passwordTab" aria-expanded="false">Change Password</a></li>
-                <li><a data-toggle="tab" href="#settings">Notification Settings</a></li>
+                <li class="active"><a data-toggle="tab" href="#profile" aria-expanded="true">Editar Perfil</a></li>
+                <li class=""><a data-toggle="tab" href="#passwordTab" aria-expanded="false">Mudar Senha</a></li>
             </ul>
             <div class="tab-content">
                 <div id="profile" class="profile-edit tab-pane fade active in">
-                    <h2 class="heading-md">Manage your Name, ID and Email Addresses.</h2>
-                    <p>Below are the name and email addresses on file for your account.</p>
+                    <h2 class="heading-md">Altere seu nome, email de contato, telefone e endereço.</h2>
+                    <p>
+                        Abaixo estão os nomes e endereços de e-mail em arquivo para sua conta.</p>
                     <br>
                     <dl class="dl-horizontal">
-                        <dt><strong>Your name </strong></dt>
+                        <dt><strong>Nome </strong></dt>
                         <dd>
-                            Edward Rooster
+                           <span id="nomest"> <?php echo $result[0]['firstname'];?></span>
                             <span>
-												<a class="pull-right" href="#">
-													<i class="fa fa-pencil"></i>
+												<a style="text-decoration: none;" class="pull-right" href="javascript:altername();">
+												&nbsp;&nbsp;&nbsp;&nbsp;	<i class="fa fa-pencil"></i>
 												</a>
+                                <b class="pull-right" id="firstnameresp"></b>
 											</span>
                         </dd>
                         <hr>
-                        <dt><strong>Your ID </strong></dt>
+
+                        <dt><strong>Email</strong></dt>
                         <dd>
-                            FKJ-032440
+                            <span ><?php echo $result[0]['email'];?></span>
+
+                        </dd>
+                        <hr>
+                        <dt><strong>Telefone </strong></dt>
+                        <dd>
+                            <span id="telefone"><?php echo $result[0]['telefone'];?></span>
                             <span>
-												<a class="pull-right" href="#">
-													<i class="fa fa-pencil"></i>
+												<a style="text-decoration: none;" class="pull-right" href="javascript:altertelefone();">
+													&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i>
 												</a>
+                                                                <b class="pull-right" id="telefoneresp"></b>
+
 											</span>
                         </dd>
                         <hr>
-                        <dt><strong>Company name </strong></dt>
+                        <dt><strong>Email de Contato </strong></dt>
                         <dd>
-                            Htmlstream
+
+                            <?php
+                            if(empty($result[0]['email_contato'])):
+
+                                echo '<b id="lastname" class="text-info">'.$result[0]['email'].'</b>';
+                            else:
+                                echo '<b id="lastname" class="text-info">'.$result[0]['email_contato'].'</b>';
+                            endif;
+                            ?>
                             <span>
-												<a class="pull-right" href="#">
-													<i class="fa fa-pencil"></i>
+												<a style="text-decoration: none;" class="pull-right" href="javascript:alterlastname();">
+													&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i>
 												</a>
+                                <b class="pull-right" id="lastnameesp"></b>
+
 											</span>
                         </dd>
                         <hr>
-                        <dt><strong>Primary Email Address </strong></dt>
+                        <dt><strong>Endereço </strong></dt>
                         <dd>
-                            edward-rooster@gmail.com
+                            <?php
+                            if(empty($result[0]['endereco'])):
+
+                                echo '<b id="endereco" class="text-danger">Informe seu Endereço</b>';
+                            else:
+                                echo '<b id="endereco">'.$result[0]['endereco'].'</b>';
+                            endif;
+                            ?>
                             <span>
-												<a class="pull-right" href="#">
-													<i class="fa fa-pencil"></i>
+												<a  style="text-decoration: none;" class="pull-right" href="javascript:alterendereco();">
+													&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-pencil"></i>
 												</a>
-											</span>
-                        </dd>
-                        <hr>
-                        <dt><strong>Phone Number </strong></dt>
-                        <dd>
-                            (304) 33-2867-499
-                            <span>
-												<a class="pull-right" href="#">
-													<i class="fa fa-pencil"></i>
-												</a>
-											</span>
-                        </dd>
-                        <hr>
-                        <dt><strong>Office Number </strong></dt>
-                        <dd>
-                            (304) 44-9810-296
-                            <span>
-												<a class="pull-right" href="#">
-													<i class="fa fa-pencil"></i>
-												</a>
-											</span>
-                        </dd>
-                        <hr>
-                        <dt><strong>Address </strong></dt>
-                        <dd>
-                            California, US
-                            <span>
-												<a class="pull-right" href="#">
-													<i class="fa fa-pencil"></i>
-												</a>
+                                <b class="pull-right" id="enderecoresp"></b>
+
 											</span>
                         </dd>
                         <hr>
@@ -92,89 +97,64 @@
                 </div>
 
                 <div id="passwordTab" class="profile-edit tab-pane fade">
-                    <h2 class="heading-md">Manage your Security Settings</h2>
-                    <p>Change your password.</p>
+                    <h2 class="heading-md">
+                        Gerencie suas configurações de segurança</h2>
+                    <p>Mude sua Senha.</p>
                     <br>
                     <form class="sky-form" id="sky-form4" action="#" novalidate="novalidate">
                         <dl class="dl-horizontal">
-                            <dt>Username</dt>
+
+                            <dt>Email de Acesso</dt>
                             <dd>
                                 <section>
-                                    <label class="input">
-                                        <i class="icon-append fa fa-user"></i>
-                                        <input type="text" placeholder="Username" name="username">
-                                        <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
-                                    </label>
-                                </section>
-                            </dd>
-                            <dt>Email address</dt>
-                            <dd>
-                                <section>
-                                    <label class="input">
+                                    <label for="emailcog" class="input">
                                         <i class="icon-append fa fa-envelope"></i>
-                                        <input type="email" placeholder="Email address" name="email">
-                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                                        <input id="emailcog" type="email" placeholder="<?php echo $result[0]['email'];?>" name="email">
+                                        <b class="tooltip tooltip-bottom-right">É necessário verificar sua conta</b>
                                     </label>
                                 </section>
                             </dd>
-                            <dt>Enter your password</dt>
+                            <dt>Entre com sua senha Atual </dt>
                             <dd>
                                 <section>
-                                    <label class="input">
+                                    <label for="senhaatlcog" class="input">
                                         <i class="icon-append fa fa-lock"></i>
-                                        <input type="password" id="password" name="password" placeholder="Password">
-                                        <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                                        <input type="password" id="senhaatlcog" name="password" placeholder="**********">
+                                        <b class="tooltip tooltip-bottom-right">Não Esqueça da Sua Senha</b>
                                     </label>
                                 </section>
                             </dd>
-                            <dt>Confirm Password</dt>
+                            <dt>Sua Nova Senha</dt>
                             <dd>
                                 <section>
-                                    <label class="input">
+                                    <label for="senhancog" class="input">
                                         <i class="icon-append fa fa-lock"></i>
-                                        <input type="password" name="passwordConfirm" placeholder="Confirm password">
-                                        <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                                        <input id="senhancog" type="password" name="passwordConfirm" placeholder="Nova Senha">
+                                        <b class="tooltip tooltip-bottom-right">Informe a Nova Senha</b>
+                                    </label>
+                                </section>
+                            </dd>
+
+                            <dt>Repita sua Nova Senha</dt>
+                            <dd>
+                                <section>
+                                    <label for="senhanrcog" class="input">
+                                        <i class="icon-append fa fa-lock"></i>
+                                        <input id="senhanrcog" type="password" name="passwordConfirm" placeholder="Repita a Nova Senha">
+                                        <b class="tooltip tooltip-bottom-right">Confirme sua Nova Senha</b>
                                     </label>
                                 </section>
                             </dd>
                         </dl>
-                        <label class="toggle toggle-change"><input type="checkbox" checked="" name="checkbox-toggle-1"><i
-                                class="no-rounded"></i>Remember password</label>
+
                         <br>
-                        <section>
-                            <label class="checkbox"><input type="checkbox" id="terms" name="terms"><i></i><a href="#">I agree
-                                    with the Terms and Conditions</a></label>
-                        </section>
-                        <button type="button" class="btn-u btn-u-default">Cancel</button>
-                        <button class="btn-u" type="submit">Save Changes</button>
+                        <b id="resultcogs"></b>
+                        <br>
+
+                        <a href="javascript:alterardados('<?php echo base_url('');?>');" class="btn-u">Salvar Alterações</a>
                     </form>
                 </div>
 
-
-                <div id="settings" class="profile-edit tab-pane fade">
-                    <h2 class="heading-md">Manage your Notifications.</h2>
-                    <p>Below are the notifications you may manage.</p>
-                    <br>
-                    <form class="sky-form" id="sky-form3" action="#">
-                        <label class="toggle"><input type="checkbox" checked="" name="checkbox-toggle-1"><i
-                                class="no-rounded"></i>Email notification</label>
-                        <hr>
-                        <label class="toggle"><input type="checkbox" checked="" name="checkbox-toggle-1"><i
-                                class="no-rounded"></i>Send me email notification when a user comments on my blog</label>
-                        <hr>
-                        <label class="toggle"><input type="checkbox" checked="" name="checkbox-toggle-1"><i
-                                class="no-rounded"></i>Send me email notification for the latest update</label>
-                        <hr>
-                        <label class="toggle"><input type="checkbox" checked="" name="checkbox-toggle-1"><i
-                                class="no-rounded"></i>Send me email notification when a user sends me message</label>
-                        <hr>
-                        <label class="toggle"><input type="checkbox" checked="" name="checkbox-toggle-1"><i
-                                class="no-rounded"></i>Receive our monthly newsletter</label>
-                        <hr>
-                        <button type="button" class="btn-u btn-u-default">Reset</button>
-                        <button class="btn-u" type="submit">Save Changes</button>
-                    </form>
-                </div>
             </div>
         </div>
 

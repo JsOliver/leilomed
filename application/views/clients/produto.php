@@ -133,9 +133,12 @@ endif;
                         <?php
                     else:
                         ?>
-                        <li class="shop-red">R$<?php echo number_format($result[0]['preco'], 2, ',', '.'); ?></li>
+                        <li class="shop-red">
+                            R$<?php echo number_format($result[0]['preco'] - $result[0]['preco'] / 100 * $result[0]['desconto'], 2, ',', '.'); ?>
+                           </li>
                         <li class="line-through">
-                            R$<?php echo number_format($result[0]['preco'] - $result[0]['preco'] / 100 * $result[0]['desconto'], 2, ',', '.'); ?></li>
+                            R$<?php echo number_format($result[0]['preco'], 2, ',', '.'); ?>
+                           </li>
 
 
                     <?php endif; ?>
@@ -169,10 +172,11 @@ endif;
                     $narrays = count($arraycategoria);
 
                     $this->db->from('categorias');
-                    for ($i = 10; $i < $narrays; $i++):
-                        $this->db->where('id', $arraycategoria[$i]);
-                    endfor;
                     $this->db->where('tipo', 1);
+
+                    for ($i = 10; $i < $narrays; $i++):
+                        $this->db->like('id', $arraycategoria[$i]);
+                    endfor;
 
                     $get = $this->db->get();
                     $countc = $get->num_rows();
@@ -196,7 +200,7 @@ endif;
                     endif;
                     ?>
 </p>
-                <p class=""><i class=""></i><strong>Salvar Produto</strong>
+
 
 </p>
             </div>

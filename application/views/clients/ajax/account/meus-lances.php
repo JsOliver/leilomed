@@ -33,6 +33,8 @@
             if($tp == 2):
                 $this->db->where('status',4);
             endif;
+            $this->db->order_by('id','desc');
+
             $get = $this->db->get();
             $count = $get->num_rows();
 
@@ -52,13 +54,18 @@
 
                         $nome = $results[0]['nome_prod'];
 
-
+                        $data = $dds['data_lance'];
+                        $ano = substr($data,0,4);
+                        $mes = substr($data,4,2);
+                        $dia = substr($data,6,2);
+                        $hora = substr($data,8,2);
+                        $minuto = substr($data,10,2);
                     ?>
 
                 <li>
                     <time datetime="" class="cbp_tmtime"><a style="cursor:pointer;" data-toggle="modal"
                                                             data-target="#<?php if($_POST['tipo'] == 21): echo 't'; elseif($_POST['tipo'] == 22): echo 'a';  else: echo 'f'; endif; ?>lance<?php echo $dds['id']; ?>"<span><?php echo $nome;?></span>
-                        <span>20/02/2017 as 13:56</span></a></time>
+                        <span><?php echo $dia;?>/<?php echo $mes;?>/<?php echo $ano;?> as <?php echo $hora;?>:<?php echo $minuto;?></span></a></time>
                     <i class="cbp_tmicon rounded-x hidden-xs"></i>
                     <div class="dropdown show pull-right">
                         <a class="btn btn-secondary dropdown-toggle" href="#" id="cong" data-toggle="dropdown"
@@ -107,7 +114,7 @@
                                         aria-label="Close"><span
                                         aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="myModalLabel" style="float: left;color: black;">
-                                    Detalhes do Pedido - <b class="textarea-info">51454</b></h4>
+                                    Detalhes do Pedido - <b class="textarea-info">#<?php echo $dds['id_cliente'].'P'.$dds['id']?></b></h4>
                             </div>
                             <div class="modal-body">
                                 <div class="row" style="padding: 2%">

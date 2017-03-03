@@ -27,7 +27,7 @@ class Head
 
             ';
 
-        elseif($page == 'profile'):
+        elseif($page == 'profile'  or $page == 'lojaa'):
 
             $add = '
 
@@ -65,6 +65,8 @@ class Head
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'profile.css">
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
             ';
+
+
 
         elseif($page == 'historico'):
 
@@ -168,6 +170,14 @@ class Head
                 ';
 
 
+
+            elseif($page == 'configuracao'):
+
+                $add = '
+        <script type="text/javascript" src="'.base_url('assets/'.$version.'/js/jquery.mask.js').'"></script>
+
+
+            ';
 
             elseif($page == 'logcad'):
 

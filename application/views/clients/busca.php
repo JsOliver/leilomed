@@ -90,7 +90,7 @@
                     <ul class="list-unstyled">
                         <?php
                         $this->db->from('medicamentos');
-                        $this->db->order_by('pesquisas','max');
+                        $this->db->order_by('pesquisas','desc');
                         $this->db->limit(3,0);
                         $get = $this->db->get();
                         $countms = $get->num_rows();
@@ -237,7 +237,7 @@
         </div><!--/col-md-2-->
 
         <div class="col-md-10">
-            <span class="results-number"><?php echo number_format($buscasn);  if($buscasn == 1): echo ' resultado'; else:  echo 'resultados'; endif;?>  encontrados</span>.
+            <span class="results-number"><?php echo number_format($buscasn);  if($buscasn == 1): echo ' resultado'; else:  echo ' resultados'; endif;?>  encontrados</span>.
 
             <div class="filtro" style="width: 100%; overflow: hidden;">
                 <div class="inputs-filtro" >
@@ -247,6 +247,7 @@
                     <i style="color: #940f14;" class="glyphicon glyphicon-th-large"></i>
                     <select onchange="categoria('<?php echo base_url('');?>',this.value,'1','1','produtoshome','produtos','<?php echo $key;?>','11');" class="categoria-filtro">
                         <option style="display: none;" disabled selected>Categorias</option>
+                        <option value="1000" class="text-info">Mais Proximos</option>
                         <?php
                         $this->db->from('categorias');
                         $this->db->where('tipo',1);

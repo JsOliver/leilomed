@@ -316,6 +316,32 @@ class UserController extends CI_Controller
 
     }
 
+    public function minha_loja()
+    {
+
+        if ($this->sessionsverify_model->logver() == true):
+
+
+            $dados['metas'] = [
+                "title" => "Leilomed, Medicamentos com os melhores preços",
+                "description" => "Encontre os melhoeres preços no leilo med",
+                "keywords" => "Medicamentos,leilão,leilão de medicamentos,google me ache"
+            ];
+            $dados['title'] = 'LeiloFarma';
+            $dados['version'] = '1';
+            $dados['page'] = 'lojaa';
+            $dados['status'] = $this->sessionsverify_model->logver();
+            $this->load->view('clients/account/minha-loja', $dados);
+
+
+        else:
+
+            redirect(base_url('entrar'), 'refresh');
+
+        endif;
+
+    }
+
     public function carrinho()
     {
 

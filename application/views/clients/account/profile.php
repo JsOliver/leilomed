@@ -88,6 +88,18 @@
                                         <?php
                                     }
 
+                                    else:
+                                    ?>
+
+                                        <div class="profile-post color-one">
+                                            <span class="profile-post-numb"></span>
+                                            <div class="profile-post-in">
+                                                <h3 class="heading-xs" style="text-align: center;"><a
+                                                        >Nenhuma Busca</a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                <?php
                                 endif;
                                 ?>
 
@@ -120,7 +132,7 @@
 
                                 $this->db->from('produtos_disponiveis');
                                 $this->db->where('desconto > ',1);
-                                $this->db->order_by('desconto', 'max','id_pdp','rand()');
+                                $this->db->order_by('desconto', 'desc');
                                 $this->db->limit(3, 0);
                                 $get = $this->db->get();
                                 $count = $get->num_rows();
@@ -139,8 +151,8 @@
                                 ?>
                                     <div class="profile-event">
                                         <div class="date-formats">
-                                            <span><?php echo $dia;?></span>
-                                            <small><?php echo $mes;?>, <?php echo $ano;?></small>
+                                            <span><?php echo $dds['desconto'];?>%</span>
+                                            <small>desconto</small>
                                         </div>
                                         <div class="overflow-h">
                                             <h3 title="<?php echo $dds['nome_prod'];?>" class="heading-xs"><a href="#"><?php echo character_limiter($dds['nome_prod'],22);?></a></h3>
@@ -178,7 +190,7 @@
         <hr>
         <br>
 
-        <!--Profile Blog-->
+        <!--
         <div class="panel panel-profile">
             <div class="panel-heading overflow-h">
                 <h2 class="panel-title heading-sm pull-left"><i class="fa fa-tasks"></i>Farmacias Salvas</h2>
@@ -211,10 +223,8 @@
                     <?php endfor; ?>
                 </div>
             </div>
-        </div>
-        <!--End Profile Blog-->
-
-        <hr>
+        </div> <hr>
+-->
 
 
         <div class="table-search-v1 margin-bottom-20">
@@ -226,54 +236,127 @@
                     <thead>
 
                     <tr>
-                        <th>Name</th>
-                        <th class="hidden-sm">Description</th>
-                        <th>Headquarters</th>
-                        <th>Progress</th>
+                        <th>Item</th>
+                        <th class="hidden-sm">Descrição</th>
+                        <th>Localidade</th>
                         <th style="width: 100px;">Status</th>
                         <th>Contacts</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php for ($i = 0; $i < 7; $i++): ?>
-                        <tr>
-                            <td>
-                                <a href="#">HP Enterprise Service</a>
-                            </td>
-                            <td class="td-width">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                                porttitor arcu.
-                            </td>
-                            <td>
-                                <div class="m-marker">
-                                    <a href="#"><i class="color-green fa fa-map-marker"></i></a>
-                                    <a href="#" class="display-b">USA</a>
-                                    <a href="#">Palo Alto</a>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="progress progress-u progress-xxs">
-                                    <div class="progress-bar progress-bar-u" role="progressbar" aria-valuenow="88"
-                                         aria-valuemin="0" aria-valuemax="100" style="width: 88%">
+                    <?php
+
+
+                    $this->db->from('lances');
+                    $this->db->join('produtos_disponiveis','produtos_disponiveis.id_produto = lances.id_produto');
+                    $this->db->join('lojas','lojas.id_loja = produtos_disponiveis.id_loja');
+                    $this->db->where('lances.id_cliente',$_SESSION['ID']);
+                    $this->db->order_by('lances.id','desc');
+                    $get = $this->db->get();
+                    if($get->num_rows() > 0):
+
+                        $result = $get->result_array();
+                        foreach ($result as $dds) {
+                            $this->db->from('lojas');
+                            $this->db->where('id_loja', $dds['id_loja']);
+                            $get = $this->db->get();
+                            $count = $get->num_rows();
+                            $arrayreplace = array("(", ")", "-");
+                            $result = $get->result_array();
+                            $url =  base_url('produto/' . str_replace(' ', '-',str_replace($arrayreplace, '', strtolower($result[0]['nome_loja']))) . '/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($dds['nome_prod'])))). '/' . $dds['id_pdp'];
+                            ?>
+                            <tr>
+                                <td>
+                                    <a href="<?php echo $url;?>"><small><?php echo $dds['nome_prod'];?></small></a>
+                                </td>
+                                <td class="td-width"><small>Você deu lance no: <b><?php echo $dds['nome_prod'];?></b></small>
+                                </td>
+
+                                <td>
+                                    <div class="m-marker">
+                                        <a href="#"><i class="color-green fa fa-map-marker"></i></a>
+                                        <a href="<?php if(empty($dds['pais'])): echo '#'; else: echo 'https://www.google.com.br/?gws_rd=cr&ei=RJW4WKvFNcSgwgSK-YbYAg#q=pais:'.str_replace(' ','+',$dds['pais']).'&*'; endif;?>"
+
+
+
+                                           target="_blank" class="display-b"><?php if(empty($dds['pais_uf'])): echo 'Não Informado'; else: echo $dds['pais_uf']; endif;?></a>,
+                                        <a href="<?php if(empty($dds['cidade'])): echo '#'; else: echo 'https://www.google.com.br/?gws_rd=cr&ei=RJW4WKvFNcSgwgSK-YbYAg#q=cidade:'.str_replace(' ','+',$dds['cidade']).'&*'; endif;?>"  target="_blank"><?php if(empty($dds['cidade'])): echo 'Não Informado'; else: echo $dds['cidade']; endif; ?></a>
                                     </div>
-                                </div>
-                            </td>
-                            <td>
-                                <button class="btn-u btn-u-red btn-block btn-u-xs"><i
-                                        class="fa fa-sort-amount-desc margin-right-5"></i> Deep
-                                </button>
-                            </td>
-                            <td>
-                                <span>1(123) 456</span>
-                                <span><a href="#">info@example.com</a></span>
-                            </td>
-                        </tr>
-                    <?php endfor; ?>
+                                </td>
+
+
+                                <td>
+
+
+                                    <?php
+                                    if($dds['status'] == 1 and $dds['resposta'] == 0):
+
+                                        echo '
+                                     <button class="btn-u btn-u-info btn-block btn-u-xs"><i
+                                            class="fa fa-sort-amount-desc margin-right-5"></i>Solicitação Enviada
+                                    </button>
+';
+                                    endif;
+                                    ?>
+
+
+                                    <?php
+                                    if($dds['status'] == 2 and $dds['resposta'] == 0):
+
+                                        echo '  <button class="btn-u btn-u-info btn-block btn-u-xs"><i
+                                            class="fa fa-sort-amount-desc margin-right-5"></i>Solicitação Recebida
+                                    </button>';
+
+                                    endif;
+                                    ?>
+
+                                    <?php
+                                    if($dds['status'] == 3 and $dds['resposta'] == 0):
+
+                                        echo '<button class="btn-u btn-u-warning btn-block btn-u-xs"><i
+                                            class="fa fa-sort-amount-desc margin-right-5"></i> Lida
+                                    </button>';
+
+                                    endif;
+                                    ?>
+
+
+                                    <?php
+
+                                    if($dds['resposta'] == 1):
+                                        echo '<button class="btn-u btn-u-danger btn-block btn-u-xs"><i
+                                            class="fa fa-sort-amount-desc margin-right-5"></i> Negado
+                                    </button>';
+                                    endif;
+                                        if($dds['resposta'] == 2):
+
+                                        echo '<button class="btn-u btn-u-success btn-block btn-u-xs"><i
+                                            class="fa fa-sort-amount-desc margin-right-5"></i> Aceito
+                                    </button>';
+
+                                    endif;
+                                    ?>
+
+
+
+                                </td>
+                                <td>
+                                    <span><?php if(empty($dds['telefone'])):  echo 'Não Informado'; else: echo $dds['telefone'];  endif; ?></span>
+                                    <span><a href="#"><?php if(empty($dds['telefone'])): echo 'Não Informado'; else: echo $dds['email_contato']; endif;?></a></span>
+                                </td>
+                            </tr>
+                            <?php
+
+                        }
+                    endif;
+
+                    ?>
 
                     </tbody>
 
                 </table>
             </div>
-            <button type="button" class="btn-u btn-u-default btn-u-sm btn-block">Ver Mais</button>
+            <a href="<?php echo base_url('meus-lances');?>" class="btn-u btn-u-default btn-u-sm btn-block">Ver Mais</a>
         </div>
 
     </div>

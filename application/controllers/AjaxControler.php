@@ -90,62 +90,62 @@ class AjaxControler extends CI_Controller
     public function card()
     {
 
-            if ($this->sessionsverify_model->logver() == false):
+        if ($this->sessionsverify_model->logver() == false):
 
-                if(isset($_COOKIE['card']) and !empty($_COOKIE['card'])):
+            if (isset($_COOKIE['card']) and !empty($_COOKIE['card'])):
 
-                    $dado['id_carrinho'] = $_COOKIE['card'];
-                    $dado['id_user'] = 0;
-                    $dado['id_produto'] = $_POST['produto'];
-                    $dado['qunt'] = $_POST['quantidade'];
-                    $dado['lance'] = $_POST['valor'];
-                    $dado['data_add'] = date('YmdHis');
-                    $this->db->insert('carrinho',$dado);
-
-                    else:
-
-                       $card = setcookie('card', date('YmdHis').rand(2), time()+3600*24*30*12*5, "/");
-                        $dado['id_carrinho'] = $card;
-                        $dado['id_user'] = 0;
-                        $dado['id_produto'] = $_POST['produto'];
-                        $dado['qunt'] = $_POST['quantidade'];
-                        $dado['lance'] = $_POST['valor'];
-                        $dado['data_add'] = date('YmdHis');
-                        $this->db->insert('carrinho',$dado);
-
-                        endif;
-
-                echo 11;
-
+                $dado['id_carrinho'] = $_COOKIE['card'];
+                $dado['id_user'] = 0;
+                $dado['id_produto'] = $_POST['produto'];
+                $dado['qunt'] = $_POST['quantidade'];
+                $dado['lance'] = $_POST['valor'];
+                $dado['data_add'] = date('YmdHis');
+                $this->db->insert('carrinho', $dado);
 
             else:
 
-                if(isset($_COOKIE['card']) and !empty($_COOKIE['card'])):
-
-                    $dado['id_carrinho'] = $_COOKIE['card'];
-                    $dado['id_user'] = $_SESSION['ID'];
-                    $dado['id_produto'] = $_POST['produto'];
-                    $dado['qunt'] = $_POST['quantidade'];
-                    $dado['lance'] = $_POST['valor'];
-                    $dado['data_add'] = date('YmdHis');
-                    $this->db->insert('carrinho',$dado);
-
-                else:
-
-                    $card = setcookie('card', date('YmdHis').rand(2), time()+3600*24*30*12*5, "/");
-                    $dado['id_carrinho'] = $card;
-                    $dado['id_user'] = $_SESSION['ID'];
-                    $dado['id_produto'] = $_POST['produto'];
-                    $dado['lance'] = $_POST['valor'];
-                    $dado['qunt'] = $_POST['quantidade'];
-                    $dado['data_add'] = date('YmdHis');
-                    $this->db->insert('carrinho',$dado);
-
-                endif;
-
-                echo 11;
+                $card = setcookie('card', date('YmdHis') . rand(2), time() + 3600 * 24 * 30 * 12 * 5, "/");
+                $dado['id_carrinho'] = $card;
+                $dado['id_user'] = 0;
+                $dado['id_produto'] = $_POST['produto'];
+                $dado['qunt'] = $_POST['quantidade'];
+                $dado['lance'] = $_POST['valor'];
+                $dado['data_add'] = date('YmdHis');
+                $this->db->insert('carrinho', $dado);
 
             endif;
+
+            echo 11;
+
+
+        else:
+
+            if (isset($_COOKIE['card']) and !empty($_COOKIE['card'])):
+
+                $dado['id_carrinho'] = $_COOKIE['card'];
+                $dado['id_user'] = $_SESSION['ID'];
+                $dado['id_produto'] = $_POST['produto'];
+                $dado['qunt'] = $_POST['quantidade'];
+                $dado['lance'] = $_POST['valor'];
+                $dado['data_add'] = date('YmdHis');
+                $this->db->insert('carrinho', $dado);
+
+            else:
+
+                $card = setcookie('card', date('YmdHis') . rand(2), time() + 3600 * 24 * 30 * 12 * 5, "/");
+                $dado['id_carrinho'] = $card;
+                $dado['id_user'] = $_SESSION['ID'];
+                $dado['id_produto'] = $_POST['produto'];
+                $dado['lance'] = $_POST['valor'];
+                $dado['qunt'] = $_POST['quantidade'];
+                $dado['data_add'] = date('YmdHis');
+                $this->db->insert('carrinho', $dado);
+
+            endif;
+
+            echo 11;
+
+        endif;
 
 
     }
@@ -279,5 +279,142 @@ class AjaxControler extends CI_Controller
         endif;
 
 
+    }
+
+    public function cogs()
+    {
+        if ($this->sessionsverify_model->logver() == true):
+
+            if (!empty($_POST['email']) and !empty($_POST['senha']) and !empty($_POST['nsenha']) and !empty($_POST['rnsenha'])):
+
+                if ($_SESSION['EMAIL'] == $_POST['email']):
+
+                    if (hash('whirlpool', md5(sha1($_POST['senha']))) == $_SESSION['PASS']):
+
+                        if ($_POST['nsenha'] == $_POST['rnsenha']):
+
+                            $dado['pass'] = hash('whirlpool', md5(sha1($_POST['nsenha'])));
+                            $_SESSION['PASS'] = hash('whirlpool', md5(sha1($_POST['nsenha'])));
+                            $this->db->where('id', $_SESSION['ID']);
+                            if ($this->db->update('users', $dado)):
+
+                                echo '<b class="text-success">Dados Alterados com Sucesso.</b>';
+
+
+                            else:
+
+                                echo '<b class="text-danger">Erro ao Alterar Senhas.</b>';
+
+                            endif;
+
+                        else:
+
+                            echo '<b class="text-info">As Senhas não Coincidem.</b>';
+
+                        endif;
+
+
+                    else:
+                        echo '<b class="text-warning">Email atual Incorreta.</b>';
+
+
+                    endif;
+
+
+                else:
+                    echo '<b class="text-warning">Email incorreto.</b>';
+
+
+                endif;
+
+            else:
+                echo 'Nenhum Campo Pode Ficar em Branco';
+            endif;
+
+        endif;
+    }
+
+    public function alts()
+    {
+        if ($this->sessionsverify_model->logver() == true):
+
+            if (isset($_POST['type']) and isset($_POST['valor'])):
+
+                $valor = $_POST['valor'];
+
+                if ($_POST['type'] == 0):
+                    $dado['firstname'] = $valor;
+                    $this->db->where('id', $_SESSION['ID']);
+                    if ($this->db->update('users', $dado)):
+                        echo 1;
+                    else:
+                        echo 2;
+
+                    endif;
+
+
+                elseif ($_POST['type'] == 1):
+
+                    $dado['email_contato'] = $valor;
+                    $this->db->where('id', $_SESSION['ID']);
+                    if ($this->db->update('users', $dado)):
+                        echo 1;
+                    else:
+                        echo 2;
+
+                    endif;
+
+                elseif ($_POST['type'] == 2):
+
+                    $dado['telefone'] = $valor;
+                    $this->db->where('id', $_SESSION['ID']);
+                    if ($this->db->update('users', $dado)):
+                        echo 1;
+                    else:
+                        echo 2;
+
+                    endif;
+
+                elseif ($_POST['type'] == 3):
+
+                    $dado['endereco'] = $valor;
+                    $this->db->where('id', $_SESSION['ID']);
+                    if ($this->db->update('users', $dado)):
+                        echo 1;
+                    else:
+                        echo 2;
+
+                    endif;
+                else:
+
+                endif;
+
+            endif;
+
+        endif;
+    }
+
+    public function maps()
+    {
+
+
+        if ($this->sessionsverify_model->logver() == true):
+
+            if (!empty($_POST['country']) and !empty($_POST['state']) and !empty($_POST['city']) and !empty($_POST['address']) and !empty($_POST['latitude']) and !empty($_POST['longitude'])):
+
+                $dado['pais'] = $_POST['country'];
+                $dado['estado'] = $_POST['state'];
+                $dado['cidade'] = $_POST['city'];
+                $dado['address'] = $_POST['address'];
+                $dado['lat'] = $_POST['latitude'];
+                $dado['long'] = $_POST['longitude'];
+                $this->db->where('id', $_SESSION['ID']);
+                $this->db->update('users', $dado);
+
+            endif;
+
+        else:
+
+        endif;
     }
 }

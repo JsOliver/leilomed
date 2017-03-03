@@ -1,6 +1,5 @@
 <?php echo $this->head->header(0, $title, $metas, $version, $page); ?>
 <body>
-
 <nav style=" background: #b01b1f; border: none;border-radius: 0;" class="navbar navbar-default navfarm">
 
     <div class="container-fluid">
@@ -145,7 +144,7 @@
     </div>
 </nav>
 <?php
-if ($page == 'profile' or $page == 'meus-lances' or $page == 'itens-salvos' or $page == 'farmacias-salvas' or $page == 'historico' or $page == 'configuracao'):
+if ($page == 'profile' or $page == 'meus-lances' or $page == 'lojaa' or $page == 'itens-salvos' or $page == 'farmacias-salvas' or $page == 'historico' or $page == 'configuracao'):
 ?>
 
 <div class="container content profile">
@@ -188,18 +187,22 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'itens-salvos' or $
                 <li class="list-group-item <?php if ($page == 'meus-lances'): echo 'active'; endif; ?>">
                     <a href="<?php echo base_url('meus-lances'); ?>"><i class="fa fa-gavel"></i> Meus Lances</a>
                 </li>
-                <li class="list-group-item <?php if ($page == 'itens-salvos'): echo 'active'; endif; ?>">
+               <!-- <li class="list-group-item <?php if ($page == 'itens-salvos'): echo 'active'; endif; ?>">
                     <a href="<?php echo base_url('itens-salvos'); ?>"><i class="fa fa-bookmark"></i> Itens Salvos</a>
                 </li>
                 <li class="list-group-item <?php if ($page == 'farmacias-salvas'): echo 'active'; endif; ?>">
                     <a href="<?php echo base_url('farmacias-salvas'); ?>"><i class="fa fa-medkit"></i> Farmacias Salvas</a>
-                </li>
+                </li>-->
 
                 <li class="list-group-item <?php if ($page == 'historico'): echo 'active'; endif; ?>">
                     <a href="<?php echo base_url('historico'); ?>"><i class="fa fa-history"></i> Historico</a>
                 </li>
                 <li class="list-group-item <?php if ($page == 'configuracao'): echo 'active'; endif; ?>">
                     <a href="<?php echo base_url('configuracoes'); ?>"><i class="fa fa-cog"></i> Configurações</a>
+                </li>
+
+                <li class="list-group-item <?php if ($page == 'loja'): echo 'active'; endif; ?>">
+                    <a href="<?php echo base_url('minha-loja'); ?>"><i class="fa fa-archive"></i> Minha Loja</a>
                 </li>
             </ul>
 
@@ -214,22 +217,55 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'itens-salvos' or $
                     <div id="mCSB_1_container" class="mCSB_container" style="position:relative; top:0; left:0;"
                          dir="ltr">
 
-                        <?php for ($i = 0; $i < 4; $i++): ?>
+                        <?php
+
+                        $this->db->from('notificacoes');
+                        $this->db->where('id_user',$_SESSION['ID']);
+                        $get = $this->db->get();
+                        $num = $get->num_rows();
+                        if($num > 0):
+
+                            $result = $get->result_array();
+
+                            foreach ($result as $dds)
+                            {
+                                $this->db->from('lojas');
+                                $this->db->where('id_loja',$dds['id_loja']);
+                                $get = $this->db->get();
+                                $num = $get->num_rows();
+                                if($num > 0):
+                                    $result = $get->result_array();
+
+                                    if($dds['tpnotific'] == 0 or $dds['tpnotific'] == 1):
+
+                                        $tps = '<span class="text-success">Pedido Aceito.</span>';
+
+                                    elseif($dds['tpnotific'] == 2):
+
+                                    $tps = '<span class="text-danger">Pedido Negado.</span>';
+
+                                    else:
+                                        $tps = '<span class="text-success"></span>';
+
+
+                                    endif;
+
+                        ?>
                             <li class="notification">
-                                <i class="icon-custom icon-sm rounded-x icon-bg-yellow icon-line fa fa-bolt"></i>
+                               <a href="<?php echo $dds['url_notificacao']; ?>" target="_blank" style="text-decoration: none;"> <i class="icon-custom icon-sm rounded-x icon-bg-yellow icon-line fa fa-bolt"></i>
                                 <div class="overflow-h">
-                                    <span><strong>Natasha Kolnikova</strong> accepted your invitation.</span>
-                                    <small>Yesterday 1:07 pm</small>
-                                </div>
+                                    <span><strong><?php echo $result[0]['nome_loja'];?></strong> <?php echo $tps;?></span>
+                                    <small><?php echo $dds['data'];?></small>
+                                </div></a>
                             </li>
-                        <?php endfor; ?>
+                        <?php  endif; } else: echo '<h5 style="text-align:center;">Nenhuma Notificação</h5>'; endif; ?>
                     </div>
                 </div>
 
             </ul>
-            <a href="<?php echo base_url('notificacoes'); ?>" type="button"
+            <!--End Notification  <a href="<?php echo base_url('notificacoes'); ?>" type="button"
                class="btn-u btn-u-default btn-u-sm btn-block">Ver Tudo</a>
-            <!--End Notification-->
+        -->
 
             <div class="margin-bottom-50"></div>
 
