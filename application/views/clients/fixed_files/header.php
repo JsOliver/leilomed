@@ -201,7 +201,7 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'lojaa' or $page ==
                     <a href="<?php echo base_url('configuracoes'); ?>"><i class="fa fa-cog"></i> Configurações</a>
                 </li>
 
-                <li class="list-group-item <?php if ($page == 'loja'): echo 'active'; endif; ?>">
+                <li class="list-group-item <?php if ($page == 'lojaa'): echo 'active'; endif; ?>">
                     <a href="<?php echo base_url('minha-loja'); ?>"><i class="fa fa-archive"></i> Minha Loja</a>
                 </li>
             </ul>

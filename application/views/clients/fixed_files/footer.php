@@ -75,7 +75,7 @@
 echo $this->head->js(0, $version, $page);
 ?>
 <?php
-if ($page == 'profile' or $page == 'meus-lances' or $page == 'itens-salvos' or $page == 'farmacias-salvas' or $page == 'historico' or $page == 'configuracao'):
+if ($page == 'profile' or $page == 'meus-lances' or $page == 'lojaa' or $page == 'itens-salvos' or $page == 'farmacias-salvas' or $page == 'historico' or $page == 'configuracao'):
     ?>
     <script>
         var file = 'fileUpload';
@@ -531,5 +531,94 @@ endif;
 endif;
 endif;
 ?>
+
+
+<?php
+if($page == 'lojaa'):
+?>
+    <script>
+
+
+        $('#teleph').mask('(00) 0000-00000');
+        $('#nlcep').mask('00000-000');
+
+    </script>
+<?php endif;?>
+<?php
+if($page == 'lojaa'):
+    ?>
+    <script type="text/javascript">
+        navigator.geolocation.getCurrentPosition(success, error);
+
+        function success(position) {
+
+            var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + '%2C' + position.coords.longitude + '&language=en';
+
+            $.getJSON(GEOCODING).done(function(location) {
+
+
+                var cep = location.results[0].address_components[6].long_name;
+                var country = location.results[0].address_components[5].long_name;
+                var state = location.results[0].address_components[4].long_name;
+                var city = location.results[0].address_components[2].long_name;
+                var address = location.results[0].formatted_address;
+
+
+                $("#nlcep").val(cep);
+                $("#nlpais").val(country);
+                $("#nestado").val(state);
+                $("#necidade").val(city);
+                $("#neendereco").val(address);
+            })
+
+        }
+
+        function error(err) {
+            console.log(err)
+        }
+
+
+    </script>
+
+    <script>
+
+        function newFarma() {
+            $("#resposta").html('<i style="text-align: center;" class="fa fa-spinner fa fa-spin fa fa-large"></i>');
+
+            var pais =  $("#nlpais").val();
+            var estado =  $("#nestado").val();
+            var cidade =  $("#necidade").val();
+            var endereco = $("#neendereco").val();
+            var emailcn = $("#emailcon").val();
+            var telefone = $("#teleph").val();
+            var nome = $("#nomefarma").val();
+            var cep = $("#nlcep").val();
+
+
+            $.ajax({
+                type: "POST",
+                url: '<?php echo base_url('ajaxnewfarma');?>',
+                data: {cep:cep,pais: pais,estado:estado,cidade:cidade,endereco:endereco,emailcn:emailcn,telefone:telefone,nome:nome},
+                success: function (result) {
+                    if(result == 11){
+                        window.location.reload();
+                    }else
+                    {
+                        $("#resposta").html(result);
+
+                    }
+
+                },
+                error: function (result) {
+                    $("#resposta").html('Ocorreu um Erro, Tente Mais Tarde.');
+
+                }
+            });
+
+            return false;
+        }
+
+        </script>
+<?php endif;?>
 </body>
 </html>

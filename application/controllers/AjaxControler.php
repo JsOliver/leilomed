@@ -22,26 +22,50 @@ class AjaxControler extends CI_Controller
 
     public function meuslances()
     {
+        if ($this->sessionsverify_model->logver() == true):
 
         $this->load->view('clients/ajax/account/meus-lances');
+            endif;
     }
 
     public function farmaciassalvas()
     {
+        if ($this->sessionsverify_model->logver() == true):
 
         $this->load->view('clients/ajax/account/farmacias-salvas');
+
+            endif;
+    }
+
+    public function lancesfarma()
+    {
+
+        if ($this->sessionsverify_model->logver() == true):
+
+        $this->load->view('clients/ajax/loja/lances');
+
+            endif;
     }
 
     public function historico()
     {
 
+        if ($this->sessionsverify_model->logver() == true):
+
         $this->load->view('clients/ajax/account/historico');
+
+    endif;
     }
+
 
     public function itenssalvos()
     {
 
+        if ($this->sessionsverify_model->logver() == true):
+
         $this->load->view('clients/ajax/account/itens-salvos');
+
+            endif;
     }
 
     public function ajaxCadastro()
@@ -416,5 +440,79 @@ class AjaxControler extends CI_Controller
         else:
 
         endif;
+    }
+
+    public function addfarma()
+    {
+
+
+        if ($this->sessionsverify_model->logver() == true):
+
+            if (empty($_POST['pais']) or empty($_POST['estado']) or empty($_POST['cidade']) or empty($_POST['endereco']) or empty($_POST['emailcn']) or empty($_POST['telefone']) or empty($_POST['nome']) or empty($_POST['cep'])):
+
+
+                echo 'Nenhum Campo Pode Ficar Vazio.';
+
+            else:
+
+                $this->db->from('lojas');
+                $this->db->where('nome_loja', $_POST['nome']);
+                $this->db->where('estado', $_POST['estado']);
+                $this->db->where('cidade', $_POST['cidade']);
+                $this->db->where('cep', $_POST['cep']);
+                $query = $this->db->get();
+                $count = $query->num_rows();
+                if ($count > 0):
+                    $fetch = $query->result_array();
+
+                    echo 'Já Existe uma Farmacia com o nome <a target="_blank" href="' . base_url('loja/' . str_replace(' ', '-', strtolower($fetch[0]['nome_loja'])) . '/' . $fetch[0]['id_loja']) . '" style="color:#a10f2b; font-weight: bold;">' . $fetch[0]['nome_loja'] . '</a> cadastrada na sua região.';
+
+                else:
+
+                    $dado['pais'] = $_POST['pais'];
+                    $dado['estado'] = $_POST['estado'];
+                    $dado['cidade'] = $_POST['cidade'];
+                    $dado['rua'] = $_POST['endereco'];
+                    $dado['email_contato'] = $_POST['emailcn'];
+                    $dado['email'] = $_SESSION['EMAIL'];
+                    $dado['telefone'] = $_POST['telefone'];
+                    $dado['data_add'] = date('YmdHis');
+                    $dado['nome_loja'] = $_POST['nome'];
+                    $dado['pais_uf'] = 'BR';
+                    $dado['pais'] = $_POST['pais'];
+                    $dado['cep'] = $_POST['cep'];
+                    if ($this->db->insert('lojas', $dado)):
+                        $dados['loja'] = $this->db->insert_id();
+                        $this->db->where('id', $_SESSION['ID']);
+                        if ($this->db->update('users', $dados)):
+
+                            $data['title'] = 'Você Adicionou a '.$_POST['nome'].' no LeiloMed. ';
+                            $data['id_user'] = $_SESSION['ID'];
+                            $data['tpnotific'] = '2';
+                            $data['id_loja'] = $this->db->insert_id();
+                            $data['data'] = date('YmdHis');
+                            $data['url_notificacao'] = base_url('minha-loja?pg=notificacao');
+                            $this->db->insert('notificacoes',$data);
+
+                            echo 11;
+
+                        else:
+
+                            echo 'Erro Ao Salvar os Dados, Tente Mais Tarde.';
+
+                        endif;
+
+                    else:
+                        echo 'Erro Ao Salvar os Dados, Tente Mais Tarde.';
+
+                    endif;
+
+
+                endif;
+
+
+            endif;
+        endif;
+
     }
 }

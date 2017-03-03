@@ -5,7 +5,8 @@ $this->db->where('id',$_SESSION['ID']);
 $get = $this->db->get();
 $result = $get->result_array();
 ?>
-
+<link rel="stylesheet" href="https://htmlstream.com/preview/unify-v1.9.8/assets/plugins/sky-forms-pro/skyforms/css/sky-forms.css">
+<link rel="stylesheet" href="https://htmlstream.com/preview/unify-v1.9.8/assets/plugins/sky-forms-pro/skyforms/custom/custom-sky-forms.css">
 
 <div class="col-md-9">
     <div class="profile-body margin-bottom-20" id="fsvas">

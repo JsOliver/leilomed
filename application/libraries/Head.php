@@ -36,6 +36,8 @@ class Head
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'profile.css">
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'shortcode_timeline2.css">
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
+		<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'sky-forms.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'custom-sky-forms.css">
             ';
         elseif($page == 'meus-lances'):
 
@@ -87,6 +89,8 @@ class Head
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'profile.css">
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'shortcode_timeline2.css">
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'sky-forms.css">
+	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'custom-sky-forms.css">
             ';
         elseif($page == 'busca'):
 
@@ -172,6 +176,14 @@ class Head
 
 
             elseif($page == 'configuracao'):
+
+                $add = '
+        <script type="text/javascript" src="'.base_url('assets/'.$version.'/js/jquery.mask.js').'"></script>
+
+
+            ';
+
+            elseif($page == 'lojaa'):
 
                 $add = '
         <script type="text/javascript" src="'.base_url('assets/'.$version.'/js/jquery.mask.js').'"></script>

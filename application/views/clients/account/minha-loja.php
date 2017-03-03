@@ -1,260 +1,395 @@
-<?php $this->load->view('clients/fixed_files/header'); ?>
+<?php $this->load->view('clients/fixed_files/header');
+
+$this->db->from('users');
+$this->db->where('id', $_SESSION['ID']);
+$query = $this->db->get();
+$result = $query->result_array();
+
+if ($result[0]['loja'] <> 0):
+
+$this->db->from('lojas');
+$this->db->where('id_loja', $result[0]['loja']);
+$get = $this->db->get();
+$count = $get->num_rows();
+if ($count > 0):
+$result = $get->result_array();
+?>
+
+    <script>
+
+        window.onload = function () {
+
+            categoria('<?php echo base_url('');?>','31', '1','0','lancesfarma','lfms','','');
+
+            categoria('<?php echo base_url('');?>','31', '1','0','lancesfarma','lfms2','','');
+
+
+        }
+
+
+
+    </script>
+
 <div class="col-md-9">
     <div class="profile-body">
         <div class="profile-bio">
             <div class="row">
                 <div class="col-md-5">
-                    <img class="img-responsive md-margin-bottom-10" src="http://127.0.0.1:8080/projects/leilomed/imagem?tp=2&&im=22&&image=3" alt="">
-                    <a class="btn-u btn-u-sm" href="#">Change Picture</a>
+                    <?php
+
+                    if (empty($result[0]['image_1'])):
+
+                        $image = base_url('assets/' . $version . '/img/farma.png');
+                    else:
+                        $image = base_url('imagem?tp=4&&im=44&&image=' . $result[0]['id_loja']);
+
+
+                    endif;
+
+                    ?>
+                    <img style="width: 300px;" class="img-responsive md-margin-bottom-10"
+                         src="<?php echo $image; ?>" alt="">
+                    <a class="btn-u btn-u-sm" href="#">Alterar Imagem</a>
                 </div>
                 <div class="col-md-7">
-                    <h2>Edward Rooster</h2>
-                    <span><strong>Job:</strong> Web Developer</span>
-                    <span><strong>Position:</strong> Web Designer</span>
+                    <h2><?php echo $result[0]['nome_loja']; ?></h2>
+                    <span><strong>Cidade:</strong> <?php echo $result[0]['cidade']; ?></span>
+                    <span><strong>Estado:</strong> <?php echo $result[0]['estado']; ?></span>
                     <hr>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget massa nec turpis congue
-                        bibendum. Integer nulla felis, porta suscipit nulla et, dignissim commodo nunc. Morbi a semper
-                        nulla.</p>
-                    <p>Proin mauris odio, pharetra quis ligula non, vulputate vehicula quam. Nunc in libero vitae nunc
-                        ultricies tincidunt ut sed leo. Sed luctus dui ut congue consequat. Cras consequat nisl ante,
-                        nec malesuada velit pellentesque ac. Pellentesque nec arcu in ipsum iaculis convallis.</p>
+
+                    <?php
+                    if (empty($result[0]['descricao_loja'])):
+                        ?>
+                        <p style="color:#a6a6a6;float: left; text-align: left; width: 85%;">
+
+                            Informe a descrição de sua loja aqui.
+                        </p>
+
+                        <?php
+                    else:
+
+                        echo '<p style="float: left; text-align: left; width: 85%;">
+' . $result[0]['descricao_loja'] . '</p>';
+
+                    endif; ?>
+                    <br>
+                    <br>
+                    <div class="dropdown show pull-right">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" id="cong">
+                            <i class="fa fa-pencil "></i>
+                        </a>
+
+
+                    </div>
+
                 </div>
+
             </div>
         </div><!--/end row-->
-
         <hr>
-
         <div class="row">
             <!--Social Icons v3-->
-            <div class="col-sm-6 sm-margin-bottom-30">
-                <div class="panel panel-profile">
-                    <div class="panel-heading overflow-h">
-                        <h2 class="panel-title heading-sm pull-left"><i class="fa fa-pencil"></i> Social Contacts
-                            <small>(option 1)</small>
-                        </h2>
-                        <a href="#"><i class="fa fa-cog pull-right"></i></a>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="list-unstyled social-contacts-v2">
-                            <li><i class="rounded-x tw fa fa-twitter"></i> <a href="#">edward.rooster</a></li>
-                            <li><i class="rounded-x fb fa fa-facebook"></i> <a href="#">Edward Rooster</a></li>
-                            <li><i class="rounded-x sk fa fa-skype"></i> <a href="#">edwardRooster77</a></li>
-                            <li><i class="rounded-x gp fa fa-google-plus"></i> <a href="#">rooster77edward</a></li>
-                            <li><i class="rounded-x gm fa fa-envelope"></i> <a href="#">edward77@gmail.com</a></li>
+            <div class="col-md-12">
+                <div class="profile-body margin-bottom-20">
+                    <div class="tab-v1">
+                        <ul class="nav nav-justified nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#profile" aria-expanded="true">Resumo</a></li>
+                            <li class=""><a data-toggle="tab" href="#passwordTab" aria-expanded="false">Lances
+                                    Pendentes</a></li>
+                            <li><a data-toggle="tab" href="#payment">Relatorios</a></li>
+                            <li><a data-toggle="tab" href="#settings">Meu Estoque</a></li>
                         </ul>
-                    </div>
-                </div>
-            </div>
-            <!--End Social Icons v3-->
+                        <div class="tab-content">
 
-            <!--Skills-->
-            <div class="col-sm-6 sm-margin-bottom-30">
-                <div class="panel panel-profile">
-                    <div class="panel-heading overflow-h">
-                        <h2 class="panel-title heading-sm pull-left"><i class="fa fa-lightbulb-o"></i> Skills</h2>
-                        <a href="#"><i class="fa fa-cog pull-right"></i></a>
-                    </div>
-                    <div class="panel-body">
-                        <small>HTML/CSS</small>
-                        <small>92%</small>
-                        <div class="progress progress-u progress-xxs">
-                            <div style="width: 92%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="92"
-                                 role="progressbar" class="progress-bar progress-bar-u">
-                            </div>
-                        </div>
+                            <div id="profile" class="profile-edit tab-pane fade active in">
 
-                        <small>Photoshop</small>
-                        <small>77%</small>
-                        <div class="progress progress-u progress-xxs">
-                            <div style="width: 77%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="77"
-                                 role="progressbar" class="progress-bar progress-bar-u">
-                            </div>
-                        </div>
+                                <div class="row">
+                                    <div>
+                                        <div>
 
-                        <small>PHP</small>
-                        <small>85%</small>
-                        <div class="progress progress-u progress-xxs">
-                            <div style="width: 85%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="85"
-                                 role="progressbar" class="progress-bar progress-bar-u">
-                            </div>
-                        </div>
+                                            <div class="row margin-bottom-10">
+                                                <div class="col-sm-6 sm-margin-bottom-20">
+                                                    <div class="service-block-v3 service-block-u">
+                                                        <i class="fa fa-users"></i>
+                                                        <span class="service-heading">Visitas em Produtos</span>
+                                                        <span class="counter">0</span>
 
-                        <small>Javascript</small>
-                        <small>81%</small>
-                        <div class="progress progress-u progress-xxs">
-                            <div style="width: 81%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="81"
-                                 role="progressbar" class="progress-bar progress-bar-u">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--End Skills-->
-        </div><!--/end row-->
+                                                        <div class="clearfix margin-bottom-10"></div>
 
-        <hr>
+                                                        <div class="row margin-bottom-20">
+                                                            <div class="col-xs-6 service-in">
+                                                                <small>Hoje</small>
+                                                                <h4 class="counter">0</h4>
+                                                            </div>
+                                                            <div class="col-xs-6 text-right service-in">
+                                                                <small>Esse Mês</small>
+                                                                <h4 class="counter">0</h4>
+                                                            </div>
+                                                        </div>
+                                                        <div class="statistics">
+                                                            <h3 class="heading-xs">Estatisticas de Aproveitamento <span
+                                                                    class="pull-right">0%</span></h3>
+                                                            <div class="progress progress-u progress-xxs">
+                                                                <div style="width: 0%" aria-valuemax="100"
+                                                                     aria-valuemin="0" aria-valuenow="0"
+                                                                     role="progressbar"
+                                                                     class="progress-bar progress-bar-light">
+                                                                </div>
+                                                            </div>
+                                                            <small>17% mais <strong>do ultimo mês</strong></small>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-        <!--Timeline-->
-        <div class="panel panel-profile">
-            <div class="panel-heading overflow-h">
-                <h2 class="panel-title heading-sm pull-left"><i class="fa fa-briefcase"></i> Experience</h2>
-                <a href="#"><i class="fa fa-cog pull-right"></i></a>
-            </div>
-            <div class="panel-body margin-bottom-40">
-                <ul class="timeline-v2 timeline-me">
-                    <li>
-                        <time datetime="" class="cbp_tmtime"><span>Mobile Design</span> <span>2012 - Current</span>
-                        </time>
-                        <i class="cbp_tmicon rounded-x hidden-xs"></i>
-                        <div class="cbp_tmlabel">
-                            <h2>BFC NYC Partners</h2>
-                            <p>Winter purslane courgette pumpkin quandong komatsuna fennel green bean cucumber
-                                watercress. Peasprouts wattle seed rutabaga okra yarrow cress avocado grape.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <time datetime="" class="cbp_tmtime"><span>Web Designer</span> <span>2007 - 2012</span></time>
-                        <i class="cbp_tmicon rounded-x hidden-xs"></i>
-                        <div class="cbp_tmlabel">
-                            <h2>Freelance</h2>
-                            <p>Caulie dandelion maize lentil collard greens radish arugula sweet pepper water spinach
-                                kombu courgette lettuce.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <time datetime="" class="cbp_tmtime"><span>Photodesigner</span> <span>2003 - 2007</span></time>
-                        <i class="cbp_tmicon rounded-x hidden-xs"></i>
-                        <div class="cbp_tmlabel">
-                            <h2>Toren Condo</h2>
-                            <p>Caulie dandelion maize lentil collard greens radish arugula sweet pepper water spinach
-                                kombu courgette lettuce. Celery coriander bitterleaf epazote radicchio shallot.</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!--End Timeline-->
+                                                <div class="col-sm-6">
+                                                    <div class="service-block-v3 service-block-blue">
+                                                        <i class="fa fa-gavel"></i>
+                                                        <span class="service-heading">Lances nos Produtos</span>
+                                                        <span class="counter">0</span>
 
-        <!--Timeline-->
-        <div class="panel panel-profile">
-            <div class="panel-heading overflow-h">
-                <h2 class="panel-title heading-sm pull-left"><i class="fa fa-mortar-board"></i> Education</h2>
-                <a href="#"><i class="fa fa-cog pull-right"></i></a>
-            </div>
-            <div class="panel-body">
-                <ul class="timeline-v2 timeline-me">
-                    <li>
-                        <time datetime="" class="cbp_tmtime"><span>Bachelor of IT</span> <span>2003 - 2000</span></time>
-                        <i class="cbp_tmicon rounded-x hidden-xs"></i>
-                        <div class="cbp_tmlabel">
-                            <h2>Harvard University</h2>
-                            <p>Winter purslane courgette pumpkin quandong komatsuna fennel green bean cucumber
-                                watercress. Peasprouts wattle seed rutabaga okra yarrow cress avocado grape.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <time datetime="" class="cbp_tmtime"><span>Web Design</span> <span>1997 - 2000</span></time>
-                        <i class="cbp_tmicon rounded-x hidden-xs"></i>
-                        <div class="cbp_tmlabel">
-                            <h2>Imperial College London</h2>
-                            <p>Caulie dandelion maize lentil collard greens radish arugula sweet pepper water spinach
-                                kombu courgette lettuce.</p>
-                        </div>
-                    </li>
-                    <li>
-                        <time datetime="" class="cbp_tmtime"><span>High School</span> <span>1988 - 1997</span></time>
-                        <i class="cbp_tmicon rounded-x hidden-xs"></i>
-                        <div class="cbp_tmlabel">
-                            <h2>Chicago High School</h2>
-                            <p>Caulie dandelion maize lentil collard greens radish arugula sweet pepper water spinach
-                                kombu courgette lettuce. Celery coriander bitterleaf epazote radicchio shallot.</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!--End Timeline-->
+                                                        <div class="clearfix margin-bottom-10"></div>
 
-        <hr>
+                                                        <div class="row margin-bottom-20">
+                                                            <div class="col-xs-6 service-in">
+                                                                <small>Hoje</small>
+                                                                <h4 class="counter">0</h4>
+                                                            </div>
+                                                            <div class="col-xs-6 text-right service-in">
+                                                                <small>Esse Mês</small>
+                                                                <h4 class="counter">0</h4>
+                                                            </div>
+                                                        </div>
+                                                        <div class="statistics">
+                                                            <h3 class="heading-xs">Estatisticas de Aproveitamento<span
+                                                                    class="pull-right">0%</span></h3>
+                                                            <div class="progress progress-u progress-xxs">
+                                                                <div style="width: 0%" aria-valuemax="100"
+                                                                     aria-valuemin="0" aria-valuenow="0"
+                                                                     role="progressbar"
+                                                                     class="progress-bar progress-bar-light">
+                                                                </div>
+                                                            </div>
+                                                            <small>15% mais <strong>do ultimo mês</strong></small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <!--Skills-->
+                                            <div class="col-sm-12 sm-margin-bottom-30">
+                                                <div class="panel panel-profile">
+                                                    <div class="panel-heading overflow-h">
+                                                        <h2 class="panel-title heading-sm pull-left"><i
+                                                                class="fa fa-lightbulb-o"></i> Mais
+                                                            Visitados
+                                                        </h2>
+                                                    </div>
+                                                    <div class="panel-body">
 
-        <div class="row">
-            <!--Social Contacts v2-->
-            <div class="col-sm-6">
-                <div class="panel panel-profile">
-                    <div class="panel-heading overflow-h">
-                        <h2 class="panel-title heading-sm pull-left"><i class="fa fa-lightbulb-o"></i> Social Contacts
-                            <small>(option 2)</small>
-                        </h2>
-                        <a href="#"><i class="fa fa-cog pull-right"></i></a>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="list-unstyled social-contacts-v3">
-                            <li><i class="rounded-x tw fa fa-twitter"></i> <a href="#">edward.rooster</a></li>
-                            <li><i class="rounded-x fb fa fa-facebook"></i> <a href="#">Edward Rooster</a></li>
-                            <li><i class="rounded-x sk fa fa-skype"></i> <a href="#">edwardRooster77</a></li>
-                            <li><i class="rounded-x gp fa fa-google-plus"></i> <a href="#">rooster77edward</a></li>
-                            <li><i class="rounded-x gm icon-envelope"></i> <a href="#">edward77@gmail.com</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!--End Social Contacts v2-->
+                                                        <?php for ($i = 0; $i < 4; $i++): ?>
+                                                            <small>HTML/CSS</small>
+                                                            <small>92%</small>
+                                                            <div class="progress progress-u progress-xxs">
+                                                                <div style="width: 92%" aria-valuemax="100"
+                                                                     aria-valuemin="0" aria-valuenow="92"
+                                                                     role="progressbar"
+                                                                     class="progress-bar progress-bar-u">
+                                                                </div>
+                                                            </div>
+                                                        <?php endfor; ?>
 
-            <!--Design Skills-->
-            <div class="col-sm-6">
-                <div class="panel panel-profile">
-                    <div class="panel-heading overflow-h">
-                        <h2 class="panel-title heading-sm pull-left"><i class="fa fa-pencil"></i> Language Skills</h2>
-                        <a href="#"><i class="fa fa-cog pull-right"></i></a>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="p-chart col-sm-6 col-xs-6 sm-margin-bottom-10">
-                                <div class="circle margin-bottom-20" id="circle-4">
-                                    <div class="circles-wrp" style="position:relative; display:inline-block;">
-                                        <svg width="70" height="70">
-                                            <path fill="transparent" stroke="#eee" stroke-width="2"
-                                                  d="M 34.99307511107436 1.0000007052071638 A 34 34 0 1 1 34.95277468210556 1.0000327975253782 Z"></path>
-                                            <path fill="transparent" stroke="#72c02c" stroke-width="2"
-                                                  d="M 34.99307511107436 1.0000007052071638 A 34 34 0 1 1 3.395134154018084 47.53524849604051 "></path>
-                                        </svg>
-                                        <div class="circles-text-wrp"
-                                             style="position:absolute; top:0; left:0; text-align:center; width:100%; font-size:17.5px; height:70px; line-height:70px;">
-                                            <span class="circles-number"><span
-                                                    class="circles-number">69</span></span><span
-                                                class="circles-text">%</span></div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--End Skills-->
+                                        </div><!--/end row-->
+
+                                        <hr>
+
+                                        <!--Timeline-->
+                                        <div class="panel panel-profile">
+                                            <div class="panel-heading overflow-h">
+                                                <h2 class="panel-title heading-sm pull-left"><i
+                                                        class="fa fa-briefcase"></i> Ultimos Lances</h2>
+                                                <a href="<?php echo base_url('minha-loja?pg=lances'); ?>"><i
+                                                        class="fa fa-plus pull-right"></i></a>
+                                            </div>
+                                            <div id="lfms"> </div></div>
+                                        <!--End Timeline-->
+
+                                        <!--Timeline-->
+                                        <div class="panel panel-profile">
+                                            <div class="panel-heading overflow-h">
+                                                <h2 class="panel-title heading-sm pull-left"><i
+                                                        class="fa fa-briefcase"></i> Maiores Lances</h2>
+                                                <a href="<?php echo base_url('minha-loja?pg=lances'); ?>"><i
+                                                        class="fa fa-plus pull-right"></i></a>
+                                            </div>
+                                            <div id="lfms2"> </div></div>
+                                        <!--End Timeline-->
+
+
+
+
                                     </div>
                                 </div>
-                                <h3 class="heading-xs">Engagement Score</h3>
-                                <p>Celery coriander bitterleaf epazote radicchio shallot.</p>
+
+
                             </div>
-                            <div class="p-chart col-sm-6 col-xs-6">
-                                <div class="circle margin-bottom-20" id="circle-5">
-                                    <div class="circles-wrp" style="position:relative; display:inline-block;">
-                                        <svg width="70" height="70">
-                                            <path fill="transparent" stroke="#eee" stroke-width="2"
-                                                  d="M 34.99307511107436 1.0000007052071638 A 34 34 0 1 1 34.95277468210556 1.0000327975253782 Z"></path>
-                                            <path fill="transparent" stroke="#9B6BCC" stroke-width="2"
-                                                  d="M 34.99307511107436 1.0000007052071638 A 34 34 0 1 1 4.215417757692592 20.56706903755819 "></path>
-                                        </svg>
-                                        <div class="circles-text-wrp"
-                                             style="position:absolute; top:0; left:0; text-align:center; width:100%; font-size:17.5px; height:70px; line-height:70px;">
-                                            <span class="circles-number"><span
-                                                    class="circles-number">82</span></span><span
-                                                class="circles-text">%</span></div>
-                                    </div>
-                                </div>
-                                <h3 class="heading-xs">Progfile Completness</h3>
-                                <p>Celery coriander bitterleaf epazote radicchio shallot.</p>
+
+                            <div id="passwordTab" class="profile-edit tab-pane fade">
+
+                            </div>
+
+                            <div id="payment" class="profile-edit tab-pane fade">
+
+                            </div>
+
+                            <div id="settings" class="profile-edit tab-pane fade">
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--End Design Skills-->
-        </div><!--/end row-->
+
+
+        </div>
     </div>
-</div>
+
+    <?php
+    endif;
+    else: ?>
+        <div class="col-md-9">
+            <div class="profile-body">
+                <div class="tab-content">
+
+                    <div id="passwordTab" class="profile-edit tab-pane fade active in">
+                        <h2 class="heading-md">Informe os Dados para Adicionar sua Farmacia.</h2>
+                        <p>Prencha Todos os Dados nos Campos abaixo .</p>
+                        <br>
+                        <form class="sky-form" id="sky-form4" action="javascript:newFarma();">
+                            <dl class="dl-horizontal">
+                                <dt>Nome da Farmacia</dt>
+                                <dd>
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-user"></i>
+                                            <input id="nomefarma" required type="text" placeholder="Nome Da Farmacia"
+                                                   name="nome">
+                                            <b class="tooltip tooltip-bottom-right">Minha Farma</b>
+                                        </label>
+                                    </section>
+                                </dd>
+                                <dt>E-mail de Contato</dt>
+                                <dd>
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-envelope"></i>
+                                            <input id="emailcon" required type="email"
+                                                   placeholder="E-mail Para Contato dos Clientes" name="email">
+                                            <b class="tooltip tooltip-bottom-right">E-mail para os Clientes Entrarem em
+                                                Contato</b>
+                                        </label>
+                                    </section>
+                                </dd>
+                                <dt>Telefone de Contato</dt>
+                                <dd>
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-lock"></i>
+                                            <input required type="text" id="teleph" name="telefone"
+                                                   placeholder="(00) 0000-0000">
+                                            <b class="tooltip tooltip-bottom-right">(00) 0000-0000</b>
+                                        </label>
+                                    </section>
+                                </dd>
+                                <dt>Endereço</dt>
+                                <dd>
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-map-marker"></i>
+                                            <input required id="neendereco" type="text" name="endereco"
+                                                   placeholder="Meu Endereço">
+                                            <b class="tooltip tooltip-bottom-right">Meu Endereço</b>
+                                        </label>
+                                    </section>
+                                </dd>
+
+                                <dt>Estado</dt>
+                                <dd>
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-map-marker"></i>
+                                            <input required id="nestado" type="text" name="estado"
+                                                   placeholder="Meu Estado">
+                                            <b class="tooltip tooltip-bottom-right">Meu Estado</b>
+                                        </label>
+                                    </section>
+                                </dd>
+
+                                <dt>Pais</dt>
+                                <dd>
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-map-marker"></i>
+                                            <input required type="text" id="nlpais" name="pais" placeholder="Pais">
+                                            <b class="tooltip tooltip-bottom-right">Meu Pais</b>
+                                        </label>
+                                    </section>
+                                </dd>
+
+                                <dt>Cidade</dt>
+                                <dd>
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-map-marker"></i>
+                                            <input required type="text" id="necidade" name="pais" placeholder="Pais">
+                                            <b class="tooltip tooltip-bottom-right">Meu Pais</b>
+                                        </label>
+                                    </section>
+                                </dd>
+
+                                <dt>CEP</dt>
+                                <dd>
+                                    <section>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-map-marker"></i>
+                                            <input required type="text" id="nlcep" name="cep" placeholder="Cep">
+                                            <b class="tooltip tooltip-bottom-right">Meu Cep</b>
+                                        </label>
+                                    </section>
+                                </dd>
+
+                            </dl>
+                            <small><i class="fa fa-info-circle"></i> O site busca sua localização para inserir como o
+                                ponto
+                                da sua farmacia para sua comodidade.
+                            </small>
+                            <br>
+                            <!--    <label class="toggle toggle-change">
+
+                                    <input type="checkbox" checked="" name="checkbox-toggle-1"><i class="no-rounded"></i>Remember
+                                    password</label>
+                                <br> -->
+                            <b id="resposta"></b>
+                            <br>
+
+                            <br>
+
+                            <button type="reset" class="btn-u btn-u-default">Limpar Campos</button>
+                            <button class="btn-u" type="submit">Salvar Dados</button>
+                        </form>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+    <?php endif; ?>
 </div>
 </div>
 <?php $this->load->view('clients/fixed_files/footer'); ?>
