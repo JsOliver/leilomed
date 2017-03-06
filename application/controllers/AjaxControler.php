@@ -24,17 +24,17 @@ class AjaxControler extends CI_Controller
     {
         if ($this->sessionsverify_model->logver() == true):
 
-        $this->load->view('clients/ajax/account/meus-lances');
-            endif;
+            $this->load->view('clients/ajax/account/meus-lances');
+        endif;
     }
 
     public function farmaciassalvas()
     {
         if ($this->sessionsverify_model->logver() == true):
 
-        $this->load->view('clients/ajax/account/farmacias-salvas');
+            $this->load->view('clients/ajax/account/farmacias-salvas');
 
-            endif;
+        endif;
     }
 
     public function lancesfarma()
@@ -42,9 +42,18 @@ class AjaxControler extends CI_Controller
 
         if ($this->sessionsverify_model->logver() == true):
 
-        $this->load->view('clients/ajax/loja/lances');
+            $this->load->view('clients/ajax/loja/lances');
 
-            endif;
+        endif;
+    }
+    public function estoquefarma()
+    {
+
+        if ($this->sessionsverify_model->logver() == true):
+
+            $this->load->view('clients/ajax/loja/estoque');
+
+        endif;
     }
 
     public function historico()
@@ -52,9 +61,9 @@ class AjaxControler extends CI_Controller
 
         if ($this->sessionsverify_model->logver() == true):
 
-        $this->load->view('clients/ajax/account/historico');
+            $this->load->view('clients/ajax/account/historico');
 
-    endif;
+        endif;
     }
 
 
@@ -63,9 +72,9 @@ class AjaxControler extends CI_Controller
 
         if ($this->sessionsverify_model->logver() == true):
 
-        $this->load->view('clients/ajax/account/itens-salvos');
+            $this->load->view('clients/ajax/account/itens-salvos');
 
-            endif;
+        endif;
     }
 
     public function ajaxCadastro()
@@ -106,7 +115,14 @@ class AjaxControler extends CI_Controller
     public function uploadimage()
     {
         $allowed = 'jpeg,jpge,jpg,png,gif';
-        $upload = $this->functions_model->uploadimage('pp', 'id', 'profile_image', 'users', $_FILES['fileUpload'], $allowed, 3);
+        $upload = $this->functions_model->uploadimage('pp', 'id', 'profile_image', 'users', $_FILES['fileUpload'], $allowed, 3, $_SESSION['ID']);
+        echo $upload;
+    }
+
+    public function uploadimageLoja()
+    {
+        $allowed = 'jpeg,jpge,jpg,png,gif';
+        $upload = $this->functions_model->uploadimage('pp', 'id_dono', 'image_1', 'lojas', $_FILES['fileUploadLoja'], $allowed, 3, $_SESSION['ID']);
         echo $upload;
     }
 
@@ -268,12 +284,24 @@ class AjaxControler extends CI_Controller
         elseif ($_GET['tp'] == 2):
             $database = 'users';
 
+        elseif ($_GET['tp'] == 4):
+            $database = 'lojas';
+
         else:
             $database = 'medicamentos';
 
         endif;
         $this->db->from($database);
-        $this->db->where('id', addslashes($_GET['image']));
+        if ($_GET['tp'] == 4):
+
+            $this->db->where('id_dono', addslashes($_GET['image']));
+
+        else:
+
+            $this->db->where('id', addslashes($_GET['image']));
+
+
+        endif;
         $query = $this->db->get();
         $fetch = $query->result_array();
         header("content-type: jpg");
@@ -295,6 +323,9 @@ class AjaxControler extends CI_Controller
 
         elseif ($_GET['im'] == 22):
             echo $fetch[0]['profile_image'];
+
+        elseif ($_GET['im'] == 44):
+            echo $fetch[0]['image_1'];
 
         else:
             echo $fetch[0]['image_1'];
@@ -473,6 +504,7 @@ class AjaxControler extends CI_Controller
                     $dado['estado'] = $_POST['estado'];
                     $dado['cidade'] = $_POST['cidade'];
                     $dado['rua'] = $_POST['endereco'];
+                    $dado['id_dono'] = $_SESSION['ID'];
                     $dado['email_contato'] = $_POST['emailcn'];
                     $dado['email'] = $_SESSION['EMAIL'];
                     $dado['telefone'] = $_POST['telefone'];
@@ -486,13 +518,13 @@ class AjaxControler extends CI_Controller
                         $this->db->where('id', $_SESSION['ID']);
                         if ($this->db->update('users', $dados)):
 
-                            $data['title'] = 'Você Adicionou a '.$_POST['nome'].' no LeiloMed. ';
+                            $data['title'] = 'Você Adicionou a ' . $_POST['nome'] . ' no LeiloMed. ';
                             $data['id_user'] = $_SESSION['ID'];
                             $data['tpnotific'] = '2';
                             $data['id_loja'] = $this->db->insert_id();
                             $data['data'] = date('YmdHis');
                             $data['url_notificacao'] = base_url('minha-loja?pg=notificacao');
-                            $this->db->insert('notificacoes',$data);
+                            $this->db->insert('notificacoes', $data);
 
                             echo 11;
 

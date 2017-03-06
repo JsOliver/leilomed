@@ -187,8 +187,6 @@ class Head
 
                 $add = '
         <script type="text/javascript" src="'.base_url('assets/'.$version.'/js/jquery.mask.js').'"></script>
-
-
             ';
 
             elseif($page == 'logcad'):

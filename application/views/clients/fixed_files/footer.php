@@ -116,6 +116,48 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'lojaa' or $page ==
     </script>
 
 <?php endif; ?>
+
+
+<?php
+if ($page == 'lojaa'):
+    ?>
+    <script>
+        var filel = 'fileUploadLoja';
+        var urll = '<?php echo base_url('ajaxcontroler/uploadimageLoja');?>';
+        var previewl = 'profileimgLoja';
+    </script>
+    <script type="text/javascript" id="ajax-upload">
+
+        $(function () {
+            var form;
+            $('#' + filel + '').change(function (event) {
+                form = new FormData();
+                form.append(filel, event.target.files[0]);
+                $("#errorDataLoja").html('Carregando...');
+
+                $.ajax({
+                    url: urll,
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    type: 'POST',
+                    success: function (data) {
+
+                        if (data > 0) {
+                            $("#" + previewl + "").attr("src", "<?php echo base_url('imagem?tp=4&&im=44&&image=' . $_SESSION['ID'] . '');?>");
+                            $("#errorDataLoja").html('');
+
+                        } else {
+                            $("#errorDataLoja").html(data);
+                        }
+
+                    }
+                });
+            });
+
+        });
+    </script>
+<?php endif; ?>
 <?php if ($page == 'logcad'): ?>
     <script>
         var SPMaskBehavior = function (val) {
@@ -221,9 +263,12 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'lojaa' or $page ==
                         $("#btns").html('<a class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> PROPOSTA ENVIADA</a>');
                         $("#LoadingLance").html('');
                     } else {
+
+                        loja = ' \'\ ' + loja + ' \'\ ';
+                        codigo = ' \'\ ' + codigo + ' \'\ ';
+                        produto = ' \'\ ' + produto + ' \'\ ';
                         $("#lanceresult").html(result);
-                        $("#btns").html('<a href="javascript:lance(' + loja + ',' + codigo + ',' + produto + ');" class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>');
-                        $("#LoadingLance").html('');
+                        $("#btns").html('<a href="javascript:lance(' + loja + ', ' + codigo + ' , ' + produto + ');" class="btn" style="background:#ae1b21;color: white; width:40%; margin: 0 0 0 2%;border-radius: 5px;padding: 2.1% 1% 2.1% 1%;font-weight: 600;"><i class="fa fa-gavel" aria-hidden="true"></i> DAR LANCE</a>');
                     }
                 },
                 error: function (result) {
@@ -352,12 +397,13 @@ if ($page == 'carrinho'):
 
 <?php
 if ($page == 'configuracao'):
-    ?> <script>
+    ?>
+    <script>
 
 
-    $('#telalter').mask('000.000.000.000.000,00', {reverse: true});
+        $('#telalter').mask('000.000.000.000.000,00', {reverse: true});
 
-</script>
+    </script>
     <script>
 
         function alterardados(base) {
@@ -456,8 +502,8 @@ if ($page == 'configuracao'):
 
         function reloadPull() {
 
-            $.post("<?php echo base_url('pages/updateServer');?>",{id:0},function (res) {
-                if(res){
+            $.post("<?php echo base_url('pages/updateServer');?>", {id: 0}, function (res) {
+                if (res) {
                     $("#idCupon").text(res);
 
                 }
@@ -471,71 +517,78 @@ if ($page == 'configuracao'):
 
 <?php
 
-if($status == true):
-$this->db->from('users');
-$this->db->where('id',$_SESSION['ID']);
-$get = $this->db->get();
-if($get->num_rows() > 0):
+if ($status == true):
+    $this->db->from('users');
+    $this->db->where('id', $_SESSION['ID']);
+    $get = $this->db->get();
+    if ($get->num_rows() > 0):
 
-    $result = $get->result_array();
-$address = $result[0]['address'];
-$pais = $result[0]['pais'];
-$cidade = $result[0]['cidade'];
-$estado = $result[0]['estado'];
-$lat = $result[0]['lat'];
-$long = $result[0]['long'];
+        $result = $get->result_array();
+        $address = $result[0]['address'];
+        $pais = $result[0]['pais'];
+        $cidade = $result[0]['cidade'];
+        $estado = $result[0]['estado'];
+        $lat = $result[0]['lat'];
+        $long = $result[0]['long'];
 
-if(empty($address) or empty($address) or empty($address) or empty($address) or empty($address) or empty($address)):
+        if (empty($address) or empty($address) or empty($address) or empty($address) or empty($address) or empty($address)):
 
+            ?>
+            <script type="text/javascript">
+                navigator.geolocation.getCurrentPosition(success, error);
+
+                function success(position) {
+
+                    var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + '%2C' + position.coords.longitude + '&language=en';
+
+                    $.getJSON(GEOCODING).done(function (location) {
+
+
+                        var country = location.results[0].address_components[5].long_name;
+                        var state = location.results[0].address_components[4].long_name;
+                        var city = location.results[0].address_components[2].long_name;
+                        var address = location.results[0].formatted_address;
+                        var latitude = position.coords.latitude;
+                        var longitude = position.coords.longitude;
+
+                        $.ajax({
+                            type: "POST",
+                            url: '<?php echo base_url('ajaxmapsapi');?>',
+                            data: {
+                                country: country,
+                                state: state,
+                                city: city,
+                                address: address,
+                                latitude: latitude,
+                                longitude: longitude
+                            },
+                            success: function (result) {
+
+                            },
+                            error: function (result) {
+
+                            }
+                        });
+                    })
+
+                }
+
+                function error(err) {
+                    console.log(err)
+                }
+            </script>
+
+            <?php
+
+        endif;
+    endif;
+endif;
+?>
+
+
+<?php
+if ($page == 'lojaa'):
     ?>
-    <script type="text/javascript">
-        navigator.geolocation.getCurrentPosition(success, error);
-
-        function success(position) {
-
-            var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + '%2C' + position.coords.longitude + '&language=en';
-
-            $.getJSON(GEOCODING).done(function(location) {
-
-
-                var country = location.results[0].address_components[5].long_name;
-                var state = location.results[0].address_components[4].long_name;
-                var city = location.results[0].address_components[2].long_name;
-                var address = location.results[0].formatted_address;
-                var latitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
-
-                $.ajax({
-                    type: "POST",
-                    url: '<?php echo base_url('ajaxmapsapi');?>',
-                    data: {country: country,state:state,city:city,address:address,latitude:latitude,longitude:longitude},
-                    success: function (result) {
-
-                    },
-                    error: function (result) {
-
-                    }
-                });
-            })
-
-        }
-
-        function error(err) {
-            console.log(err)
-        }
-    </script>
-
-<?php
-
-endif;
-endif;
-endif;
-?>
-
-
-<?php
-if($page == 'lojaa'):
-?>
     <script>
 
 
@@ -543,9 +596,9 @@ if($page == 'lojaa'):
         $('#nlcep').mask('00000-000');
 
     </script>
-<?php endif;?>
+<?php endif; ?>
 <?php
-if($page == 'lojaa'):
+if ($page == 'lojaa'):
     ?>
     <script type="text/javascript">
         navigator.geolocation.getCurrentPosition(success, error);
@@ -554,7 +607,7 @@ if($page == 'lojaa'):
 
             var GEOCODING = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.coords.latitude + '%2C' + position.coords.longitude + '&language=en';
 
-            $.getJSON(GEOCODING).done(function(location) {
+            $.getJSON(GEOCODING).done(function (location) {
 
 
                 var cep = location.results[0].address_components[6].long_name;
@@ -585,9 +638,9 @@ if($page == 'lojaa'):
         function newFarma() {
             $("#resposta").html('<i style="text-align: center;" class="fa fa-spinner fa fa-spin fa fa-large"></i>');
 
-            var pais =  $("#nlpais").val();
-            var estado =  $("#nestado").val();
-            var cidade =  $("#necidade").val();
+            var pais = $("#nlpais").val();
+            var estado = $("#nestado").val();
+            var cidade = $("#necidade").val();
             var endereco = $("#neendereco").val();
             var emailcn = $("#emailcon").val();
             var telefone = $("#teleph").val();
@@ -598,12 +651,20 @@ if($page == 'lojaa'):
             $.ajax({
                 type: "POST",
                 url: '<?php echo base_url('ajaxnewfarma');?>',
-                data: {cep:cep,pais: pais,estado:estado,cidade:cidade,endereco:endereco,emailcn:emailcn,telefone:telefone,nome:nome},
+                data: {
+                    cep: cep,
+                    pais: pais,
+                    estado: estado,
+                    cidade: cidade,
+                    endereco: endereco,
+                    emailcn: emailcn,
+                    telefone: telefone,
+                    nome: nome
+                },
                 success: function (result) {
-                    if(result == 11){
+                    if (result == 11) {
                         window.location.reload();
-                    }else
-                    {
+                    } else {
                         $("#resposta").html(result);
 
                     }
@@ -617,8 +678,68 @@ if($page == 'lojaa'):
 
             return false;
         }
+        function removeItemLoja() {
 
-        </script>
-<?php endif;?>
+        }
+    </script>
+<?php endif; ?>
+
+<?php
+if ($page == 'lojaa'):
+    ?>
+    <script>
+        $('#prizeproduto').mask('000.000.000.000.000,00', {reverse: true});
+    </script>
+
+    <script>
+        function alterdataitem(base, id) {
+
+
+            var nome = $("#nomeprodutoAlt" + id + "").val();
+            var keywords = $("#keywordprodutoAlt" + id + "").val();
+            var preco = $("#prizeprodutoAlt" + id + "").val();
+            var desconto = $("#descontoprodutoAlt" + id + "").val();
+            var unidade = $("#unidadeprodutoAlt" + id + "").val();
+
+            $.ajax({
+                type: "POST",
+                url: "" + base + "ajaxalteritem",
+                data: {nome: nome, quantidade: quantidade, loja: loja, codigo: codigo, produto: produto},
+                success: function (result) {
+
+                },
+                error: function (result) {
+
+                }
+            });
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        function mostrarResultado(id, box, num_max, campospan) {
+            var contagem_carac = box.length;
+            if (contagem_carac != 0) {
+                document.getElementById(campospan).innerHTML = contagem_carac + " caracteres digitados";
+                if (contagem_carac == 1) {
+                    document.getElementById(campospan).innerHTML = contagem_carac + " caracter digitado";
+                }
+                if (contagem_carac >= num_max) {
+                    document.getElementById(campospan).innerHTML = "Limite de caracteres excedido!";
+                }
+            } else {
+                document.getElementById(campospan).innerHTML = "Ainda não temos nada digitado..";
+            }
+        }
+        function contarCaracteres(id, box, valor, campospan) {
+            var conta = valor - box.length;
+            document.getElementById(campospan).innerHTML = "Você ainda pode digitar " + conta + " caracteres";
+            if (box.length >= valor) {
+                document.getElementById(campospan).innerHTML = "Opss.. você não pode mais digitar..";
+                document.getElementById("" + id + "campo").value = document.getElementById("" + id + "campo").value.substr(0, valor);
+            }
+        }
+    </script>
+<?php endif; ?>
 </body>
 </html>

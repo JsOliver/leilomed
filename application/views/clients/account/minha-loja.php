@@ -19,13 +19,15 @@ $result = $get->result_array();
 
         window.onload = function () {
 
-            categoria('<?php echo base_url('');?>','31', '1','0','lancesfarma','lfms','','');
+            categoria('<?php echo base_url('');?>', '31', '1', '0', 'lancesfarma', 'lfms', '<?php echo $result[0]['id_loja'];?>', '');
 
-            categoria('<?php echo base_url('');?>','31', '1','0','lancesfarma','lfms2','','');
+            categoria('<?php echo base_url('');?>', '31', '1', '0', 'lancesfarma', 'lfms2', '<?php echo $result[0]['id_loja'];?>', '');
 
-
+            <?php if(isset($_GET['p'])):
+        ?>
+            categoria('<?php echo base_url(''); ?>','32', '1','0','estoquefarma','estoquefarmatab','<?php echo $result[0]['id_loja'];?>','<?php echo $_GET['p']?>');
+        <?php endif;?>
         }
-
 
 
     </script>
@@ -41,15 +43,23 @@ $result = $get->result_array();
 
                         $image = base_url('assets/' . $version . '/img/farma.png');
                     else:
-                        $image = base_url('imagem?tp=4&&im=44&&image=' . $result[0]['id_loja']);
+                        $image = base_url('imagem?tp=4&&im=44&&image=' . $_SESSION['ID']);
 
 
                     endif;
 
                     ?>
-                    <img style="width: 300px;" class="img-responsive md-margin-bottom-10"
+                    <img id="profileimgLoja" style="width: 300px;height: 200px;"
+                         class="img-responsive md-margin-bottom-10"
                          src="<?php echo $image; ?>" alt="">
-                    <a class="btn-u btn-u-sm" href="#">Alterar Imagem</a>
+                    <br>
+                    <b id="errorDataLoja"></b>
+                    <form enctype="multipart/form-data" method="post">
+                        <label class="btn-u btn-u-sm" style="cursor: pointer; text-align: center; left: 29%;">Alterar
+                            imagem
+                            <input style="display: none;" id="fileUploadLoja" name="fileUploadLoja" type="file"/>
+                        </label>
+                    </form>
                 </div>
                 <div class="col-md-7">
                     <h2><?php echo $result[0]['nome_loja']; ?></h2>
@@ -93,15 +103,17 @@ $result = $get->result_array();
                 <div class="profile-body margin-bottom-20">
                     <div class="tab-v1">
                         <ul class="nav nav-justified nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#profile" aria-expanded="true">Resumo</a></li>
-                            <li class=""><a data-toggle="tab" href="#passwordTab" aria-expanded="false">Lances
+                            <li class="<?php if(!isset($_GET['p'])): echo 'active'; endif;?>"><a data-toggle="tab" href="#profile" aria-expanded="true">Resumo</a></li>
+                            <li class=""><a data-toggle="tab" href="#lancesaltab"
+                                            onclick="categoria('<?php echo base_url(''); ?>','32', '1','0','lancesfarma','lancesaltab','<?php echo $result[0]['id_loja'];?>','');"
+                                            aria-expanded="false">Lances
                                     Pendentes</a></li>
-                            <li><a data-toggle="tab" href="#payment">Relatorios</a></li>
-                            <li><a data-toggle="tab" href="#settings">Meu Estoque</a></li>
+                            <!--<li><a data-toggle="tab" href="#payment">Relatorios</a></li>-->
+                            <li class="<?php if(isset($_GET['p'])): echo 'active';  endif;?>"><a data-toggle="tab" href="#estoquefarmatab"  onclick="categoria('<?php echo base_url(''); ?>','32', '1','0','estoquefarma','estoquefarmatab','<?php echo $result[0]['id_loja'];?>','');">Meu Estoque</a></li>
                         </ul>
                         <div class="tab-content">
 
-                            <div id="profile" class="profile-edit tab-pane fade active in">
+                            <div id="profile" class="profile-edit tab-pane fade <?php if(!isset($_GET['p'])): echo 'active in';  endif;?> ">
 
                                 <div class="row">
                                     <div>
@@ -112,44 +124,68 @@ $result = $get->result_array();
                                                     <div class="service-block-v3 service-block-u">
                                                         <i class="fa fa-users"></i>
                                                         <span class="service-heading">Visitas em Produtos</span>
-                                                        <span class="counter">0</span>
+
+                                                        <?php
+
+
+                                                        $this->db->select_sum('pesquisas_farma');
+                                                        $this->db->from('produtos_disponiveis');
+                                                        $this->db->where('id_loja', $result[0]['id_loja']);
+                                                        $this->db->count_all();
+                                                        $query = $this->db->get();
+
+
+                                                        $count = $query->result_array();
+
+
+                                                        ?>
+                                                        <span
+                                                            class="counter"><?php echo number_format($count[0]['pesquisas_farma']) ?></span>
 
                                                         <div class="clearfix margin-bottom-10"></div>
 
-                                                        <div class="row margin-bottom-20">
-                                                            <div class="col-xs-6 service-in">
-                                                                <small>Hoje</small>
-                                                                <h4 class="counter">0</h4>
-                                                            </div>
-                                                            <div class="col-xs-6 text-right service-in">
-                                                                <small>Esse Mês</small>
-                                                                <h4 class="counter">0</h4>
-                                                            </div>
-                                                        </div>
+                                                        <!-- <div class="row margin-bottom-20">
+                                                             <div class="col-xs-6 service-in">
+                                                                 <small>Hoje</small>
+                                                                 <h4 class="counter">0</h4>
+                                                             </div>
+                                                             <div class="col-xs-6 text-right service-in">
+                                                                 <small>Esse Mês</small>
+                                                                 <h4 class="counter">0</h4>
+                                                             </div>
+                                                         </div> -->
                                                         <div class="statistics">
-                                                            <h3 class="heading-xs">Estatisticas de Aproveitamento <span
-                                                                    class="pull-right">0%</span></h3>
-                                                            <div class="progress progress-u progress-xxs">
-                                                                <div style="width: 0%" aria-valuemax="100"
-                                                                     aria-valuemin="0" aria-valuenow="0"
-                                                                     role="progressbar"
-                                                                     class="progress-bar progress-bar-light">
-                                                                </div>
-                                                            </div>
-                                                            <small>17% mais <strong>do ultimo mês</strong></small>
+                                                            <h3 class="heading-xs">Produtos Exibidos na Busca <!-- <span
+                                                                    class="pull-right">0%</span>--></h3>
+                                                            <!-- <div class="progress progress-u progress-xxs">
+                                                                 <div style="width: 0%" aria-valuemax="100"
+                                                                      aria-valuemin="0" aria-valuenow="0"
+                                                                      role="progressbar"
+                                                                      class="progress-bar progress-bar-light">
+                                                                 </div>
+                                                             </div>
+                                                             <small>17% mais <strong>do ultimo mês</strong></small> -->
                                                         </div>
                                                     </div>
                                                 </div>
 
+                                                <?php
+                                                $this->db->from('lances');
+                                                $this->db->where('id_loja', $result[0]['id_loja']);
+                                                $query = $this->db->get();
+                                                $count = $query->num_rows();
+
+                                                ?>
                                                 <div class="col-sm-6">
                                                     <div class="service-block-v3 service-block-blue">
                                                         <i class="fa fa-gavel"></i>
                                                         <span class="service-heading">Lances nos Produtos</span>
-                                                        <span class="counter">0</span>
+                                                        <span
+                                                            class="counter"><?php echo number_format($count); ?></span>
 
                                                         <div class="clearfix margin-bottom-10"></div>
 
-                                                        <div class="row margin-bottom-20">
+                                                        <!--<div class="row margin-bottom-20">
                                                             <div class="col-xs-6 service-in">
                                                                 <small>Hoje</small>
                                                                 <h4 class="counter">0</h4>
@@ -158,24 +194,31 @@ $result = $get->result_array();
                                                                 <small>Esse Mês</small>
                                                                 <h4 class="counter">0</h4>
                                                             </div>
-                                                        </div>
+                                                        </div>-->
                                                         <div class="statistics">
-                                                            <h3 class="heading-xs">Estatisticas de Aproveitamento<span
-                                                                    class="pull-right">0%</span></h3>
-                                                            <div class="progress progress-u progress-xxs">
-                                                                <div style="width: 0%" aria-valuemax="100"
-                                                                     aria-valuemin="0" aria-valuenow="0"
-                                                                     role="progressbar"
-                                                                     class="progress-bar progress-bar-light">
-                                                                </div>
-                                                            </div>
-                                                            <small>15% mais <strong>do ultimo mês</strong></small>
+                                                            <h3 class="heading-xs">Ofertas de Compras em Produtos <!--<span
+                                                                    class="pull-right">0%</span>--></h3>
+                                                            <!-- <div class="progress progress-u progress-xxs">
+                                                                 <div style="width: 0%" aria-valuemax="100"
+                                                                      aria-valuemin="0" aria-valuenow="0"
+                                                                      role="progressbar"
+                                                                      class="progress-bar progress-bar-light">
+                                                                 </div>
+                                                             </div>
+                                                             <small>15% mais <strong>do ultimo mês</strong></small> -->
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <br>
-                                            <!--Skills-->
+                                            <?php
+
+                                            $this->db->from('produtos_disponiveis');
+                                            $this->db->where('id_loja', $result[0]['id_loja']);
+                                            $get = $this->db->get();
+                                            $count = $get->num_rows();
+                                            if($count > 0):
+                                            ?>
                                             <div class="col-sm-12 sm-margin-bottom-30">
                                                 <div class="panel panel-profile">
                                                     <div class="panel-heading overflow-h">
@@ -186,23 +229,36 @@ $result = $get->result_array();
                                                     </div>
                                                     <div class="panel-body">
 
-                                                        <?php for ($i = 0; $i < 4; $i++): ?>
-                                                            <small>HTML/CSS</small>
-                                                            <small>92%</small>
+                                                        <?php
+
+                                                        $this->db->from('produtos_disponiveis');
+                                                        $this->db->where('id_loja', $result[0]['id_loja']);
+                                                        $this->db->order_by('pesquisas_farma', 'desc');
+                                                        $get = $this->db->get();
+
+                                                        $result = $get->result_array();
+
+                                                        foreach ($result as $dds) {
+                                                            ?>
+                                                            <small><?php echo character_limiter($dds['nome_prod'],12);?></small>
+                                                            <small style="font-weight: bold;"><?php echo number_format($dds['pesquisas_farma']);?></small>
                                                             <div class="progress progress-u progress-xxs">
                                                                 <div style="width: 92%" aria-valuemax="100"
-                                                                     aria-valuemin="0" aria-valuenow="92"
+                                                                     aria-valuemin="0" aria-valuenow="100"
                                                                      role="progressbar"
                                                                      class="progress-bar progress-bar-u">
                                                                 </div>
                                                             </div>
-                                                        <?php endfor; ?>
+                                                            <?php
+                                                        }
+                                                        ?>
 
 
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--End Skills-->
+                                            <?php endif;?>
+
                                         </div><!--/end row-->
 
                                         <hr>
@@ -215,7 +271,8 @@ $result = $get->result_array();
                                                 <a href="<?php echo base_url('minha-loja?pg=lances'); ?>"><i
                                                         class="fa fa-plus pull-right"></i></a>
                                             </div>
-                                            <div id="lfms"> </div></div>
+                                            <div id="lfms"></div>
+                                        </div>
                                         <!--End Timeline-->
 
                                         <!--Timeline-->
@@ -226,10 +283,9 @@ $result = $get->result_array();
                                                 <a href="<?php echo base_url('minha-loja?pg=lances'); ?>"><i
                                                         class="fa fa-plus pull-right"></i></a>
                                             </div>
-                                            <div id="lfms2"> </div></div>
+                                            <div id="lfms2"></div>
+                                        </div>
                                         <!--End Timeline-->
-
-
 
 
                                     </div>
@@ -238,11 +294,11 @@ $result = $get->result_array();
 
                             </div>
 
-                            <div id="passwordTab" class="profile-edit tab-pane fade">
+                            <div id="lancesaltab" class="profile-edit tab-pane fade">
 
                             </div>
 
-                            <div id="payment" class="profile-edit tab-pane fade">
+                            <div id="estoquefarmatab" class="profile-edit tab-pane fade <?php if(isset($_GET['p'])): echo 'active in';  endif;?>">
 
                             </div>
 
@@ -390,6 +446,7 @@ $result = $get->result_array();
         </div>
 
     <?php endif; ?>
+</div>
 </div>
 </div>
 <?php $this->load->view('clients/fixed_files/footer'); ?>

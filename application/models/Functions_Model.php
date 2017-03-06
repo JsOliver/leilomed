@@ -11,7 +11,7 @@ class Functions_Model extends CI_Model
         @session_start();
     }
 
-    public function uploadimage($nameimage,$where, $colname, $tablename, $file, $allowed, $max_size)
+    public function uploadimage($nameimage,$where, $colname, $tablename, $file, $allowed, $max_size,$idps)
     {
 
         if (!empty($file['name'])):
@@ -32,7 +32,7 @@ class Functions_Model extends CI_Model
                 else:
 
                     $date[$colname] = file_get_contents(addslashes($filex));
-                    $this->db->where($where, $_SESSION['ID']);
+                    $this->db->where($where, $idps);
                     if ($this->db->update($tablename, $date)) {
                         return $_SESSION['ID'];
                     } else {

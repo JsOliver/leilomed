@@ -34,6 +34,13 @@ function categoria(base,tipo,page,scroll,bpg,resutblock,keyword,pg1) {
             }, 800);
 
         }
+        if(tipo == 32)
+        {
+            $('body,html').animate({
+                scrollTop: 200
+            }, 800);
+
+        }
         if(tipo == 41)
         {
             $('body,html').animate({
