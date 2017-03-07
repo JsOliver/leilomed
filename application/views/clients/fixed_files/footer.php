@@ -4,6 +4,7 @@
 <br>
 <br>
 <link href="https://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+
 <!--footer start from here-->
 <footer>
     <div class="container">
@@ -690,9 +691,46 @@ if ($page == 'lojaa'):
 
     <script>
 
+        function lanceResposta(base,resposta,id,tipo,button) {
+
+            $("#"+button+""+id+""+tipo+"").html('<i class="fa fa-spinner fa fa-spin fa fa-large"></i>');
+            $.ajax({
+                type: "POST",
+                url: "" + base + "ajaxrespostaitem",
+                data: {resposta: resposta,produto:id},
+                success: function (result) {
+
+                   if(result == 11){
+
+                       $('#infolance'+id+''+tipo+'').modal('hide');
+                       $('#respfooter'+id+''+tipo+'').remove();
+                       $("#"+button+""+id+""+tipo+"").html('Concluido');
+
+
+                   }else{
+
+                       alert(result);
+
+                   }
+
+                },
+                error: function (result) {
+                    alert('Erro');
+
+                }
+            });
+
+        }
+
+
+        </script>
+
+
+    <script>
+
         function FunctionreadFtn(base,id) {
 
-            $.post("" + base + "ajaxalteritemread",{identidade:id},function (res) {});
+            $.post("" + base + "ajaxalteritemread",{identidade:id},function (res) { });
 
         }
 

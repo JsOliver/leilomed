@@ -11,7 +11,6 @@
             <?php
             $this->db->from('produtos_disponiveis');
             $this->db->where('id_loja', $_POST['keyword']);
-            $this->db->where('unidades >', 0);
             $get = $this->db->get();
             $count = $get->num_rows();
             if ($count > 0):
@@ -103,7 +102,7 @@
 
                                         <?php
 
-                                        if (empty($dds['unidades'])):
+                                        if ($dds['unidades'] == '--'):
 
                                             echo 'Unidades Ilimitadas';
                                         else:
@@ -315,7 +314,7 @@
             <?php
             $this->db->from('produtos_disponiveis');
             $this->db->where('id_loja', $_POST['keyword']);
-            $this->db->where('unidades', 0);
+            $this->db->where('unidades', '0');
             $get = $this->db->get();
             $count = $get->num_rows();
             if ($count > 0):
@@ -445,9 +444,10 @@
 
                 <?php
             else:
-
                 ?>
+
                 <h2 style="text-align: center;">Nenhum Resultado</h2>
+
                 <?php
 
             endif; ?>

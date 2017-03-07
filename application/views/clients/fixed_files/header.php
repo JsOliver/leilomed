@@ -275,3 +275,5 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'lojaa' or $page ==
 
         endif;
         ?>
+        <div style="display: none" id="fellinfo" class="alert alert-danger" role="alert">Erro</div>
+

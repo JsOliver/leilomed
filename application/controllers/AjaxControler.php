@@ -9,7 +9,7 @@ class AjaxControler extends CI_Controller
         $this->load->model('sessionsverify_model');
         $this->load->model('cadastro_model');
         $this->load->model('functions_model');
-
+        $this->load->library('email');
         @session_start();
 
     }
@@ -203,7 +203,8 @@ class AjaxControler extends CI_Controller
             if ($count > 0):
                 $result = $get->result_array();
                 $unidade = $result[0]['unidades'];
-                if ($unidade >= $_POST['quantidade'] or empty($unidade)):
+                if ($unidade >= $_POST['quantidade'] or $unidade == '--'):
+
                     $data['id_produto'] = $_POST['produto'];
                     $data['cod_produto'] = $_POST['codigo'];
                     $data['id_cliente'] = $_SESSION['ID'];
@@ -342,38 +343,132 @@ class AjaxControler extends CI_Controller
         if ($this->sessionsverify_model->logver() == true):
 
 
-            if(isset($_POST['identidade'])):
+            if (isset($_POST['identidade'])):
 
                 $this->db->from('users');
-                $this->db->where('id',$_SESSION['ID']);
+                $this->db->where('id', $_SESSION['ID']);
                 $get = $this->db->get();
                 $count = $get->num_rows();
-                if($count > 0):
+                if ($count > 0):
 
                     $result = $get->result_array();
 
-                $this->db->from('lances');
-                $this->db->where('id',$_POST['identidade']);
-                $this->db->where('id_loja',$result[0]['loja']);
-                $get = $this->db->get();
-                if($get->num_rows()):
+                    $this->db->from('lances');
+                    $this->db->where('id', $_POST['identidade']);
+                    $this->db->where('id_loja', $result[0]['loja']);
+                    $get = $this->db->get();
+                    if ($get->num_rows()):
 
-                    $dado['status'] = 3;
-                    $this->db->where('id',$_POST['identidade']);
-                    if($this->db->update('lances',$dado)):
-                        echo 1;
+                        $dado['status'] = 3;
+                        $this->db->where('id', $_POST['identidade']);
+                        if ($this->db->update('lances', $dado)):
+                            echo 1;
                         else:
                             echo 0;
                         endif;
 
-                endif;
+                    endif;
                 else:
                     echo 0;
 
                 endif;
             else:
                 echo $_POST['identidade'];
+            endif;
+
+        endif;
+    }
+
+    public function respostaitem()
+    {
+        if ($this->sessionsverify_model->logver() == true):
+
+
+            if (isset($_POST['resposta']) and isset($_POST['produto'])):
+
+                $this->db->from('users');
+                $this->db->where('id', $_SESSION['ID']);
+                $get = $this->db->get();
+                $count = $get->num_rows();
+                if ($count > 0):
+
+                    $result = $get->result_array();
+
+                    $this->db->from('lances');
+                    $this->db->where('id', $_POST['produto']);
+                    $this->db->where('id_loja', $result[0]['loja']);
+                    $get = $this->db->get();
+                    if ($get->num_rows()):
+
+                        $result1 = $get->result_array();
+
+                        $dado['status'] = '4';
+                        $dado['loja_read'] = '4';
+                        if (isset($_POST['resposta'])):
+                            $dado['resposta'] = $_POST['resposta'] + 1;
+                        endif;
+                        $this->db->from('produtos_disponiveis');
+                        $this->db->where('id_produto', $_POST['produto']);
+                        $this->db->where('id_loja', $result[0]['loja']);
+                        $get = $this->db->get();
+                        $count2 = $get->num_rows();
+                        if ($count2 > 0):
+                            $result2 = $get->result_array();
+                            $unidades = $result1[0]['unidades'];
+                            $unidadesAtuais = $result2[0]['unidades'];
+                            if ($unidades - $unidadesAtuais <= 0):
+                                $novounidades = 0;
+                            else:
+
+                                $novounidades = $unidades - $unidadesAtuais;
+
+                            endif;
+
+                        else:
+                            $novounidades = 0;
+                        endif;
+
+                        $this->db->where('id', $_POST['produto']);
+                        $this->db->where('resposta', 0);
+                        $this->db->update('lances', $dado);
+                        $dadol['unidades'] = $novounidades;
+                        $this->db->where('id_produto', $_POST['produto']);
+                        $this->db->where('id_loja', $result[0]['loja']);
+                        $this->db->update('produtos_disponiveis', $dadol);
+
+                        if ($_POST['resposta'] == 0):
+
+                            $title = 'Lance Recusado Pelo Vendedor.';
+                        else:
+
+                            $title = 'Lance Aceito Pelo Vendedor.';
+
+                        endif;
+                        $dodon['title'] = $title;
+                        $dodon['id_user'] = $result1[0]['id_cliente'];
+                        $dodon['tpnotific'] = '3';
+                        $dodon['id_loja'] = $result1[0]['id_loja'];
+                        $dodon['data'] = date('YmdHis');
+                        $dodon['url_notificacao'] = base_url('meus-lances?pg=notificacao');
+                        $this->db->insert('notificacoes', $dodon);
+                        /*
+                                                //Inicia o processo de configuração para o envio do email
+                                                $config['protocol'] = 'mail'; // define o protocolo utilizado
+                                                $config['wordwrap'] = TRUE; // define se haverá quebra de palavra no texto
+                                                $config['validate'] = TRUE; // define se haverá validação dos endereços de email
+                        */
+
+                        echo 11;
+
+
+                    endif;
+                else:
+                    echo 0;
+
                 endif;
+            else:
+                echo 0;
+            endif;
 
         endif;
     }
