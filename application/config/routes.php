@@ -26,3 +26,4 @@ $route['ajaxalterdata'] = 'ajaxcontroler/cogs';
 $route['ajaxalterdataus'] = 'ajaxcontroler/alts';
 $route['ajaxmapsapi'] = 'ajaxcontroler/maps';
 $route['ajaxnewfarma'] = 'ajaxcontroler/addfarma';
+$route['ajaxalteritemread'] = 'ajaxcontroler/readitem';

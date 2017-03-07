@@ -687,6 +687,17 @@ if ($page == 'lojaa'):
 <?php
 if ($page == 'lojaa'):
     ?>
+
+    <script>
+
+        function FunctionreadFtn(base,id) {
+
+            $.post("" + base + "ajaxalteritemread",{identidade:id},function (res) {});
+
+        }
+
+
+        </script>
     <script>
         $('#prizeproduto').mask('000.000.000.000.000,00', {reverse: true});
     </script>

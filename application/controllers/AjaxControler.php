@@ -46,6 +46,7 @@ class AjaxControler extends CI_Controller
 
         endif;
     }
+
     public function estoquefarma()
     {
 
@@ -334,6 +335,47 @@ class AjaxControler extends CI_Controller
         endif;
 
 
+    }
+
+    public function readitem()
+    {
+        if ($this->sessionsverify_model->logver() == true):
+
+
+            if(isset($_POST['identidade'])):
+
+                $this->db->from('users');
+                $this->db->where('id',$_SESSION['ID']);
+                $get = $this->db->get();
+                $count = $get->num_rows();
+                if($count > 0):
+
+                    $result = $get->result_array();
+
+                $this->db->from('lances');
+                $this->db->where('id',$_POST['identidade']);
+                $this->db->where('id_loja',$result[0]['loja']);
+                $get = $this->db->get();
+                if($get->num_rows()):
+
+                    $dado['status'] = 3;
+                    $this->db->where('id',$_POST['identidade']);
+                    if($this->db->update('lances',$dado)):
+                        echo 1;
+                        else:
+                            echo 0;
+                        endif;
+
+                endif;
+                else:
+                    echo 0;
+
+                endif;
+            else:
+                echo $_POST['identidade'];
+                endif;
+
+        endif;
     }
 
     public function cogs()
