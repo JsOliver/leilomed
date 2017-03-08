@@ -36,6 +36,38 @@
             $this->db->order_by('id','desc');
 
             $get = $this->db->get();
+            $count1 = $get->num_rows();
+            $max = 12;
+            $total = ceil($count1 / $max);
+            $pagepost = $_POST['page'];
+            if (isset($pagepost)):
+                if($pagepost <= 1):
+                    $atual = 0;
+                    $atualpg = 1;
+                else:
+                    $atual = $max * $pagepost - $max;
+                    $atualpg = $pagepost;
+
+                endif;
+            else:
+                $atual = 0;
+                $atualpg = 1;
+
+            endif;
+            $this->db->from('lances');
+            $this->db->where('id_cliente',$_SESSION['ID']);
+            if($tp == 1):
+                $this->db->where('status',1);
+                $this->db->or_where('status',2);
+                $this->db->or_where('status',3);
+            endif;
+            if($tp == 2):
+                $this->db->where('status',4);
+            endif;
+            $this->db->order_by('id','desc');
+            $this->db->limit($max, $atual);
+
+            $get = $this->db->get();
             $count = $get->num_rows();
 
             if($count > 0):
@@ -251,19 +283,30 @@
                     endif; } else: echo '<h1 style="text-align: center;">Nenhum Lance Encontrado</h1>'; endif; ?>
         </ul>
     </div>
+
+    <?php if($count1 > $max):?>
     <nav aria-label="Page navigation">
         <ul class="pager">
             <li>
-                <a href="javascript:categoria('<?php echo base_url('');?>','<?php echo $_POST['tipo']?>', '1','1','meuslances','<?php echo $_POST['resutblock'];?>');" aria-label="Previous">
-                    <span aria-hidden="true">«</span>
+                <a href="javascript:categoria('<?php echo base_url('');?>','<?php echo $_POST['tipo']?>', '<?php if($atualpg <= 1): echo $atualpg; else: echo $atualpg - 1; endif; ?>','1','meuslances','<?php echo $_POST['resutblock'];?>');" aria-label="Previous">
+                   Anterior
                 </a>
             </li>
-            <li><a href="javascript:categoria('<?php echo base_url('');?>','<?php echo $_POST['tipo']?>', '1','1','meuslances','<?php echo $_POST['resutblock'];?>');">1</a></li>
+
+
             <li>
-                <a href="javascript:categoria('<?php echo base_url('');?>','<?php echo $_POST['tipo']?>', '1','1','meuslances','<?php echo $_POST['resutblock'];?>');" aria-label="Next">
-                    <span aria-hidden="true">»</span>
+                <a href="javascript:categoria('<?php echo base_url('');?>','<?php echo $_POST['tipo']?>', '<?php echo $atualpg + 1; ?>','1','meuslances','<?php echo $_POST['resutblock'];?>');" aria-label="Next">
+
+
+
+
+
+
+                    Proximo
                 </a>
             </li>
         </ul>
     </nav>
+
+    <?php endif;?>
 </div>

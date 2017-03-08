@@ -55,7 +55,7 @@
 
 
                             $this->db->from('lojas');
-                            $this->db->where('id_loja',$dds['id_pdp']);
+                            $this->db->where('id_loja',$dds['id_loja']);
                             $get =  $this->db->get();
                             $countn =  $get->num_rows();
                             if($countn > 0):
@@ -156,7 +156,7 @@
 
 
                                 $this->db->from('lojas');
-                                $this->db->where('id_loja',$dds['id_pdp']);
+                                $this->db->where('id_loja',$dds['id_loja']);
                                 $get =  $this->db->get();
                                 $countn =  $get->num_rows();
                                 if($countn > 0):

@@ -78,6 +78,69 @@ class AjaxControler extends CI_Controller
         endif;
     }
 
+    public function adicionar()
+    {
+
+        if ($this->sessionsverify_model->logver() == true):
+
+            $this->db->from('users');
+            $this->db->where('id', $_SESSION['ID']);
+            $get = $this->db->get();
+            $count = $get->num_rows();
+            if ($count > 0):
+                $result = $get->result_array();
+                $loja = $result[0]['loja'];
+                if (!empty($loja) and $loja > 0):
+
+                    $this->load->view('clients/ajax/loja/adicionar');
+
+                endif;
+            endif;
+        endif;
+    }
+
+    public function additenscampo()
+    {
+
+        if ($this->sessionsverify_model->logver() == true):
+
+            $this->db->from('users');
+            $this->db->where('id', $_SESSION['ID']);
+            $get = $this->db->get();
+            $count = $get->num_rows();
+            if ($count > 0):
+                $result = $get->result_array();
+                $loja = $result[0]['loja'];
+                if (!empty($loja) and $loja > 0):
+
+                    $this->load->view('clients/ajax/loja/listaProdutos');
+
+                endif;
+            endif;
+        endif;
+    }
+
+  public function meusprodutos()
+    {
+
+        if ($this->sessionsverify_model->logver() == true):
+
+            $this->db->from('users');
+            $this->db->where('id', $_SESSION['ID']);
+            $get = $this->db->get();
+            $count = $get->num_rows();
+            if ($count > 0):
+                $result = $get->result_array();
+                $loja = $result[0]['loja'];
+                if (!empty($loja) and $loja > 0):
+
+                    $this->load->view('clients/ajax/loja/prodsestoque');
+
+                endif;
+            endif;
+        endif;
+    }
+
     public function ajaxCadastro()
     {
 
@@ -203,7 +266,7 @@ class AjaxControler extends CI_Controller
             if ($count > 0):
                 $result = $get->result_array();
                 $unidade = $result[0]['unidades'];
-                if ($unidade >= $_POST['quantidade'] or $unidade == '--'):
+                if ($unidade >= $_POST['quantidade'] or $unidade == '--' or empty($unidade)):
 
                     $data['id_produto'] = $_POST['produto'];
                     $data['cod_produto'] = $_POST['codigo'];
@@ -378,6 +441,7 @@ class AjaxControler extends CI_Controller
 
         endif;
     }
+
 
     public function respostaitem()
     {
@@ -680,6 +744,83 @@ class AjaxControler extends CI_Controller
                 endif;
 
 
+            endif;
+        endif;
+
+    }
+
+    public function adicionaritemlj()
+    {
+        if ($this->sessionsverify_model->logver() == true):
+
+            $this->db->from('users');
+            $this->db->where('id', $_SESSION['ID']);
+            $get = $this->db->get();
+            $count = $get->num_rows();
+            if ($count > 0):
+                $result = $get->result_array();
+                $loja = $result[0]['loja'];
+                if (!empty($loja) and $loja > 0):
+
+
+                endif;
+            endif;
+        endif;
+    }
+
+    public function alteritem()
+    {
+
+
+        if ($this->sessionsverify_model->logver() == true):
+
+            $this->db->from('users');
+            $this->db->where('id', $_SESSION['ID']);
+            $get = $this->db->get();
+            $count = $get->num_rows();
+            if ($count > 0):
+                $result = $get->result_array();
+                $loja = $result[0]['loja'];
+                if (!empty($loja) and $loja > 0):
+
+
+                    if (isset($_POST['nome']) and isset($_POST['keywords']) and isset($_POST['preco']) and isset($_POST['desconto']) and isset($_POST['unidade']) and isset($_POST['produtoid'])):
+
+                        if (!empty($_POST['nome']) and !empty($_POST['keywords']) and !empty($_POST['preco']) and !empty($_POST['produtoid'])):
+
+
+
+                                $dado['nome_prod'] = $_POST['nome'];
+                                $dado['keywords'] = $_POST['keywords'];
+                                $dado['preco'] = $_POST['preco'];
+                                $dado['desconto'] = $_POST['desconto'];
+                                $dado['unidades'] = $_POST['unidade'];
+                                $this->db->where('id_produto', $_POST['produtoid']);
+                                $this->db->where('id_loja', $loja);
+                                if ($this->db->update('produtos_disponiveis',$dado)):
+
+                                    echo 11;
+
+                            else:
+
+                                echo 'Você não tem Permissão para Alterar os Dados Dessa Loja.';
+
+                            endif;
+
+
+                        else:
+
+                            echo 'Nenhum Campo Pode Ficar Vazio.';
+
+                        endif;
+
+                    else:
+                        echo 'Erro ao Receber Dados.';
+
+                    endif;
+
+
+                endif;
             endif;
         endif;
 

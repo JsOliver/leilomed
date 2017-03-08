@@ -38,6 +38,7 @@ class Head
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'dark-red.css">
 		<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'sky-forms.css">
 	<link rel="stylesheet" href="'.base_url('assets/'.$version.'/css/account/').'custom-sky-forms.css">
+	
             ';
         elseif($page == 'meus-lances'):
 
@@ -187,6 +188,25 @@ class Head
 
                 $add = '
         <script type="text/javascript" src="'.base_url('assets/'.$version.'/js/jquery.mask.js').'"></script>
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
+
+<script>
+
+    tinymce.init({
+        selector: "textarea",
+        height: 200,
+        menubar: false,
+        plugins: [
+            "advlist autolink lists link image charmap print preview anchor",
+           "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste code"
+        ],
+        toolbar: "undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | table",
+        content_css: "//www.tinymce.com/css/codepen.min.css"
+    });
+</script>
+
             ';
 
             elseif($page == 'logcad'):

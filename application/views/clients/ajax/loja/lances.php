@@ -25,6 +25,7 @@
     endif;
     $this->db->from('lances');
     $this->db->where('id_loja', $_POST['keyword']);
+    $this->db->where('status !=', 5);
     $this->db->limit($max, $atual);
     $this->db->order_by('id', 'desc', 'resposta', 'asc');
     $get = $this->db->get();
@@ -104,7 +105,7 @@
         <?php endif; ?>
 
 
-        </ul>
+
 
         <!-- Modal -->
         <div class="modal fade" id="infolance<?php echo $dds['id'] . $_POST['tipo']; ?>" tabindex="-1" role="dialog"
@@ -334,9 +335,10 @@
             <?php endif; ?>
                 </div>
             </div>
-        </div>
+        </div><br><br><br>
         <?php
     }
+    echo '</ul>';
 
 
     else:

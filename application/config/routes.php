@@ -28,3 +28,4 @@ $route['ajaxmapsapi'] = 'ajaxcontroler/maps';
 $route['ajaxnewfarma'] = 'ajaxcontroler/addfarma';
 $route['ajaxalteritemread'] = 'ajaxcontroler/readitem';
 $route['ajaxrespostaitem'] = 'ajaxcontroler/respostaitem';
+$route['ajaxalteritem'] = 'ajaxcontroler/alteritem';

@@ -255,7 +255,18 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'lojaa' or $page ==
                                <a href="<?php echo $dds['url_notificacao']; ?>" target="_blank" style="text-decoration: none;"> <i class="icon-custom icon-sm rounded-x icon-bg-yellow icon-line fa fa-bolt"></i>
                                 <div class="overflow-h">
                                     <span><strong><?php echo $result[0]['nome_loja'];?></strong> <?php echo $tps;?></span>
-                                    <small><?php echo $dds['data'];?></small>
+                                    <small><?php
+
+                                        $data = $dds['data'];
+
+                                        $dia = substr($dds['data'],6,2);
+                                        $mes = substr($dds['data'],4,2);
+                                        $ano = substr($dds['data'],0,4);
+                                        $hora = substr($dds['data'],8,2);
+                                        $minuto = substr($dds['data'],10,2);
+                                        $second = substr($dds['data'],12,2);
+
+                                        echo $dia.'/'.$mes.'/'.$ano.' '.$hora.':'.$minuto.':'.$second;?></small>
                                 </div></a>
                             </li>
                         <?php  endif; } else: echo '<h5 style="text-align:center;">Nenhuma Notificação</h5>'; endif; ?>

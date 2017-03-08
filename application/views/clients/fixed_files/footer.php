@@ -741,23 +741,31 @@ if ($page == 'lojaa'):
     </script>
 
     <script>
-        function alterdataitem(base, id) {
+        function alterdataitem(base, id,tipo) {
 
 
-            var nome = $("#nomeprodutoAlt" + id + "").val();
-            var keywords = $("#keywordprodutoAlt" + id + "").val();
-            var preco = $("#prizeprodutoAlt" + id + "").val();
-            var desconto = $("#descontoprodutoAlt" + id + "").val();
-            var unidade = $("#unidadeprodutoAlt" + id + "").val();
+            var nome = $("#nomeprodutoAlt" + id + ""+tipo+"").val();
+            var keywords = $("#keywordprodutoAlt" + id + ""+tipo+"").val();
+            var preco = $("#prizeprodutoAlt" + id + ""+tipo+"").val();
+            var desconto = $("#descontoprodutoAlt" + id + ""+tipo+"").val();
+            var unidade = $("#unidadeprodutoAlt" + id + ""+tipo+"").val();
 
             $.ajax({
                 type: "POST",
                 url: "" + base + "ajaxalteritem",
-                data: {nome: nome, quantidade: quantidade, loja: loja, codigo: codigo, produto: produto},
+                data: {nome: nome, keywords: keywords, preco: preco, desconto: desconto, unidade: unidade,produtoid:id},
                 success: function (result) {
 
+                    if(result == 11){
+
+                        $('#editar'+id+''+tipo+'').modal('hide');
+                    }else{
+
+                        alert(result);
+                    }
                 },
                 error: function (result) {
+                    alert('erro');
 
                 }
             });
@@ -766,8 +774,9 @@ if ($page == 'lojaa'):
 
     <script type="text/javascript">
 
-        function mostrarResultado(id, box, num_max, campospan) {
+        function mostrarResultado(id,tipo, box, num_max, campospan) {
             var contagem_carac = box.length;
+
             if (contagem_carac != 0) {
                 document.getElementById(campospan).innerHTML = contagem_carac + " caracteres digitados";
                 if (contagem_carac == 1) {
@@ -780,12 +789,12 @@ if ($page == 'lojaa'):
                 document.getElementById(campospan).innerHTML = "Ainda não temos nada digitado..";
             }
         }
-        function contarCaracteres(id, box, valor, campospan) {
+        function contarCaracteres(id,box, valor, campospan) {
             var conta = valor - box.length;
             document.getElementById(campospan).innerHTML = "Você ainda pode digitar " + conta + " caracteres";
             if (box.length >= valor) {
                 document.getElementById(campospan).innerHTML = "Opss.. você não pode mais digitar..";
-                document.getElementById("" + id + "campo").value = document.getElementById("" + id + "campo").value.substr(0, valor);
+                document.getElementById("" + id+ "campo").value = document.getElementById("" + id+ "campo").value.substr(0, valor);
             }
         }
     </script>
