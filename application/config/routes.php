@@ -29,3 +29,4 @@ $route['ajaxnewfarma'] = 'ajaxcontroler/addfarma';
 $route['ajaxalteritemread'] = 'ajaxcontroler/readitem';
 $route['ajaxrespostaitem'] = 'ajaxcontroler/respostaitem';
 $route['ajaxalteritem'] = 'ajaxcontroler/alteritem';
+$route['ajaxupdadopd'] = 'ajaxcontroler/alteritem';

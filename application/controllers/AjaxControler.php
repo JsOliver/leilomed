@@ -210,43 +210,43 @@ class AjaxControler extends CI_Controller
 
                     foreach ($dado as $dds) {
 
-                        if (!empty($dds->nome) or empty($dds->formula) or empty($dds->substancia) or empty($dds->categoria) or empty($dds->laboratorio) or empty($dds->fixacal) or empty($dds->preco)):
+                        if (!empty($dds->nome) or empty($dds->formula) or empty($dds->substancia) or empty($dds->categoria1) or  empty($dds->categoria2) or empty($dds->laboratorio) or empty($dds->fixacal) or empty($dds->preco)):
 
 
-                            $nome = $this->nome;
-                            $formula = $this->formula;
-                            $substancia = $this->substancia;
-                            $preco = $this->preco;
-                            $desconto = $this->desconto;
-                            $categoria1 = $this->categoria1;
-                            $categoria2 = $this->categoria2;
-                            $laboratorio = $this->laboratorio;
-                            $unidades = $this->unidades;
-                            $fixacal = $this->fixacal;
-                            $miligramas = $this->opcional->miligramas;
-                            $indicacoes = $this->opcional->indicacoes;
-                            $contra_indicacoes = $this->opcional->contraIndicacoes;
-                            $posologia = $this->opcional->posologia;
-                            $CaracteristicasFarmacologicas = $this->opcional->CaracteristicasFarmacologicas;
-                            $armazenagem = $this->opcional->armazenagem;
+                            $nome = $dds->nome;
+                            $formula = $dds->formula;
+                            $substancia = $dds->substancia;
+                            $preco = $dds->preco;
+                            $desconto = $dds->desconto;
+                            $categoria1 = $dds->categoria1;
+                            $categoria2 = $dds->categoria2;
+                            $laboratorio = $dds->laboratorio;
+                            $unidades = $dds->unidades;
+                            $fixacal = $dds->fixacal;
+                            $miligramas = $dds->opcional->miligramas;
+                            $indicacoes = $dds->opcional->indicacoes;
+                            $contra_indicacoes = $dds->opcional->contraIndicacoes;
+                            $posologia = $dds->opcional->posologia;
+                            $CaracteristicasFarmacologicas = $dds->opcional->CaracteristicasFarmacologicas;
+                            $armazenagem = $dds->opcional->armazenagem;
 
                             $keyword = str_replace(' ', ',', $nome) . ',' . str_replace(' ', ',', $laboratorio) . ',' . str_replace(' ', ',', $formula) . ',' . str_replace(' ', ',', $substancia) . ',' . $nome . ',' . $formula . ',' . $substancia . ',' . $laboratorio;
-                            $dado['keywords'] = $keyword;
-                            $dado['marca'] = $laboratorio;
-                            $dado['nome'] = $nome;
-                            $dado['substancia'] = $substancia;
-                            $dado['tipo'] = 1;
-                            $dado['add_by'] = $_SESSION['ID'];
-                            $dado['miligramas'] = $miligramas;
-                            $dado['fixa_cal'] = $fixacal;
-                            $dado['indicacoes'] = $indicacoes;
-                            $dado['contra_indicacoes'] = $contra_indicacoes;
-                            $dado['posologia'] = $posologia;
-                            $dado['caracteristicas_farmacologicas'] = $CaracteristicasFarmacologicas;
-                            $dado['armazenagem'] = $armazenagem;
-                            $dado['data_add'] = date('YmdHis');
+                            $dada['keywords'] = $keyword;
+                            $dada['marca'] = $laboratorio;
+                            $dada['nome'] = $nome;
+                            $dada['substancia'] = $substancia;
+                            $dada['tipo'] = 1;
+                            $dada['add_by'] = $_SESSION['ID'];
+                            $dada['miligramas'] = $miligramas;
+                            $dada['fixa_cal'] = $fixacal;
+                            $dada['indicacoes'] = $indicacoes;
+                            $dada['contra_indicacoes'] = $contra_indicacoes;
+                            $dada['posologia'] = $posologia;
+                            $dada['caracteristicas_farmacologicas'] = $CaracteristicasFarmacologicas;
+                            $dada['armazenagem'] = $armazenagem;
+                            $dada['data_add'] = date('YmdHis');
 
-                            if ($this->db->insert('medicamentos', $dado)):
+                            if ($this->db->insert('medicamentos', $dada)):
 
                                 $this->db->from('users');
                                 $this->db->where('id', $_SESSION['ID']);
@@ -262,7 +262,7 @@ class AjaxControler extends CI_Controller
                                     $dados['cod_produto'] = '#MD0' . $this->db->insert_id();
                                     $dados['preco'] = $preco;
                                     $dados['desconto'] = $desconto;
-                                    $dados['id_loja'] = $result[0]['loja'];
+                                    $dados['id_loja'] = $this->db->insert_id();
                                     $dados['unidades'] = $unidades;
                                     $dados['data_adicionado'] = date('YmdHis');
 
@@ -275,15 +275,15 @@ class AjaxControler extends CI_Controller
                                     if ($count > 0):
 
                                         $result = $get->result_array();
-
-                                        foreach ($result as $dds) {
+                                        $categorias = '';
+                                        foreach ($result as $dda) {
 
                                             $categorias .= $dds['id'] . ',';
 
                                         }
 
                                         $dados['categorias'] = $categorias;
-                                        if ($this->db->insert()):
+                                        if ($this->db->insert('produtos_disponiveis',$dados)):
 
                                             echo 11;
                                         else:
@@ -312,9 +312,13 @@ class AjaxControler extends CI_Controller
                     echo '0';
 
                 endif;
+            else:
 
+                echo '0';
             endif;
+        else:
 
+            echo '0';
         endif;
 
     }
