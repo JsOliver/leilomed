@@ -31,6 +31,18 @@ class Functions_Model extends CI_Model
 
                 else:
 
+                    if($colname == 'xmlFile'):
+
+                        $date['id_user'] =  $_SESSION['ID'];
+                        $date['data_add'] =  date('YmdHis');
+                        $date['xmlFile'] = file_get_contents(addslashes($filex));
+                        if ($this->db->insert('xmlfiles', $date)) {
+                            return $this->db->insert_id();
+                        } else {
+                            return 'Erro a salvar o XML, tente mais tarde.';
+                        }
+
+                    else:
                     $date[$colname] = file_get_contents(addslashes($filex));
                     $this->db->where($where, $idps);
                     if ($this->db->update($tablename, $date)) {
@@ -39,6 +51,7 @@ class Functions_Model extends CI_Model
                         return 'Erro a salvar a imagem, tente mais tarde.';
                     }
 
+                endif;
                 endif;
 
 

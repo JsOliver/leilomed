@@ -10,9 +10,10 @@
             <section>
                 <label class="input" for="xmlFile">
                     <i class="icon-append fa fa-file-text-o"></i>
-                    <input type="file" id="xmlFile" placeholder="Enviar XML" name="xml">
+                    <input type="file" id="xmlFileUpload" onchange="uploadXml();" placeholder="Enviar XML" name="xmlFileUpload">
                     <b class="tooltip tooltip-bottom-right">Arquivo XML</b>
                 </label>
+                <b id="errorDataXml"></b>
             </section>
         </dd>
         </form>
@@ -30,3 +31,19 @@
 
     </form>
 </div>
+
+<?php
+echo '<pre>';
+$this->db->from('xmlfiles');
+$this->db->where('id','16');
+$get = $this->db->get();
+$result = $get->result_array();
+
+$dado =  simplexml_load_string($result[0]['xmlFile']);
+
+foreach ($dado as $dds){
+echo $dds->nome.'<br>';
+}
+echo '</pre>';
+
+?>

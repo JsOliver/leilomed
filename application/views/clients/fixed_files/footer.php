@@ -122,6 +122,75 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'lojaa' or $page ==
 <?php
 if ($page == 'lojaa'):
     ?>
+
+<script>
+    function upXml(base,id,tp) {
+        if(tp == 1){
+            $.ajax({
+                type: "POST",
+                url: "" + base + "ajaxupdadopd",
+                data: {xml: id,tipo:tp},
+                success: function (result) {
+
+                    if(result == 11){
+                        alert(result);
+
+                        $("#errorDataXml").html('Upload Completo');
+
+                    }else{
+
+                        alert(result);
+
+                    }
+
+                },
+                error: function (result) {
+                    alert('Erro');
+
+                }
+            });
+        }else{
+
+
+
+        }
+
+
+    }
+    </script>
+    <script type="text/javascript" id="ajax-upload5">
+
+      function uploadXml() {
+          var file = 'xmlFileUpload';
+          form = new FormData();
+          form.append(file, event.target.files[0]);
+          $("#errorDataXml").html('Carregando...');
+
+          $.ajax({
+              url: '<?php echo base_url('ajaxcontroler/uploadXML');?>',
+              data: form,
+              processData: false,
+              contentType: false,
+              type: 'POST',
+              success: function (data) {
+
+                  if (data > 0) {
+                      $("#errorDataXml").html(data);
+                      document.getElementById("xmlFileUpload").value = "";
+
+
+                  } else {
+                      $("#errorDataXml").html(data);
+                  }
+              }
+
+          });
+      }
+
+    </script>
+
+
+
     <script>
         var filel = 'fileUploadLoja';
         var urll = '<?php echo base_url('ajaxcontroler/uploadimageLoja');?>';

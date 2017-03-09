@@ -120,7 +120,7 @@ class AjaxControler extends CI_Controller
         endif;
     }
 
-  public function meusprodutos()
+    public function meusprodutos()
     {
 
         if ($this->sessionsverify_model->logver() == true):
@@ -190,6 +190,145 @@ class AjaxControler extends CI_Controller
         echo $upload;
     }
 
+
+    public function ajaxupdadopd($tipo, $idxml)
+    {
+        if (isset($tipo) and isset($idxml) and !empty($tipo) and !empty($idxml)):
+
+            if ($tipo == 1):
+
+                $this->db->from('xmlfiles');
+                $this->db->where('id', $idxml);
+                $get = $this->db->get();
+                $count = $get->num_rows();
+
+                if ($count > 0):
+
+                    $result = $get->result_array();
+
+                    $dado = simplexml_load_string($result[0]['xmlFile']);
+
+                    foreach ($dado as $dds) {
+
+                        if (!empty($dds->nome) or empty($dds->formula) or empty($dds->substancia) or empty($dds->categoria) or empty($dds->laboratorio) or empty($dds->fixacal) or empty($dds->preco)):
+
+
+                            $nome = $this->nome;
+                            $formula = $this->formula;
+                            $substancia = $this->substancia;
+                            $preco = $this->preco;
+                            $desconto = $this->desconto;
+                            $categoria1 = $this->categoria1;
+                            $categoria2 = $this->categoria2;
+                            $laboratorio = $this->laboratorio;
+                            $unidades = $this->unidades;
+                            $fixacal = $this->fixacal;
+                            $miligramas = $this->opcional->miligramas;
+                            $indicacoes = $this->opcional->indicacoes;
+                            $contra_indicacoes = $this->opcional->contraIndicacoes;
+                            $posologia = $this->opcional->posologia;
+                            $CaracteristicasFarmacologicas = $this->opcional->CaracteristicasFarmacologicas;
+                            $armazenagem = $this->opcional->armazenagem;
+
+                            $keyword = str_replace(' ', ',', $nome) . ',' . str_replace(' ', ',', $laboratorio) . ',' . str_replace(' ', ',', $formula) . ',' . str_replace(' ', ',', $substancia) . ',' . $nome . ',' . $formula . ',' . $substancia . ',' . $laboratorio;
+                            $dado['keywords'] = $keyword;
+                            $dado['marca'] = $laboratorio;
+                            $dado['nome'] = $nome;
+                            $dado['substancia'] = $substancia;
+                            $dado['tipo'] = 1;
+                            $dado['add_by'] = $_SESSION['ID'];
+                            $dado['miligramas'] = $miligramas;
+                            $dado['fixa_cal'] = $fixacal;
+                            $dado['indicacoes'] = $indicacoes;
+                            $dado['contra_indicacoes'] = $contra_indicacoes;
+                            $dado['posologia'] = $posologia;
+                            $dado['caracteristicas_farmacologicas'] = $CaracteristicasFarmacologicas;
+                            $dado['armazenagem'] = $armazenagem;
+                            $dado['data_add'] = date('YmdHis');
+
+                            if ($this->db->insert('medicamentos', $dado)):
+
+                                $this->db->from('users');
+                                $this->db->where('id', $_SESSION['ID']);
+                                $get = $this->db->get();
+                                $count = $get->num_rows();
+                                if ($count > 0):
+
+                                    $result = $get->result_array();
+
+                                    $dados['keywords'] = $keyword;
+                                    $dados['id_produto'] = $this->db->insert_id();
+                                    $dados['nome_prod'] = $keyword;
+                                    $dados['cod_produto'] = '#MD0' . $this->db->insert_id();
+                                    $dados['preco'] = $preco;
+                                    $dados['desconto'] = $desconto;
+                                    $dados['id_loja'] = $result[0]['loja'];
+                                    $dados['unidades'] = $unidades;
+                                    $dados['data_adicionado'] = date('YmdHis');
+
+
+                                    $this->db->from('categorias');
+                                    $this->db->like('nome', $categoria1);
+                                    $this->db->like('nome', $categoria2);
+                                    $get = $this->db->get();
+                                    $count = $get->num_rows();
+                                    if ($count > 0):
+
+                                        $result = $get->result_array();
+
+                                        foreach ($result as $dds) {
+
+                                            $categorias .= $dds['id'] . ',';
+
+                                        }
+
+                                        $dados['categorias'] = $categorias;
+                                        if ($this->db->insert()):
+
+                                            echo 11;
+                                        else:
+                                            echo 0;
+                                        endif;
+
+
+                                    endif;
+                                else:
+                                    echo 0;
+                                endif;
+
+                            else:
+                                echo 0;
+
+                            endif;
+                        else:
+                            echo 0;
+                        endif;
+
+
+                    }
+
+                else:
+
+                    echo '0';
+
+                endif;
+
+            endif;
+
+        endif;
+
+    }
+
+    public function uploadXML()
+    {
+        $allowed = 'xml';
+        $upload = $this->functions_model->uploadimage('xml', $_SESSION['ID'], 'xmlFile', 'xmlfiles', $_FILES['xmlFileUpload'], $allowed, 200, $_SESSION['ID']);
+        if ($upload > 0):
+            echo $this->ajaxupdadopd(1, $upload);
+        else:
+            echo 'Erro ao Enviar Dados';
+        endif;
+    }
 
     public function card()
     {
@@ -789,17 +928,16 @@ class AjaxControler extends CI_Controller
                         if (!empty($_POST['nome']) and !empty($_POST['keywords']) and !empty($_POST['preco']) and !empty($_POST['produtoid'])):
 
 
+                            $dado['nome_prod'] = $_POST['nome'];
+                            $dado['keywords'] = $_POST['keywords'];
+                            $dado['preco'] = $_POST['preco'];
+                            $dado['desconto'] = $_POST['desconto'];
+                            $dado['unidades'] = $_POST['unidade'];
+                            $this->db->where('id_produto', $_POST['produtoid']);
+                            $this->db->where('id_loja', $loja);
+                            if ($this->db->update('produtos_disponiveis', $dado)):
 
-                                $dado['nome_prod'] = $_POST['nome'];
-                                $dado['keywords'] = $_POST['keywords'];
-                                $dado['preco'] = $_POST['preco'];
-                                $dado['desconto'] = $_POST['desconto'];
-                                $dado['unidades'] = $_POST['unidade'];
-                                $this->db->where('id_produto', $_POST['produtoid']);
-                                $this->db->where('id_loja', $loja);
-                                if ($this->db->update('produtos_disponiveis',$dado)):
-
-                                    echo 11;
+                                echo 11;
 
                             else:
 
