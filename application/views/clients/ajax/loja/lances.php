@@ -180,8 +180,8 @@
                                            endif; */
 
 
-                                    $this->db->from('users');
-                                    $this->db->where('id', $dds['id_cliente']);
+                                    $this->db->from('lances_users_dados');
+                                    $this->db->where('id_lance', $dds['id']);
                                     $get = $this->db->get();
                                     $count = $get->num_rows();
                                     if ($count > 0):
@@ -192,11 +192,11 @@
                                         <p>
                                             <b>Nome do Ofertante: </b> <?php
 
-                                            if (empty($result[0]['firstname'])):
+                                            if (empty($result[0]['nome'])):
 
                                                 echo 'Nome Indisponivel';
                                             else:
-                                                echo $result[0]['firstname'];
+                                                echo $result[0]['nome'];
                                             endif;
 
                                             ?> </p>
@@ -231,28 +231,8 @@
 
                                             ?>
 
-                                        <p>
-                                            <b>Endereço do Ofertante: </b>
-
-                                            <?php
-
-                                            if (empty($result[0]['endereco'])):
-
-                                                if (empty($result[0]['address'])):
-
-                                                    echo 'Endereço Indisponivel';
-                                                else:
-
-                                                    echo $result[0]['address'];
-
-                                                endif;
-                                            else:
-                                                echo $result[0]['endereco'];
-                                            endif;
-
-                                            ?>
-
                                         </p>
+
 
                                         <?php
 

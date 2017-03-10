@@ -32,18 +32,3 @@
     </form>
 </div>
 
-<?php
-echo '<pre>';
-$this->db->from('xmlfiles');
-$this->db->where('id','16');
-$get = $this->db->get();
-$result = $get->result_array();
-
-$dado =  simplexml_load_string($result[0]['xmlFile']);
-
-foreach ($dado as $dds){
-echo $dds->nome.'<br>';
-}
-echo '</pre>';
-
-?>

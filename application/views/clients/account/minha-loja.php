@@ -233,6 +233,7 @@ $result = $get->result_array();
 
                                                         $this->db->from('produtos_disponiveis');
                                                         $this->db->where('id_loja', $result[0]['id_loja']);
+                                                        $this->db->where('visible', 1);
                                                         $this->db->order_by('pesquisas_farma', 'desc');
                                                         $get = $this->db->get();
 
