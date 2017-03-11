@@ -206,7 +206,7 @@ if ($count > 0):
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Palavras Chaves</label>
                                             <input type="text" maxlength="150" class="form-control"
-                                                   id="keywordprodutoAlt<?php echo $dds['id_pdp']; ?>,<?php echo $_POST['tipo']; ?>"
+                                                   id="keywordprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
                                                    placeholder="<?php echo 'Palavras Chaves do Produto'; ?>"
                                                    value="<?php echo $dds['keywords']; ?>"
                                                    onkeyup="mostrarResultado(<?php echo $dds['id_pdp']; ?>,<?php echo $_POST['tipo']; ?>,this.value,150,'spcontando<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>');contarCaracteres(<?php echo $dds['id_pdp']; ?>,this.value,150,'sprestante<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>')">

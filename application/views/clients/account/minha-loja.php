@@ -49,7 +49,7 @@ $result = $get->result_array();
                     endif;
 
                     ?>
-                    <img id="profileimgLoja" style="width: 300px;height: 200px;"
+                    <img id="profileimgLoja" style="width: 300px;height: 200px;object-fit: cover; object-position: center;"
                          class="img-responsive md-margin-bottom-10"
                          src="<?php echo $image; ?>" alt="">
                     <br>

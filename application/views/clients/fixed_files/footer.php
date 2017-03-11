@@ -801,6 +801,7 @@ if ($page == 'lojaa'):
         function alterdataitem(base, id,tipo) {
 
 
+
             var nome = $("#nomeprodutoAlt" + id + ""+tipo+"").val();
             var keywords = $("#keywordprodutoAlt" + id + ""+tipo+"").val();
             var preco = $("#prizeprodutoAlt" + id + ""+tipo+"").val();
