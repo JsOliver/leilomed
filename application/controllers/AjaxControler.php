@@ -247,7 +247,7 @@ class AjaxControler extends CI_Controller
                             $dada['data_add'] = date('YmdHis');
 
                             if ($this->db->insert('medicamentos', $dada)):
-
+                                $medid = $this->db->insert_id();
                                 $this->db->from('users');
                                 $this->db->where('id', $_SESSION['ID']);
                                 $get = $this->db->get();
@@ -257,13 +257,15 @@ class AjaxControler extends CI_Controller
                                     $result = $get->result_array();
 
                                     $dados['keywords'] = $keyword;
-                                    $dados['id_produto'] = $this->db->insert_id();
-                                    $dados['nome_prod'] = $keyword;
+                                    $dados['id_produto'] = $medid;
+                                    $dados['nome_prod'] = $nome;
                                     $dados['cod_produto'] = '#MD0' . $this->db->insert_id();
                                     $dados['preco'] = $preco;
                                     $dados['desconto'] = $desconto;
-                                    $dados['id_loja'] = $this->db->insert_id();
+                                    $dados['id_loja'] = 4;
                                     $dados['unidades'] = $unidades;
+                                    $dados['pesquisas_farma'] = 0;
+                                    $dados['visible'] = 1;
                                     $dados['data_adicionado'] = date('YmdHis');
 
 

@@ -142,12 +142,13 @@ if ($page == 'lojaa'):
               success: function (data) {
 
                   if (data > 0) {
-                      $("#errorDataXml").html(data);
+                      $("#errorDataXml").html('Produtos Adicionados Com Sucesso.');
                       document.getElementById("xmlFileUpload").value = "";
 
 
                   } else {
-                      $("#errorDataXml").html(data);
+                      document.getElementById("xmlFileUpload").value = "";
+                      $("#errorDataXml").html('Erro Ao Envoar o Arquivo XML, Tente Novamente');
                   }
               }
 

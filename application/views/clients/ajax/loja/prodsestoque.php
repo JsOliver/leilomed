@@ -85,277 +85,312 @@ if ($count > 0):
                     endif;
 
                     ?>
-                    <div id="itemall<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>">
-                    <tr>
+                    <div>
+                        <tr id="itemall<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>">
 
 
-                        <td>
-                            <img class="rounded-x"
-                                 src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $dds['id_produto'] . '') ?>"
-                                 alt="">
-                        </td>
-                        <td class="td-width">
-                            <h3>
-                                <a href="<?php echo $url; ?>"><?php echo $dds['nome_prod']; ?></a>
-                            </h3>
-                            <p><?php
+                            <td>
 
+                                <?php
                                 $this->db->from('medicamentos');
                                 $this->db->where('id', $dds['id_produto']);
-                                $get = $this->db->get();
-                                $count = $get->num_rows();
+                                $query = $this->db->get();
+                                $rest = $query->result_array();
+                                if (empty($rest[0]['image_1'])):
+                                    ?>
+                                    <img class="rounded-x"
+                                         src="<?php echo base_url('assets/1/img/empty_prod_pannel.ico'); ?>"
+                                         alt="">
 
-                                if ($count > 0):
-                                    $result = $get->result_array();
-                                    $texto = $result[0]['fixa_cal'];
+                                <?php else: ?>
+                                    <img class="rounded-x"
+                                         src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $dds['id_produto'] . '') ?>"
+                                         alt="">
+                                <?php endif; ?>
+
+
+                            </td>
+                            <td class="td-width">
+                                <h3>
+                                    <a href="<?php echo $url; ?>"><?php echo $dds['nome_prod']; ?></a>
+                                </h3>
+                                <p><?php
+
+                                    $this->db->from('medicamentos');
+                                    $this->db->where('id', $dds['id_produto']);
+                                    $get = $this->db->get();
+                                    $count = $get->num_rows();
+
+                                    if ($count > 0):
+                                        $result = $get->result_array();
+                                        $texto = $result[0]['fixa_cal'];
+                                    else:
+                                        $texto = 'Descrição Indisponivel';
+                                    endif;
+                                    echo $texto;
+
+                                    $data = $dds['data_adicionado'];
+                                    $dia = substr($data, 8, 2);
+                                    $mes = substr($data, 4, 2);
+                                    $ano = substr($data, 0, 4);
+                                    ?></p>
+                                <small class="hex">Adicionado em <?php echo $dia; ?>/<?php echo $mes; ?>
+                                    /<?php echo $ano; ?></small>
+                            </td>
+                            <td>
+
+                                <?php
+
+                                if ($dds['unidades'] == '--' or empty($dds['unidades'])):
+
+                                    echo 'Unidades Ilimitadas';
                                 else:
-                                    $texto = 'Descrição Indisponivel';
+
+                                    echo '<b>' . $dds['unidades'] . '</b> unidades restantes';
+
                                 endif;
-                                echo $texto;
 
-                                $data = $dds['data_adicionado'];
-                                $dia = substr($data, 8, 2);
-                                $mes = substr($data, 4, 2);
-                                $ano = substr($data, 0, 4);
-                                ?></p>
-                            <small class="hex">Adicionado em <?php echo $dia; ?>/<?php echo $mes; ?>
-                                /<?php echo $ano; ?></small>
-                        </td>
-                        <td>
+                                ?>
 
-                            <?php
+                            </td>
 
-                            if ($dds['unidades'] == '--' or empty($dds['unidades'])):
+                            <td>
 
-                                echo 'Unidades Ilimitadas';
-                            else:
+                                <?php
 
-                                echo '<b>' . $dds['unidades'] . '</b> unidades restantes';
+                                if ($dds['visible'] == 1):
 
-                            endif;
-
-                            ?>
-
-                        </td>
-
-                        <td>
-
-                            <?php
-
-                            if ($dds['visible'] == 1):
-
-                                echo '<b class="text-success"><i class="fa fa-eye" aria-hidden="true"></i> Visível </b>
+                                    echo '<b class="text-success"><i class="fa fa-eye" aria-hidden="true"></i> Visível </b>
 ';
-                            else:
+                                else:
 
-                                echo '<b class="text-danger"><i class="fa fa-eye-slash" aria-hidden="true"></i> Invisível </b>
+                                    echo '<b class="text-danger"><i class="fa fa-eye-slash" aria-hidden="true"></i> Invisível </b>
 ';
-                            endif;
-                            ?>
+                                endif;
+                                ?>
 
-                        </td>
-                        <td>
-                            <ul class="list-inline s-icons" style="text-align: center;">
-                                <li title="Editar">
-                                    <a data-toggle="modal"
-                                       data-target="#editar<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
-                                       class="tooltips"
-                                       data-original-title="Facebook" href="#">
-                                        <i class="fa fa-pencil-square-o"></i>
-                                    </a>
-                                </li>
-                                <li title="Remover">
-                                    <a data-toggle="modal"
-                                       data-target="#deletar<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
-                                       class="tooltips"
-                                       data-original-title="Twitter" href="#">
-                                        <i class="fa fa-times"></i>
-                                    </a>
-                                </li>
+                            </td>
+                            <td>
+                                <ul class="list-inline s-icons" style="text-align: center;">
+                                    <li title="Editar">
+                                        <a data-toggle="modal"
+                                           data-target="#editar<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                                           class="tooltips"
+                                           data-original-title="Facebook" href="#">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                        </a>
+                                    </li>
+                                    <li title="Remover">
+                                        <a data-toggle="modal"
+                                           data-target="#deletar<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                                           class="tooltips"
+                                           data-original-title="Twitter" href="#">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </li>
 
-                            </ul>
+                                </ul>
 
-                        </td>
-                    </tr>
-
-
-                    <div class="modal fade bs-example-modal-lg"
-                         id="editar<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
-                         tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content" style="margin-top: 10%;border-radius: 0px;">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close"><span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <h4 class="modal-title" id="myModalLabel">
-                                        <b><?php echo $dds['nome_prod']; ?></b> - Editar</h4>
-                                </div>
-                                <div class="modal-body" style="padding: 3%;">
-                                    <form class="sky-form">
+                            </td>
+                        </tr>
 
 
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Nome do Produto</label>
-                                            <input type="text" class="form-control"
-                                                   id="nomeprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
-                                                   placeholder="<?php echo 'Nome do Produto'; ?>"
-                                                   value="<?php echo $dds['nome_prod']; ?>">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Palavras Chaves</label>
-                                            <input type="text" maxlength="150" class="form-control"
-                                                   id="keywordprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
-                                                   placeholder="<?php echo 'Palavras Chaves do Produto'; ?>"
-                                                   value="<?php echo $dds['keywords']; ?>"
-                                                   onkeyup="mostrarResultado(<?php echo $dds['id_pdp']; ?>,<?php echo $_POST['tipo']; ?>,this.value,150,'spcontando<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>');contarCaracteres(<?php echo $dds['id_pdp']; ?>,this.value,150,'sprestante<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>')">
-
-
-                                            <span id="spcontando<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>">O Maximo de Caracteres e 150 Caracteres</span><br/>
-                                            <span id="sprestante<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"></span>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Preço do Produto</label>
-                                            <input type="text" class="form-control"
-                                                   id="prizeprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
-                                                   placeholder="<?php echo 'Preço do Produto'; ?>"
-                                                   value="<?php echo $dds['preco']; ?>">
-                                        </div>
+                        <div class="modal fade bs-example-modal-lg"
+                             id="editar<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                             tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content" style="margin-top: 10%;border-radius: 0px;">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close"><span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <h4 class="modal-title" id="myModalLabel">
+                                            <b><?php echo $dds['nome_prod']; ?></b> - Editar</h4>
+                                    </div>
+                                    <div class="modal-body" style="padding: 3%;">
+                                        <form class="sky-form">
 
 
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Desconto do Produto
-                                                <small class="text-danger">(Desconto Opcional em
-                                                    Porcercentagem)
-                                                </small>
-                                            </label>
-                                            <input type="number" class="form-control"
-                                                   id="descontoprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
-                                                   placeholder="<?php echo 'Desconto Opcional em Porcercentagem'; ?>"
-                                                   value="<?php echo $dds['desconto']; ?>">
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Nome do Produto</label>
+                                                <input type="text" class="form-control"
+                                                       id="nomeprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                                                       placeholder="<?php echo 'Nome do Produto'; ?>"
+                                                       value="<?php echo $dds['nome_prod']; ?>">
+                                            </div>
 
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Quantidade no Estoque</label>
-                                            <input type="number" class="form-control"
-                                                   id="unidadeprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
-                                                   placeholder="<?php echo 'Quantidades do Produto'; ?>"
-                                                   value="<?php echo $dds['unidades']; ?>">
-                                            <b>Obs:
-                                                <small class="text-danger">Se Você que Deixar seu Estoque como Unidades
-                                                    Ilimitadas, Basta Deixar esse Campo em Branco
-                                                </small>
-                                                .</b>
-                                        </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Palavras Chaves</label>
+                                                <input type="text" maxlength="150" class="form-control"
+                                                       id="keywordprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                                                       placeholder="<?php echo 'Palavras Chaves do Produto'; ?>"
+                                                       value="<?php echo $dds['keywords']; ?>"
+                                                       onkeyup="mostrarResultado(<?php echo $dds['id_pdp']; ?>,<?php echo $_POST['tipo']; ?>,this.value,150,'spcontando<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>');contarCaracteres(<?php echo $dds['id_pdp']; ?>,this.value,150,'sprestante<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>')">
 
 
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Código do Produto</label>
-                                            <b style="font-size: 12pt;">#MD0<?php echo $dds['id_pdp']; ?></b>
+                                                <span
+                                                    id="spcontando<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>">O Maximo de Caracteres e 150 Caracteres</span><br/>
+                                                <span
+                                                    id="sprestante<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"></span>
+                                            </div>
 
-                                        </div>
-                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Preço do Produto</label>
+                                                <input type="text" class="form-control"
+                                                       id="prizeprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                                                       placeholder="<?php echo 'Preço do Produto'; ?>"
+                                                       value="<?php echo $dds['preco']; ?>">
+                                            </div>
 
 
-                                            <label for="image1" style="cursor: pointer;">Imagem
-                                                Personalizada
-                                                <br>
-                                                <img style="width:100px; height:100px; "
-                                                     src="
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Desconto do Produto
+                                                    <small class="text-danger">(Desconto Opcional em
+                                                        Porcercentagem)
+                                                    </small>
+                                                </label>
+                                                <input type="number" class="form-control"
+                                                       id="descontoprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                                                       placeholder="<?php echo 'Desconto Opcional em Porcercentagem'; ?>"
+                                                       value="<?php echo $dds['desconto']; ?>">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Quantidade no Estoque</label>
+                                                <input type="number" class="form-control"
+                                                       id="unidadeprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                                                       placeholder="<?php echo 'Quantidades do Produto'; ?>"
+                                                       value="<?php echo $dds['unidades']; ?>">
+                                                <b>Obs:
+                                                    <small class="text-danger">Se Você que Deixar seu Estoque como
+                                                        Unidades
+                                                        Ilimitadas, Basta Deixar esse Campo em Branco
+                                                    </small>
+                                                    .</b>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Código do Produto</label>
+                                                <b style="font-size: 12pt;">#MD0<?php echo $dds['id_pdp']; ?></b>
+
+                                            </div>
+                                            <div class="form-group">
+
+
+                                                <label for="image1" style="cursor: pointer;">Imagem
+                                                    Personalizada
+                                                    <br>
+                                                    <img style="width:100px; height:100px; "
+                                                         src="
                                                                  <?php if (empty($dds['image_1'])):
 
-                                                         echo '' . base_url('') . 'imagem?tp=1&&im=1&&image=' . $dds['id_produto'];
+                                                             if (empty($rest[0]['image_1'])):
 
-                                                     else:
+                                                                 echo '' . base_url('assets/1/img/empty_prod_pannel.ico') . '';
+                                                             else:
 
-                                                         echo '' . base_url('') . 'imagem?tp=1&&im=2&&image=' . $dds['id_pdp'];
+                                                                 echo '' . base_url('') . 'imagem?tp=1&&im=1&&image=' . $dds['id_produto'];
+                                                             endif;
+                                                         else:
 
-                                                     endif;
-                                                     ?>
+                                                             echo '' . base_url('') . 'imagem?tp=1&&im=2&&image=' . $dds['id_pdp'];
+
+                                                         endif;
+                                                         ?>
 
 
                                                                 ">
-                                                <br>
-                                                <input type="file"
-                                                       id="image1<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
-                                                       name="image1"
-                                                       style="display:none;"/>
+                                                    <br>
+                                                    <input type="file"
+                                                           id="image1<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                                                           name="image1"
+                                                           style="display:none;"/>
 
-                                                <small class="text-danger">(Alterar Imagem 1)</small>
-                                            </label>
+                                                    <small class="text-danger">(Alterar Imagem 1)</small>
+                                                </label>
 
-                                            <label for="image1" style="cursor: pointer;">
-                                                <br>
-                                                <img style="width:100px; height:100px; "
-                                                     src="   <?php if (empty($dds['image_2'])):
+                                                <label for="image1" style="cursor: pointer;">
+                                                    <br>
+                                                    <img style="width:100px; height:100px; "
+                                                         src="   <?php if (empty($dds['image_2'])):
 
-                                                         echo '' . base_url('') . 'imagem?tp=1&&im=2&&image=' . $dds['id_produto'];
+                                                             if (empty($rest[0]['image_2'])):
 
-                                                     else:
+                                                                 echo '' . base_url('assets/1/img/empty_prod_pannel.ico') . '';
+                                                             else:
 
-                                                         echo '' . base_url('') . 'imagem?tp=1&&im=2&&image=' . $dds['id_pdp'];
+                                                                 echo '' . base_url('') . 'imagem?tp=1&&im=2&&image=' . $dds['id_produto'];
+                                                             endif;
 
-                                                     endif;
-                                                     ?>">
-                                                <br>
-                                                <input type="file"
-                                                       id="image1<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
-                                                       name="image1"
-                                                       style="display:none;"/>
+                                                         else:
 
-                                                <small class="text-danger">(Alterar Imagem 2)</small>
-                                            </label>
+                                                             echo '' . base_url('') . 'imagem?tp=1&&im=2&&image=' . $dds['id_pdp'];
+
+                                                         endif;
+                                                         ?>">
+                                                    <br>
+                                                    <input type="file"
+                                                           id="image1<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                                                           name="image1"
+                                                           style="display:none;"/>
+
+                                                    <small class="text-danger">(Alterar Imagem 2)</small>
+                                                </label>
 
 
-                                        </div>
+                                            </div>
 
-                                        <label class="toggle toggle-change"><input
-                                                id="activeitem<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
-                                                type="checkbox"
-                                                checked=""
-                                                name="checkbox-toggle-1"><i
-                                                class="no-rounded"></i> Deixar Item Ativo</label>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                                        Cancelar
-                                    </button>
-                                    <button type="button" class="btn btn-primary"
-                                            onclick="alterdataitem('<?php echo base_url(''); ?>','<?php echo $dds['id_pdp']; ?>','<?php echo $_POST['tipo']; ?>');">
-                                        Salvar
-                                        Alterações
-                                    </button>
+                                            <label class="toggle toggle-change"><input
+                                                    id="activeitem<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                                                    type="checkbox"
+                                                    checked=""
+                                                    name="checkbox-toggle-1"><i
+                                                    class="no-rounded"></i> Deixar Item Ativo</label>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                                            Cancelar
+                                        </button>
+                                        <button type="button" class="btn btn-primary"
+                                                onclick="alterdataitem('<?php echo base_url(''); ?>','<?php echo $dds['id_pdp']; ?>','<?php echo $_POST['tipo']; ?>');">
+                                            Salvar
+                                            Alterações
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="deletar<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>" tabindex="-1" role="dialog"
-                         aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content" style="margin-top: 10%;border-radius: 0px;">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                            aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Remover Produto do meu Estoque</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <h5>Tem certeza que você deseja remover esse produto do seu estoque?</h5>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                    <button onclick="removeItemLoja('<?php echo base_url('');?>',<?php echo $dds['id_pdp']; ?>,<?php echo $_POST['tipo']; ?>)" type="button"
+                        <!-- Modal -->
+                        <div class="modal fade" id="deletar<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>"
+                             tabindex="-1" role="dialog"
+                             aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content" style="margin-top: 10%;border-radius: 0px;">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close"><span
+                                                aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Remover Produto do meu Estoque</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5>Tem certeza que você deseja remover esse produto do seu estoque?</h5>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar
+                                        </button>
+                                        <button
+                                            onclick="removeItemLoja('<?php echo base_url(''); ?>',<?php echo $dds['id_pdp']; ?>,<?php echo $_POST['tipo']; ?>)"
+                                            type="button"
                                             class="btn btn-danger">Remover
-                                    </button>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 <?php } ?>
                 </tbody>
@@ -389,7 +424,8 @@ endif; ?>
     <nav aria-label="Page navigation">
         <ul class="pager">
             <li>
-                <a href="javascript:categoria('<?php echo base_url(''); ?>','<?php echo $_POST['tipo']; ?>', '<?php if($atualpg <= 1): echo $atualpg; else: echo $atualpg - 1; endif; ?>','0','meusprodutos','<?php echo $divapper;?>','<?php echo $_POST['keyword']; ?>','');"
+                <a href="javascript:categoria('<?php echo base_url(''); ?>','<?php echo $_POST['tipo']; ?>', '<?php if ($atualpg <= 1): echo $atualpg;
+                else: echo $atualpg - 1; endif; ?>','0','meusprodutos','<?php echo $divapper; ?>','<?php echo $_POST['keyword']; ?>','');"
                    aria-label="Previous">
                     Anterior
                 </a>
@@ -397,7 +433,7 @@ endif; ?>
 
 
             <li>
-                <a href="javascript:categoria('<?php echo base_url(''); ?>','<?php echo $_POST['tipo']; ?>', '<?php echo $atualpg + 1; ?>','0','meusprodutos','<?php echo $divapper;?>','<?php echo $_POST['keyword']; ?>','');"
+                <a href="javascript:categoria('<?php echo base_url(''); ?>','<?php echo $_POST['tipo']; ?>', '<?php echo $atualpg + 1; ?>','0','meusprodutos','<?php echo $divapper; ?>','<?php echo $_POST['keyword']; ?>','');"
                    aria-label="Next">
 
                     Proximo

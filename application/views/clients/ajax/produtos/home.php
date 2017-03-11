@@ -73,50 +73,47 @@ endif;
         </style>
         <?php
         $this->db->from('produtos_disponiveis');
-        $this->db->join('medicamentos', 'medicamentos.id = produtos_disponiveis.id_pdp', 'inner');
+        $this->db->join('medicamentos', 'medicamentos.id = produtos_disponiveis.id_produto', 'inner');
         $this->db->where('produtos_disponiveis.visible', 1);
         if ($_POST['tipo'] <> 0):
             $this->db->like('produtos_disponiveis.categorias', $_POST['tipo']);
         endif;
         if ($_POST['pg1'] == 11):
-          /*  $this->db->like('medicamentos.nome', $_POST['keyword']);
-            $this->db->or_like('produtos_disponiveis.keywords', $_POST['keyword']); */
+            /*  $this->db->like('medicamentos.nome', $_POST['keyword']);
+              $this->db->or_like('produtos_disponiveis.keywords', $_POST['keyword']); */
         endif;
 
         $this->db->order_by('produtos_disponiveis.preco', 'min');
         $get = $this->db->get();
         $count1 = $get->num_rows();
 
-
         $max = 20;
-        $pages = ceil($count1 / 20);
-        if ($_POST['page'] <= 1):
-
-            $limit = 1;
-        else:
-
-            if ($_POST['page'] >= $pages):
-
-                $limit = $pages;
+        $total = ceil($count1 / $max);
+        $pagepost = $_POST['page'];
+        if (isset($pagepost)):
+            if ($pagepost <= 1):
+                $atual = 0;
+                $atualpg = 1;
             else:
-
-                $limit = $_POST['page'];
+                $atual = $max * $pagepost - $max;
+                $atualpg = $pagepost;
 
             endif;
+        else:
+            $atual = 0;
+            $atualpg = 1;
 
         endif;
 
-        $atual = $max * $limit - $max;
-
         $this->db->from('produtos_disponiveis');
-        $this->db->join('medicamentos', 'medicamentos.id = produtos_disponiveis.id_pdp', 'inner');
+        $this->db->join('medicamentos', 'medicamentos.id = produtos_disponiveis.id_produto', 'inner');
         $this->db->where('produtos_disponiveis.visible', 1);
         if ($_POST['tipo'] <> 0):
             $this->db->like('produtos_disponiveis.categorias', $_POST['tipo']);
         endif;
         if ($_POST['pg1'] == 11 and !empty($_POST['keyword'])):
 
-           $this->db->like('medicamentos.nome', $_POST['keyword']);
+            $this->db->like('medicamentos.nome', $_POST['keyword']);
             $this->db->or_like('medicamentos.nome', ucwords($_POST['keyword']));
             $this->db->or_like('medicamentos.nome', strtoupper($_POST['keyword']));
             $this->db->or_like('medicamentos.nome', ucfirst($_POST['keyword']));
@@ -139,14 +136,15 @@ endif;
 
                 if ($_POST['pg1'] == 11):
                     $this->db->from('medicamentos');
-                    $this->db->where('id', $dds['id']);
+                    $this->db->where('id', $dds['id_produto']);
                     $get = $this->db->get();
-                    $buscas = $get->result_array()[0]['pesquisas'];
+                    $reultprod = $get->result_array();
+                    $buscas = $reultprod[0]['pesquisas'];
 
 
                     $buscan = $buscas + 1;
                     $dado['pesquisas'] = $buscan;
-                    $this->db->where('id', $dds['id']);
+                    $this->db->where('id', $dds['id_produto']);
                     $this->db->update('medicamentos', $dado);
                 endif;
                 ?>
@@ -180,10 +178,25 @@ endif;
                             ?>
                         ><i
                                 class="fa fa-shopping-cart"></i> Ver Detalhes</a>
-                        <img style="height: 200px;"
-                             src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $dds['id'] . '') ?>"
-                             alt="...">
 
+                        <?php
+                        if (empty($reultprod[0]['image_1']) and empty($dds['image_1'])):
+
+                            ?>
+
+                            <img style="height: 200px;"
+                                 src="<?php echo base_url('assets/1/img/empty_prod_pannel.ico'); ?>"
+                                 alt="...">
+                            <?php
+
+                        else:
+
+
+                            ?>
+                            <img style="height: 200px;"
+                                 src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $dds['id'] . '') ?>"
+                                 alt="...">
+                        <?php endif; ?>
 
                         <div class="caption">
                             <div style="float: left; width: 70%; padding-left: -10px;margin-right: 10px; ">
@@ -200,7 +213,7 @@ endif;
                                 <?php
 
                                 if ($countlg > 0):
-                                    echo '<span>Em <a href="' . base_url('loja/' . str_replace(' ', '-', strtolower($fetchad[0]['nome_loja'])).'/'.$dds['id_loja']) . '" style="color: #940f14;font-weight: 600;">' . ucwords($fetchad[0]['nome_loja']) . '</a></span>';
+                                    echo '<span>Em <a href="' . base_url('loja/' . str_replace(' ', '-', strtolower($fetchad[0]['nome_loja'])) . '/' . $dds['id_loja']) . '" style="color: #940f14;font-weight: 600;">' . ucwords($fetchad[0]['nome_loja']) . '</a></span>';
 
                                 else:
 
@@ -248,21 +261,20 @@ endif;
 
     </div>
 <?php if ($count1 > 20): ?>
-    <nav aria-label="Page navigation">
-        <ul class="pager">
+    <nav aria-label="">
+        <ul class="pager" style=" float: left; margin: 1% 0 5% 30%; right: 10%" >
             <li>
-                <a href="javascript:categoria('<?php echo base_url(''); ?>',<?php echo $_POST['tipo']; ?>,<?php echo $_POST['page'] - 1; ?>,'1','produtoshome','produtos','<?php echo $_POST['keyword'] ?>','<?php echo $_POST['pg1']; ?>');"
+                <a href="javascript:categoria('<?php echo base_url(''); ?>',<?php echo $_POST['tipo']; ?>,'<?php if ($atualpg <= 1): echo $atualpg;
+                else: echo $atualpg - 1; endif; ?>','1','produtoshome','produtos','<?php echo $_POST['keyword'] ?>','<?php echo $_POST['pg1']; ?>');"
                    aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
+                    Anterior
                 </a>
             </li>
-            <li>
-                <a href="javascript:categoria('<?php echo base_url(''); ?>',<?php echo $_POST['tipo']; ?>,<?php echo 1; ?>,'1','produtoshome','produtos','<?php echo $_POST['keyword'] ?>','<?php echo $_POST['pg1']; ?>');">1</a>
-            </li>
+
             <li>
                 <a href="javascript:categoria('<?php echo base_url(''); ?>',<?php echo $_POST['tipo']; ?>,<?php echo $_POST['page'] + 1; ?>,'1','produtoshome','produtos','<?php echo $_POST['keyword'] ?>','<?php echo $_POST['pg1']; ?>');"
                    aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
+                    Próximo
                 </a>
             </li>
         </ul>

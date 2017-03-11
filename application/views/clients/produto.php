@@ -13,7 +13,7 @@ else:
 
 
     $this->db->from('medicamentos');
-    $this->db->where('id', $this->uri->segment(4));
+    $this->db->where('id', $result[0]['id_produto']);
     $getmed = $this->db->get();
     $countmd = $getmed->num_rows();
     if ($countmd == 0):
@@ -63,40 +63,60 @@ endif;
                     <!-- Master Slider -->
                     <div class="master-slider ms-skin-default" id="masterslider">
 
-                        <div class="ms-slide">
-                            <img class="ms-brd"
-                                 src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
-                                 alt="lorem ipsum dolor sit">
-                            <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
-                                 src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
-                                 alt="thumb">
-                        </div>
-                        <div class="ms-slide">
-                            <img class="ms-brd"
-                                 src="<?php echo base_url('imagem?tp=1&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
-                                 alt="lorem ipsum dolor sit">
-                            <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
-                                 src="<?php echo base_url('imagem?tp=1&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
-                                 alt="thumb">
-                        </div>
+                        <?php
+                        $this->db->from('medicamentos');
+                        $this->db->where('id', $result[0]['id_produto']);
+                        $query = $this->db->get();
+                        $rest = $query->result_array();
+                        if (empty($rest[0]['image_1'])):
+                            ?>
 
-                        <div class="ms-slide">
-                            <img class="ms-brd"
-                                 src="<?php echo base_url('imagem?tp=1&&im=3&&image=' . $this->uri->segment(4) . '') ?>"
-                                 alt="lorem ipsum dolor sit">
-                            <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
-                                 src="<?php echo base_url('imagem?tp=1&&im=3&&image=' . $this->uri->segment(4) . '') ?>"
-                                 alt="thumb">
-                        </div>
 
-                        <div class="ms-slide">
-                            <img class="ms-brd"
-                                 src="<?php echo base_url('imagem?tp=1&&im=4&&image=' . $this->uri->segment(4) . '') ?>"
-                                 alt="lorem ipsum dolor sit">
-                            <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
-                                 src="<?php echo base_url('imagem?tp=1&&im=4&&image=' . $this->uri->segment(4) . '') ?>"
-                                 alt="thumb">
-                        </div>
+
+
+                                <img style="width: 330px;top: 0;position: absolute;"
+                                     src="<?php echo base_url('assets/'.$version.'/img/remedio.jpg')?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+
+
+
+                        <?php else: ?>
+                            <div class="ms-slide">
+                                <img class="ms-brd"
+                                     src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                                <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                     src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                            </div>
+                            <div class="ms-slide">
+                                <img class="ms-brd"
+                                     src="<?php echo base_url('imagem?tp=1&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                                <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                     src="<?php echo base_url('imagem?tp=1&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                            </div>
+
+                            <div class="ms-slide">
+                                <img class="ms-brd"
+                                     src="<?php echo base_url('imagem?tp=1&&im=3&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                                <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                     src="<?php echo base_url('imagem?tp=1&&im=3&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                            </div>
+
+                            <div class="ms-slide">
+                                <img class="ms-brd"
+                                     src="<?php echo base_url('imagem?tp=1&&im=4&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                                <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                     src="<?php echo base_url('imagem?tp=1&&im=4&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                            </div>
+
+                        <?php endif; ?>
 
 
                     </div>
@@ -463,6 +483,20 @@ endif;
 
 <!--=== Illustration v2 ===-->
 <div class="container">
+    <?php
+
+    $this->db->from('produtos_disponiveis');
+    $this->db->like('nome_prod',$result[0]['desconto']);
+    $this->db->or_like('keywords',$result[0]['keywords']);
+    $get = $this->db->order_by('preco','asc','desconto','desc');
+    $get = $this->db->limit(5,0);
+
+    $get = $this->db->get();
+    $countts = $get->num_rows();
+    if($countts > 0):
+
+        $resultsd = $get->result_array();
+    ?>
     <br>
     <table class="table">
         <tr style="border-top: 10px solid white;">
@@ -472,6 +506,10 @@ endif;
             <th style="color: #969696;padding-left: 3.5%;">TELEFONE</th>
             <th style="color: #969696;padding-left: 3.5%;">VALOR</th>
         </tr>
+        <?php
+
+        foreach ($resultsd as $dds){
+        ?>
         <tr>
             <td style="font-weight: bold;color: #940f14;text-align: center;"><a style="color: #940f14;">Dorflex Sanofi
                     30 Comprimidos</a></td>
@@ -486,21 +524,12 @@ endif;
             </td>
         </tr>
 
-        <tr style="border-top: 10px solid white;">
-            <td style="font-weight: bold;color: #940f14;text-align: center;"><a style="color: #940f14;">Dorflex Sanofi
-                    30 Comprimidos</a></td>
-            <td style="font-weight: bold;color: #940f14;text-align: center;"><a style="color: #940f14;">Drogaria Nova
-                    Farma</a></td>
-            <td style="text-align: center;"><i style="color: #940f14;" class="fa fa-times" aria-hidden="true"></i></td>
-            <td style="text-align: center;">(33) 3343-1704</td>
-            <td style="text-align: center;">
-                <span style="color: #727272;text-decoration: line-through;" class="line-through">de R$12.00</span> <span
-                    style="font-weight: bold;color: #940f14;" class="shop-red">R$9.97</span> &nbsp;&nbsp;&nbsp; <span
-                    style=" padding: 1% 2% 1% 2% ;color: white;font-weight: 600; background: #972227;">- 15% OFF</span>
-            </td>
-        </tr>
+        <?php }?>
+
+
     </table>
     <br>
+    <?php endif;?>
 
 
 </div>

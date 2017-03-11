@@ -111,7 +111,22 @@
                             <a class="dropdown-item" href="#">Editar</a>
                         </div>
                     </div><br>
-                    <img src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $dds['id_produto'] . '') ?>" style="float: left;width: 80px;">
+                    <?php
+                    $this->db->from('medicamentos');
+                    $this->db->where('id', $dds['id_produto']);
+                    $query = $this->db->get();
+                    $rest = $query->result_array();
+                    if (empty($rest[0]['image_1'])):
+                        ?>
+
+                        <img src="<?php echo base_url('assets/1/img/empty_prod_pannel.ico'); ?>" style="float: left;width: 80px;">
+
+
+                    <?php else: ?>
+                        <img src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $dds['id_produto'] . '') ?>" style="float: left;width: 80px;">
+
+                    <?php endif; ?>
+
                     <div class="cbp_tmlabel">
                         <h2>
                             <?php if($_POST['tipo'] == 21):?>
