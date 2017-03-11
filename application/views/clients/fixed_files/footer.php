@@ -715,7 +715,28 @@ if ($page == 'lojaa'):
 
             return false;
         }
-        function removeItemLoja() {
+        function removeItemLoja(base,item,tipo) {
+            $.ajax({
+                type: "POST",
+                url: "" + base + "ajaxremoveItem",
+                data: {item: item},
+                success: function (result) {
+
+                    if(result == 11){
+
+                        $('#deletar'+item+''+tipo+'').modal('hide');
+                        $('#itemall'+item+''+tipo+'').remove();
+
+                    }else{
+
+                        alert(result);
+                    }
+                },
+                error: function (result) {
+                    alert('erro');
+
+                }
+            });
 
         }
     </script>

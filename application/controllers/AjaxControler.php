@@ -210,7 +210,7 @@ class AjaxControler extends CI_Controller
 
                     foreach ($dado as $dds) {
 
-                        if (!empty($dds->nome) or empty($dds->formula) or empty($dds->substancia) or empty($dds->categoria1) or  empty($dds->categoria2) or empty($dds->laboratorio) or empty($dds->fixacal) or empty($dds->preco)):
+                        if (!empty($dds->nome) or empty($dds->formula) or empty($dds->substancia) or empty($dds->categoria1) or empty($dds->categoria2) or empty($dds->laboratorio) or empty($dds->fixacal) or empty($dds->preco)):
 
 
                             $nome = $dds->nome;
@@ -283,7 +283,7 @@ class AjaxControler extends CI_Controller
                                         }
 
                                         $dados['categorias'] = $categorias;
-                                        if ($this->db->insert('produtos_disponiveis',$dados)):
+                                        if ($this->db->insert('produtos_disponiveis', $dados)):
 
                                             echo 11;
                                         else:
@@ -958,6 +958,45 @@ class AjaxControler extends CI_Controller
 
                     else:
                         echo 'Erro ao Receber Dados.';
+
+                    endif;
+
+
+                endif;
+            endif;
+        endif;
+
+    }
+
+    public function removeitem()
+    {
+
+
+        if ($this->sessionsverify_model->logver() == true):
+
+            $this->db->from('users');
+            $this->db->where('id', $_SESSION['ID']);
+            $get = $this->db->get();
+            $count = $get->num_rows();
+            if ($count > 0):
+                $result = $get->result_array();
+                $loja = $result[0]['loja'];
+                if (!empty($loja) and $loja > 0):
+
+                    if (isset($_POST['item']) and !empty($_POST['item'])):
+
+
+                        $this->db->where('id_pdp', $_POST['item']);
+                        if ($this->db->delete('produtos_disponiveis')):
+
+                            echo 11;
+
+                        else:
+
+                            echo 0;
+
+                        endif;
+
 
                     endif;
 

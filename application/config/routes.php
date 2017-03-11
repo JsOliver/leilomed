@@ -30,3 +30,4 @@ $route['ajaxalteritemread'] = 'ajaxcontroler/readitem';
 $route['ajaxrespostaitem'] = 'ajaxcontroler/respostaitem';
 $route['ajaxalteritem'] = 'ajaxcontroler/alteritem';
 $route['ajaxupdadopd'] = 'ajaxcontroler/alteritem';
+$route['ajaxremoveItem'] = 'ajaxcontroler/removeitem';

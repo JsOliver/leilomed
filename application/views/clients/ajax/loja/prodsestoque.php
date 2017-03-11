@@ -85,6 +85,7 @@ if ($count > 0):
                     endif;
 
                     ?>
+                    <div id="itemall<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>">
                     <tr>
 
 
@@ -348,14 +349,14 @@ if ($count > 0):
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                    <button onclick="removeItemLoja(<?php echo $dds['id_pdp']; ?>)" type="button"
+                                    <button onclick="removeItemLoja('<?php echo base_url('');?>',<?php echo $dds['id_pdp']; ?>,<?php echo $_POST['tipo']; ?>)" type="button"
                                             class="btn btn-danger">Remover
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    </div>
                 <?php } ?>
                 </tbody>
             </table>
