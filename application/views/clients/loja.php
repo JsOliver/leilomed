@@ -38,13 +38,15 @@ endif;
 
             <div class="col-md-12">
                 <div class="row margin-bottom-5">
-                    <div class="col-sm-4 result-category">
-                        <h2><?php echo ucwords($nome); ?></h2>
-                        <small class="shop-bg-red badge-results"><?php echo number_format($pridcounts) . ' ' . $rst; ?>
-                        </small>
+                    <div class="col-sm-12 result-category">
+                        <h3><?php echo ucwords($nome); ?> <small class="text-danger"><?php echo number_format($pridcounts) . ' ' . $rst; ?></small></h3>
+
+
+
                     </div>
 
                 </div><!--/end result category-->
+
 
                 <div class="filter-results">
                     <div class="row illustration-v2 margin-bottom-30">
@@ -61,8 +63,9 @@ endif;
 
                         endif;
                         $this->db->from('produtos_disponiveis');
-                        $this->db->join('medicamentos', 'medicamentos.id = produtos_disponiveis.id_pdp', 'inner');
+                        $this->db->join('medicamentos', 'medicamentos.id = produtos_disponiveis.id_produto', 'inner');
                         $this->db->where('produtos_disponiveis.visible', 1);
+                        $this->db->where('produtos_disponiveis.id_loja',$this->uri->segment(3));
                         $this->db->limit($max, $atual);
                         $this->db->order_by('produtos_disponiveis.id_pdp', 'desc');
 
@@ -138,6 +141,17 @@ endif;
                     </div>
 
                 </div><!--/end filter resilts-->
+                <div class="row margin-bottom-5">
+                    <div class="col-sm-12 result-category">
+                        <p><b>Endereço:</b> <?php echo $resultlj[0]['rua'].' - '.$resultlj[0]['estado'].' / '.$resultlj[0]['cidade'];?></p>
+                        <p><b>Telefone:</b> <?php echo $resultlj[0]['telefone'];?></p>
+                        <p><b>Email de Contato:</b> <?php echo $resultlj[0]['email_contato'];?></p>
+
+
+
+                    </div>
+
+                </div><!--/end result category-->
 
                 <div class="text-center">
                     <ul class="pagination pagination-v2">

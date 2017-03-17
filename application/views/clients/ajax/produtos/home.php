@@ -79,8 +79,8 @@ endif;
             $this->db->like('produtos_disponiveis.categorias', $_POST['tipo']);
         endif;
         if ($_POST['pg1'] == 11):
-            /*  $this->db->like('medicamentos.nome', $_POST['keyword']);
-              $this->db->or_like('produtos_disponiveis.keywords', $_POST['keyword']); */
+            $this->db->like('medicamentos.nome', $_POST['keyword']);
+              $this->db->or_like('produtos_disponiveis.keywords', $_POST['keyword']);
         endif;
 
         $this->db->order_by('produtos_disponiveis.preco', 'min');
@@ -124,7 +124,7 @@ endif;
             $this->db->or_like('produtos_disponiveis.keywords', str_replace(' ', '-', $_POST['keyword']));
         endif;
         $this->db->limit($max, $atual);
-        $this->db->order_by('produtos_disponiveis.preco', 'min');
+        $this->db->order_by('produtos_disponiveis.preco', 'min','produtos_disponiveis.pesquisas_farma','desc');
         $get = $this->db->get();
         $count = $get->num_rows();
 

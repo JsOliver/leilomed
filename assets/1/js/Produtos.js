@@ -1,4 +1,4 @@
-function categoria(base,tipo,page,scroll,bpg,resutblock,keyword,pg1) {
+function categoria(base,tipo,page,scroll,bpg,resutblock,keyword,pg1,details) {
     if(scroll == 1) {
         $("#Loading").html('<h1 style="left: 40%;top: 50%;position: fixed;z-index: 100;">Carregando...</h1>');
     }
@@ -7,7 +7,7 @@ function categoria(base,tipo,page,scroll,bpg,resutblock,keyword,pg1) {
     $.ajax({
         type: "POST",
         url: base+'ajaxcontroler/'+bpg,
-        data: {tipo: tipo,page:page,resutblock:resutblock,keyword:keyword,pg1:pg1},
+        data: {tipo: tipo,page:page,resutblock:resutblock,keyword:keyword,pg1:pg1,details:details},
         success: function (result) {
             $("#"+resutblock+"").html(result);
             $("#Loading").html('');

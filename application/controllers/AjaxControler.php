@@ -191,6 +191,67 @@ class AjaxControler extends CI_Controller
     }
 
 
+    public function actionpedido()
+    {
+        if ($this->sessionsverify_model->logver() == true):
+
+            $this->db->from('users');
+            $this->db->where('id', $_SESSION['ID']);
+            $get = $this->db->get();
+            $count = $get->num_rows();
+
+            if ($count > 0):
+
+
+                if ($_POST['action'] == 1):
+                    $dado['status'] = 4;
+                    $dado['resposta'] = 1;
+                    $this->db->where('id', $_POST['pedido']);
+                    $this->db->where('id_cliente ', $_SESSION['ID']);
+                    $this->db->update('lances', $dado);
+                    echo 11;
+
+                endif;
+
+                if ($_POST['action'] == 2):
+
+                    $this->db->where('id', $_POST['pedido']);
+                    $this->db->where('resposta <', 2);
+                    $this->db->where('id_cliente ', $_SESSION['ID']);
+                    $this->db->delete('lances');
+                    echo 11;
+
+                endif;
+
+            endif;
+        endif;
+    }
+
+    public function removelistaped()
+    {
+        if ($this->sessionsverify_model->logver() == true):
+
+            $this->db->from('users');
+            $this->db->where('id', $_SESSION['ID']);
+            $get = $this->db->get();
+            $count = $get->num_rows();
+
+            if ($count > 0):
+
+                $result = $get->result_array();
+
+                $dado['status'] = '5';
+            $this->db->where('id_loja', $result[0]['loja']);
+            $this->db->where('id', $_POST['pedido']);
+            $this->db->update('lances',$dado);
+
+
+            endif;
+
+        endif;
+
+    }
+
     public function ajaxupdadopd($tipo, $idxml)
     {
         if (isset($tipo) and isset($idxml) and !empty($tipo) and !empty($idxml)):
@@ -210,7 +271,7 @@ class AjaxControler extends CI_Controller
 
                     foreach ($dado as $dds) {
 
-                        if (!empty($dds->nome) or empty($dds->formula) or empty($dds->substancia) or empty($dds->categoria1) or empty($dds->categoria2) or empty($dds->laboratorio) or empty($dds->fixacal) or empty($dds->preco)):
+                        if (!empty($dds->nome) or empty($dds->formula) or empty($dds->substancia) or empty($dds->categoria) or empty($dds->laboratorio) or empty($dds->fixacal) or empty($dds->preco)):
 
 
                             $nome = $dds->nome;
@@ -218,11 +279,14 @@ class AjaxControler extends CI_Controller
                             $substancia = $dds->substancia;
                             $preco = $dds->preco;
                             $desconto = $dds->desconto;
-                            $categoria1 = $dds->categoria1;
-                            $categoria2 = $dds->categoria2;
+                            $categoria = $dds->categoria;
                             $laboratorio = $dds->laboratorio;
                             $unidades = $dds->unidades;
                             $fixacal = $dds->fixacal;
+                            $imagem1 = $dds->imagem1;
+                            $imagem2 = $dds->imagem2;
+                            $imagem3 = $dds->imagem3;
+                            $imagem4 = $dds->imagem4;
                             $miligramas = $dds->opcional->miligramas;
                             $indicacoes = $dds->opcional->indicacoes;
                             $contra_indicacoes = $dds->opcional->contraIndicacoes;
@@ -231,6 +295,23 @@ class AjaxControler extends CI_Controller
                             $armazenagem = $dds->opcional->armazenagem;
 
                             $keyword = str_replace(' ', ',', $nome) . ',' . str_replace(' ', ',', $laboratorio) . ',' . str_replace(' ', ',', $formula) . ',' . str_replace(' ', ',', $substancia) . ',' . $nome . ',' . $formula . ',' . $substancia . ',' . $laboratorio;
+
+
+                            if (!empty($imagem1)):
+                                $dada['image_1'] = @file_get_contents(addslashes($imagem1));
+                            endif;
+
+                            if (!empty($imagem2)):
+                                $dada['image_2'] = @file_get_contents(addslashes($imagem2));
+                            endif;
+
+                            if (!empty($imagem3)):
+                                $dada['image_3'] = @file_get_contents(addslashes($imagem3));
+                            endif;
+
+                            if (!empty($imagem4)):
+                                $dada['image_4'] = @file_get_contents(addslashes($imagem4));
+                            endif;
                             $dada['keywords'] = $keyword;
                             $dada['marca'] = $laboratorio;
                             $dada['nome'] = $nome;
@@ -246,6 +327,16 @@ class AjaxControler extends CI_Controller
                             $dada['armazenagem'] = $armazenagem;
                             $dada['data_add'] = date('YmdHis');
 
+                            $this->db->from('categorias');
+                            $this->db->like('nome', $categoria);
+                            $get = $this->db->get();
+                            $count = $get->num_rows();
+                            if ($count > 0):
+                                $result = $get->result_array();
+                                $categorias = $result[0]['id'];
+                                $dada['categorias'] = $categorias;
+
+                            endif;
                             if ($this->db->insert('medicamentos', $dada)):
                                 $medid = $this->db->insert_id();
                                 $this->db->from('users');
@@ -255,6 +346,13 @@ class AjaxControler extends CI_Controller
                                 if ($count > 0):
 
                                     $result = $get->result_array();
+                                    if (!empty($imagem1)):
+                                        $dados['image_1'] = @file_get_contents(addslashes($imagem1));
+                                    endif;
+
+                                    if (!empty($imagem2)):
+                                        $dados['image_2'] = @file_get_contents(addslashes($imagem2));
+                                    endif;
 
                                     $dados['keywords'] = $keyword;
                                     $dados['id_produto'] = $medid;
@@ -262,7 +360,17 @@ class AjaxControler extends CI_Controller
                                     $dados['cod_produto'] = '#MD0' . $this->db->insert_id();
                                     $dados['preco'] = $preco;
                                     $dados['desconto'] = $desconto;
-                                    $dados['id_loja'] = 4;
+
+                                    $this->db->from('users');
+                                    $this->db->where('id',$_SESSION['ID']);
+                                    $get = $this->db->get();
+                                    if($get->num_rows() > 0):
+                                        $resultlj = $get->result_array();
+                                        $dados['id_loja'] = $resultlj[0]['loja'];
+                                        endif;
+
+
+
                                     $dados['unidades'] = $unidades;
                                     $dados['pesquisas_farma'] = 0;
                                     $dados['visible'] = 1;
@@ -270,20 +378,12 @@ class AjaxControler extends CI_Controller
 
 
                                     $this->db->from('categorias');
-                                    $this->db->like('nome', $categoria1);
-                                    $this->db->like('nome', $categoria2);
+                                    $this->db->like('nome', $categoria);
                                     $get = $this->db->get();
                                     $count = $get->num_rows();
                                     if ($count > 0):
-
                                         $result = $get->result_array();
-                                        $categorias = '';
-                                        foreach ($result as $dda) {
-
-                                            $categorias .= $dds['id'] . ',';
-
-                                        }
-
+                                        $categorias = $result[0]['id'];
                                         $dados['categorias'] = $categorias;
                                         if ($this->db->insert('produtos_disponiveis', $dados)):
 
@@ -497,6 +597,9 @@ class AjaxControler extends CI_Controller
         elseif ($_GET['tp'] == 4):
             $database = 'lojas';
 
+        elseif ($_GET['tp'] == 5):
+            $database = 'produtos_disponiveis';
+
         else:
             $database = 'medicamentos';
 
@@ -505,6 +608,10 @@ class AjaxControler extends CI_Controller
         if ($_GET['tp'] == 4):
 
             $this->db->where('id_dono', addslashes($_GET['image']));
+
+        elseif ($_GET['tp'] == 5):
+
+            $this->db->where('id_pdp', addslashes($_GET['image']));
 
         else:
 
@@ -515,33 +622,35 @@ class AjaxControler extends CI_Controller
         $query = $this->db->get();
         $fetch = $query->result_array();
         header("content-type: jpg");
+
         if ($_GET['im'] == 1):
-            echo $fetch[0]['image_1'];
+            $imagefim = $fetch[0]['image_1'];
 
         elseif ($_GET['im'] == 2):
-            echo $fetch[0]['image_2'];
+            $imagefim = $fetch[0]['image_2'];
 
 
         elseif ($_GET['im'] == 3):
 
-            echo $fetch[0]['image_3'];
+            $imagefim = $fetch[0]['image_3'];
 
         elseif ($_GET['im'] == 4):
 
 
-            echo $fetch[0]['image_4'];
+            $imagefim = $fetch[0]['image_4'];
 
         elseif ($_GET['im'] == 22):
-            echo $fetch[0]['profile_image'];
+            $imagefim = $fetch[0]['profile_image'];
 
         elseif ($_GET['im'] == 44):
-            echo $fetch[0]['image_1'];
+            $imagefim = $fetch[0]['image_1'];
 
         else:
-            echo $fetch[0]['image_1'];
+            $imagefim = $fetch[0]['image_1'];
 
 
         endif;
+        echo $imagefim;
 
 
     }
@@ -916,7 +1025,6 @@ class AjaxControler extends CI_Controller
     public function alteritem()
     {
 
-
         if ($this->sessionsverify_model->logver() == true):
 
             $this->db->from('users');
@@ -934,14 +1042,15 @@ class AjaxControler extends CI_Controller
                         if (!empty($_POST['nome']) and !empty($_POST['keywords']) and !empty($_POST['preco']) and !empty($_POST['produtoid'])):
 
 
-                            $dado['nome_prod'] = $_POST['nome'];
-                            $dado['keywords'] = $_POST['keywords'];
-                            $dado['preco'] = $_POST['preco'];
-                            $dado['desconto'] = $_POST['desconto'];
-                            $dado['unidades'] = $_POST['unidade'];
-                            $this->db->where('id_produto', $_POST['produtoid']);
+                            $dados['nome_prod'] = $_POST['nome'];
+                            $dados['keywords'] = $_POST['keywords'];
+                            $dados['preco'] = str_replace(',', '.', $_POST['preco']);
+                            $dados['desconto'] = $_POST['desconto'];
+                            $dados['unidades'] = $_POST['unidade'];
+                            $dados['categorias'] = $_POST['categoria'];
+                            $this->db->where('id_pdp', $_POST['produtoid']);
                             $this->db->where('id_loja', $loja);
-                            if ($this->db->update('produtos_disponiveis', $dado)):
+                            if ($this->db->update('produtos_disponiveis', $dados)):
 
                                 echo 11;
 

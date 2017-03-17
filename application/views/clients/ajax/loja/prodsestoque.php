@@ -25,10 +25,15 @@ else:
 endif;
 
 $this->db->from('produtos_disponiveis');
+
 $this->db->where('id_loja', $_POST['keyword']);
 if ($_POST['tipo'] == '33'):
     $this->db->where('unidades', '0');
 endif;
+if(!empty($_POST['details'])):
+    $this->db->like('keywords', $_POST['details']);
+endif;
+
 $this->db->order_by('id_pdp', 'desc');
 $this->db->limit($max, $atual);
 
@@ -39,6 +44,13 @@ if ($count > 0):
     $result = $get->result_array();
     ?>
 
+    <section>
+        <label for="emailcog" class="input">
+            <input type="email" id="buscaestoque" size="85" style="padding: 1%;" placeholder="Buscar no Estoque" name="email" value="<?php echo $_POST['details']; ?>">
+
+        </label>            <a style="margin: 0 0 0 3%; " href="javascript:categoria('<?php echo base_url(''); ?>','32', '1','0','meusprodutos','meusprodutostab','<?php echo $_POST['keyword'];?>','',$('#buscaestoque').val());"><i class="icon-append fa fa-search"></i></a>
+
+    </section>
     <div class="table-search-v2">
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
@@ -160,7 +172,7 @@ if ($count > 0):
 
                                 if ($dds['visible'] == 1):
 
-                                    echo '<b class="text-success"><i class="fa fa-eye" aria-hidden="true"></i> Visível </b>
+                                    echo '<b class="text-success"><i class="fa fa-eye" aria-hidden="true"></i> Disponível </b>
 ';
                                 else:
 
@@ -269,6 +281,31 @@ if ($count > 0):
                                                     .</b>
                                             </div>
 
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Categorias</label>
+                                                <select
+                                                    id="categoriaprodutoAlt<?php echo $dds['id_pdp']; ?><?php echo $_POST['tipo']; ?>">
+
+                                                    <?php
+
+                                                    $this->db->from('categorias');
+                                                    $this->db->where('tipo', 1);
+                                                    $get = $this->db->get();
+                                                    if ($get->num_rows() > 0):
+
+                                                        foreach ($get->result_array() as $dda) {
+                                                            ?>
+                                                            <option <?php if ($dds['categorias'] == $dda['id']): echo 'selected'; endif; ?>
+                                                                value="<?php echo $dda['id']; ?>"><?php echo $dda['nome']; ?></option>
+
+                                                            <?php
+                                                        }
+
+                                                    endif; ?>
+                                                </select><br>
+
+                                            </div>
+
 
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Código do Produto</label>
@@ -294,7 +331,7 @@ if ($count > 0):
                                                              endif;
                                                          else:
 
-                                                             echo '' . base_url('') . 'imagem?tp=1&&im=2&&image=' . $dds['id_pdp'];
+                                                             echo '' . base_url('') . 'imagem?tp=5&&im=1&&image=' . $dds['id_pdp'];
 
                                                          endif;
                                                          ?>
@@ -325,7 +362,7 @@ if ($count > 0):
 
                                                          else:
 
-                                                             echo '' . base_url('') . 'imagem?tp=1&&im=2&&image=' . $dds['id_pdp'];
+                                                             echo '' . base_url('') . 'imagem?tp=5&&im=2&&image=' . $dds['id_pdp'];
 
                                                          endif;
                                                          ?>">
@@ -402,6 +439,13 @@ if ($count > 0):
 else:
 
     ?>
+    <section>
+        <label for="emailcog" class="input">
+            <input type="email" id="buscaestoque" size="85" style="padding: 1%;" placeholder="Buscar no Estoque" name="email" value="<?php echo $_POST['details']; ?>">
+
+        </label>            <a style="margin: 0 0 0 3%; " href="javascript:categoria('<?php echo base_url(''); ?>','32', '1','0','meusprodutos','meusprodutostab','<?php echo $_POST['keyword'];?>','',$('#buscaestoque').val());"><i class="icon-append fa fa-search"></i></a>
+
+    </section>
     <h2 style="text-align: center;">Nenhum Resultado</h2>
     <?php
 

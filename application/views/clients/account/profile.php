@@ -79,7 +79,7 @@
                                             <span class="profile-post-numb"><?php echo $i; ?></span>
                                             <div class="profile-post-in">
                                                 <h3 title="<?php echo $name;?>" class="heading-xs"><a
-                                                        href="<?php echo $url; ?>"><?php echo character_limiter($name,40); ?></a>
+                                                        href="<?php echo $url; ?>"><?php echo character_limiter($name,25); ?></a>
                                                 </h3>
                                                 <p><?php echo $data; ?></p>
                                             </div>
@@ -248,7 +248,7 @@
 
 
                     $this->db->from('lances');
-                    $this->db->join('produtos_disponiveis','produtos_disponiveis.id_produto = lances.id_produto');
+                    $this->db->join('produtos_disponiveis','produtos_disponiveis.id_pdp = lances.id_produto');
                     $this->db->join('lojas','lojas.id_loja = produtos_disponiveis.id_loja');
                     $this->db->where('lances.id_cliente',$_SESSION['ID']);
                     $this->db->order_by('lances.id','desc');
@@ -348,6 +348,36 @@
                             <?php
 
                         }
+
+else:
+
+                        ?>
+
+    <tr>
+        <td>
+            -- --
+        </td>
+
+        <td>
+            -- --
+        </td>
+
+        <td>
+            -- --
+        </td>
+
+        <td>
+            -- --
+        </td>
+
+        <td>
+            -- --
+        </td>
+
+    </tr>
+
+    <?php
+
                     endif;
 
                     ?>

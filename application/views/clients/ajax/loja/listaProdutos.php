@@ -192,4 +192,4 @@ endif;
 <button type="button" class="btn-u btn-u-default"
         onclick="categoria('<?php echo base_url(''); ?>','32', '1','0','additenscampo','addPiTENS','1','');">Cancelar
 </button>
-<button class="btn-u" onclick="addProds(<??>)">Salvar Produtos</button>
+<button class="btn-u" onclick="addProds(<?php echo $i;?>)">Salvar Produtos</button>

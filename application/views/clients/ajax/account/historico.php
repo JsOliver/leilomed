@@ -29,7 +29,7 @@
 
     $this->db->from('visitados');
     $this->db->join('produtos_disponiveis', 'produtos_disponiveis.id_pdp = visitados.id_item', 'inner');
-    $this->db->join('medicamentos', 'medicamentos.id = produtos_disponiveis.id_pdp', 'inner');
+    $this->db->join('medicamentos', 'medicamentos.id = produtos_disponiveis.id_produto', 'inner');
     $this->db->where('visitados.id_user', $_SESSION['ID']);
     $this->db->order_by('visitados.id', 'desc');
     $this->db->limit($max, $atual);
@@ -70,7 +70,11 @@
         <?php endif; } endif; ?>
 
 </ul>
+<?php
 
+if($count1 > $max):
+
+?>
 <nav aria-label="Page navigation">
     <ul class="pager">
         <li>
@@ -88,4 +92,4 @@
         </li>
     </ul>
 </nav>
-
+<?php endif;?>

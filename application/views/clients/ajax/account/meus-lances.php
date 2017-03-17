@@ -94,7 +94,7 @@
                         $minuto = substr($data,10,2);
                     ?>
 
-                <li>
+                <li id="pedidoslnt<?php echo $dds['id'];?><?php echo $_POST['tipo']?>">
                     <time datetime="" class="cbp_tmtime"><a style="cursor:pointer;" data-toggle="modal"
                                                             data-target="#<?php if($_POST['tipo'] == 21): echo 't'; elseif($_POST['tipo'] == 22): echo 'a';  else: echo 'f'; endif; ?>lance<?php echo $dds['id']; ?>"<span><?php echo $nome;?></span>
                         <span><?php echo $dia;?>/<?php echo $mes;?>/<?php echo $ano;?> as <?php echo $hora;?>:<?php echo $minuto;?></span></a></time>
@@ -107,8 +107,9 @@
 
                         <div class="dropdown-menu" style="float: left;text-align: left; padding: 30% 0 30% 30%; width: 10px;"
                              aria-labelledby="cong">
-                            <a class="dropdown-item" href="#">Cancelar</a><br>
-                            <a class="dropdown-item" href="#">Editar</a>
+                            <a class="dropdown-item" href="javascript:cancelpedido('<?php echo $dds['id']; ?>','<?php echo $_POST['tipo']?>','1')">Cancelar</a><br>
+                            <!--
+                            <a class="dropdown-item" href="javascript:cancelpedido('<?php echo $dds['id']; ?>','<?php echo $_POST['tipo']?>','1')">Cancelar e Excluir</a>-->
                         </div>
                     </div><br>
                     <?php

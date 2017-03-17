@@ -27,7 +27,7 @@
     $this->db->where('id_loja', $_POST['keyword']);
     $this->db->where('status !=', 5);
     $this->db->limit($max, $atual);
-    $this->db->order_by('id', 'desc', 'resposta', 'asc');
+    $this->db->order_by('resposta', 'asc','id', 'desc');
     $get = $this->db->get();
     $count = $get->num_rows();
 
@@ -35,9 +35,12 @@
 
         $result = $get->result_array();
         ?>
+
         <ul class="timeline-v2 timeline-me">
 
-        <?php foreach ($result as $dds) {
+        <?php
+
+        foreach ($result as $dds) {
 
 
         if ($dds['status'] == 1):
@@ -48,8 +51,16 @@
 
         endif;
 
+            $this->db->from('produtos_disponiveis');
+            $this->db->where('id_pdp', $dds['id_produto']);
+            $get = $this->db->get();
+            $count55 = $get->num_rows();
+
+            if($count55):
+
+                $ddsah = $get->result_array();
         $this->db->from('medicamentos');
-        $this->db->where('id', $dds['id_produto']);
+        $this->db->where('id', $ddsah[0]['id_produto']);
         $get = $this->db->get();
         $count = $get->num_rows();
         $data = $dds['data_lance'];
@@ -59,7 +70,7 @@
         if ($count > 0):
             $result = $get->result_array();
             ?>
-            <li>
+            <li id="itemlist<?php echo $dds['id']; ?><?php echo $_POST['tipo']; ?>">
                 <a onclick="FunctionreadFtn('<?php echo base_url(''); ?>','<?php echo $dds['id']; ?>');"
                    style="text-decoration: none;cursor: pointer;" data-toggle="modal"
                    data-target="#infolance<?php echo $dds['id'] . $_POST['tipo']; ?>">
@@ -92,9 +103,34 @@
 
                             $result1 = $get->result_array();
                             ?>
-                            <h6><b>Nome:</b> <?php echo $result1[0]['firstname']; ?><br><b>Email:</b> <a
-                                    title="Enviar e-mail para <?php echo $result1[0]['email']; ?>"
-                                    href="mailto:<?php echo $result1[0]['email']; ?>"><?php echo $result1[0]['email']; ?></a>
+
+                            <?php
+                            /*   $this->db->from('');
+                               $this->db->where('','');
+                               $get =  $this->db->get();
+                               $count = $get->num_rows();
+                               if($count > 0):
+
+                                   endif; */
+
+
+                            $this->db->from('lances_users_dados');
+                            $this->db->where('id_lance', $dds['id']);
+                            $get = $this->db->get();
+                            $count = $get->num_rows();
+                            if ($count > 0):
+
+                                $result = $get->result_array();
+
+                                ?>
+
+
+                                <?php
+
+                            endif; ?>
+                            <h6><b>Nome:</b> <?php echo $result[0]['nome']; ?><br><b>Email:</b> <a
+                                    title="Enviar e-mail para <?php echo $result[0]['email']; ?>"
+                                    href="mailto:<?php echo $result[0]['email']; ?>"><?php echo $result[0]['email']; ?></a>
                             </h6>
 
                         <?php endif; ?>
@@ -291,7 +327,7 @@
                             </div>
 
                             <?php if ($dds['resposta'] > 0): ?>
-                                  <span style="text-align: center;"> <a style="margin-top: 5px;" class="btn btn-u">Remover da Lista</a></span>
+                                  <span style="text-align: center;"> <a href="javascript:removelista('<?php echo $dds['id']?>','<?php echo $_POST['tipo']?>')" style="margin-top: 5px;" class="btn btn-u" >Remover da Lista</a></span>
                             <?php endif;?>
 
 
@@ -316,7 +352,9 @@
                 </div>
             </div>
         </div><br><br><br>
-        <?php
+            <?php
+            endif;
+
     }
     echo '</ul>';
 

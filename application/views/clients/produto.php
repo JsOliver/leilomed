@@ -69,9 +69,33 @@ endif;
                         $query = $this->db->get();
                         $rest = $query->result_array();
                         if (empty($rest[0]['image_1'])):
+
+
+                        $this->db->from('produtos_disponiveis');
+                        $this->db->where('id_pdp', $this->uri->segment(4));
+                        $query = $this->db->get();
+                            $resps = $query->result_array();
+                        if(!empty($resps[0]['image_1'])):
                             ?>
 
+                            <div class="ms-slide">
+                                <img class="ms-brd"
+                                     src="<?php echo base_url('imagem?tp=5&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                                <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                     src="<?php echo base_url('imagem?tp=5&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                            </div>
+                            <div class="ms-slide">
+                                <img class="ms-brd"
+                                     src="<?php echo base_url('imagem?tp=5&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                                <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                     src="<?php echo base_url('imagem?tp=5&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                            </div>
 
+                            <?php else:?>
 
 
                                 <img style="width: 330px;top: 0;position: absolute;"
@@ -80,41 +104,79 @@ endif;
 
 
 
-                        <?php else: ?>
+                        <?php endif; else:
+
+                            $this->db->from('produtos_disponiveis');
+                            $this->db->where('id_pdp', $this->uri->segment(4));
+                            $query = $this->db->get();
+                            if(!empty($query->result_array()['image_1'])):
+
+                            ?>
+                                <div class="ms-slide">
+                                    <img class="ms-brd"
+                                         src="<?php echo base_url('imagem?tp=5&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
+                                         alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                                    <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                         src="<?php echo base_url('imagem?tp=5&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
+                                         alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                                </div>
+                                <div class="ms-slide">
+                                    <img class="ms-brd"
+                                         src="<?php echo base_url('imagem?tp=5&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
+                                         alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                                    <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                         src="<?php echo base_url('imagem?tp=5&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
+                                         alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                                </div>
+                                <?php else:?>
                             <div class="ms-slide">
                                 <img class="ms-brd"
-                                     src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
+                                     src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $result[0]['id_produto'] . '') ?>"
                                      alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
                                 <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
-                                     src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $this->uri->segment(4) . '') ?>"
+                                     src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $result[0]['id_produto'] . '') ?>"
                                      alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
                             </div>
                             <div class="ms-slide">
                                 <img class="ms-brd"
-                                     src="<?php echo base_url('imagem?tp=1&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
+                                     src="<?php echo base_url('imagem?tp=1&&im=2&&image=' . $result[0]['id_produto'] . '') ?>"
                                      alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
                                 <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
-                                     src="<?php echo base_url('imagem?tp=1&&im=2&&image=' . $this->uri->segment(4) . '') ?>"
+                                     src="<?php echo base_url('imagem?tp=1&&im=2&&image=' . $result[0]['id_produto'] . '') ?>"
                                      alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
                             </div>
 
-                            <div class="ms-slide">
-                                <img class="ms-brd"
-                                     src="<?php echo base_url('imagem?tp=1&&im=3&&image=' . $this->uri->segment(4) . '') ?>"
-                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
-                                <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
-                                     src="<?php echo base_url('imagem?tp=1&&im=3&&image=' . $this->uri->segment(4) . '') ?>"
-                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
-                            </div>
+                                <?php endif;?>
 
+                            <?php
+
+                            if(!empty($result[0]['image_3'])):
+
+                            ?>
                             <div class="ms-slide">
                                 <img class="ms-brd"
-                                     src="<?php echo base_url('imagem?tp=1&&im=4&&image=' . $this->uri->segment(4) . '') ?>"
+                                     src="<?php echo base_url('imagem?tp=1&&im=3&&image=' . $result[0]['id_produto'] . '') ?>"
                                      alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
                                 <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
-                                     src="<?php echo base_url('imagem?tp=1&&im=4&&image=' . $this->uri->segment(4) . '') ?>"
+                                     src="<?php echo base_url('imagem?tp=1&&im=3&&image=' . $result[0]['id_produto'] . '') ?>"
                                      alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
                             </div>
+                                <?php endif;?>
+
+                        <?php
+
+                        if(!empty($result[0]['image_4'])):
+
+                            ?>
+                            <div class="ms-slide">
+                                <img class="ms-brd"
+                                     src="<?php echo base_url('imagem?tp=1&&im=4&&image=' . $result[0]['id_produto'] . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                                <img class="ms-thumb" style="height: 110px;object-fit: cover; object-position: center;"
+                                     src="<?php echo base_url('imagem?tp=1&&im=4&&image=' . $result[0]['id_produto'] . '') ?>"
+                                     alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+                            </div>
+                        <?php endif;?>
 
                         <?php endif; ?>
 
@@ -185,45 +247,27 @@ endif;
                 </ul><!--/end shop product prices-->
 
 
-                <p class="wishlist-category"><strong>Categorias:</strong>
+                <p class="wishlist-category"><strong>Categoria:</strong>
                     <?php
 
-                    $arraycategoria = explode(',', $result[0]['categorias']);
-                    $narrays = count($arraycategoria);
 
                     $this->db->from('categorias');
                     $this->db->where('tipo', 1);
-
-                    for ($i = 10; $i < $narrays; $i++):
-                        $this->db->like('id', $arraycategoria[$i]);
-                    endfor;
-
                     $get = $this->db->get();
                     $countc = $get->num_rows();
                     if ($countc > 0):
-                        $fetch = $get->result_array();
-
-                        $o = 0;
-                        foreach ($fetch as $ddsc) {
-                            $o++;
-                            if ($o == count($fetch)):
-                                $v = '';
-                            else:
-
-                                $v = ',';
-                            endif;
-                            echo '<a href="' . base_url('busca/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($ddsc['nome'])))) . '">' . $ddsc['nome'].'</a>'.$v.'';
-
-                        }
-                    else:
+                    $fetch = $get->result_array();
+                        echo '<a href="' . base_url('busca/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($fetch[0]['nome'])))) . '">' . $fetch[0]['nome'].'</a>';
 
                     endif;
+
                     ?>
 </p>
 
 
 </p>
             </div>
+
 
 
             <div class="col-md-3">
@@ -258,8 +302,7 @@ endif;
                                     <div class="row" style="padding: 2%">
                                         <div class="col-md-8">
                                             <h4 style="font-weight: bold;color: black; font-size: 12pt;">Você quer dar
-                                                um lance para adiquirir este produto? <a style="color: #940f14;">Dorflex
-                                                    Safoni 30 Comprimidos</a></h4>
+                                                um lance para adiquirir este produto? <a style="color: #940f14;"><?php echo $result[0]['nome_prod'];?></a></h4>
                                             <hr>
                                             <h5 style="color: black;text-align: left;">Indique a quantidade desejada e o
                                                 valor de sua proposta</h5>
@@ -304,16 +347,85 @@ endif;
                                                             size="2" type="number" id="quantidade" placeholder="1" value="1">
                                                     </label>
                                                 </form>
+                                                <?php if(!empty($resultmed[0]['fixa_cal'])):?>
+
                                                 <p style="margin-top: 5px;">
-                                                    Integer <strong>dapibus ut elit</strong> non volutpat. Integer
-                                                    auctor purus a lectus suscipit
-                                                    fermentum. Vivamus lobortis nec erat consectetur elementum.
+                                                    <b>Detalhes:</b>  <?php echo $resultmed[0]['fixa_cal'];?>
                                                 </p>
+                                                <?php endif;?>
+
+                                                <?php if(!empty($resultmed[0]['posologia'])):?>
+                                                <p>
+                                                    <b>Posologia:</b>  <?php echo $resultmed[0]['posologia'];?>
+                                                </p>
+                                                <?php endif;?>
+                                                <?php if(!empty($resultmed[0]['indicacoes'])):?>
+
+                                                <p>
+                                                   <b>Indicações:</b> <?php echo $resultmed[0]['indicacoes'];?>
+                                                </p>
+                                                <?php endif;?>
+                                                <?php if(!empty($resultmed[0]['contra_indicacoes'])):?>
+
+                                                <p>
+                                                   <b>Contra Indicações:</b> <?php echo $resultmed[0]['contra_indicacoes'];?>
+                                                </p>
+                                                <?php endif;?>
+
                                             </div>
                                         </div>
                                         <div class="col-md-4" style="border: 1px solid #dfdfdf;">
-                                            <a><img style="width: 100%;"
-                                                    src="http://araujo.vteximg.com.br/arquivos/ids/2777086-1000-1000/07896714201177img-imagem-id-54544.jpg"></a>
+                                            <a>
+
+                                                <?php
+                                                $this->db->from('medicamentos');
+                                                $this->db->where('id', $result[0]['id_produto']);
+                                                $query = $this->db->get();
+                                                $rest = $query->result_array();
+                                                if (empty($rest[0]['image_1'])):
+
+
+                                                    $this->db->from('produtos_disponiveis');
+                                                    $this->db->where('id_pdp', $this->uri->segment(4));
+                                                    $query = $this->db->get();
+                                                    $resps = $query->result_array();
+                                                    if(!empty($resps[0]['image_1'])):
+                                                        ?>
+
+
+                                                        <img style="width: 100%;"
+                                                             src="<?php echo base_url('imagem?tp=5&&im=1&&image=' . $this->uri->segment(4) . '') ?>">
+                                                    <?php else:?>
+
+
+                                                        <img style="width: 330px;top: 0;position: absolute;"
+                                                             src="<?php echo base_url('assets/'.$version.'/img/remedio.jpg')?>"
+                                                             alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+
+
+
+                                                    <?php endif; else:
+
+                                                    $this->db->from('produtos_disponiveis');
+                                                    $this->db->where('id_pdp', $this->uri->segment(4));
+                                                    $query = $this->db->get();
+                                                    if(!empty($query->result_array()['image_1'])):
+
+                                                        ?>
+
+
+                                                        <img style="width: 100%;"
+                                                             src="<?php echo base_url('imagem?tp=5&&im=1&&image=' . $this->uri->segment(4) . '') ?>">
+                                                    <?php else:?>
+
+                                                        <img style="width: 100%;"
+                                                             src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $result[0]['id_produto'] . '') ?>">
+                                                    <?php endif;?>
+
+
+                                                <?php endif; ?>
+
+</a>
                                         </div>
                                         <?php if ($status == false): ?>
                                             <div class="col-md-12">
@@ -433,16 +545,84 @@ endif;
                                                             size="2" type="number" id="quantidadecard" placeholder="1" value="1">
                                                     </label>
                                                 </form>
-                                                <p style="margin-top: 5px;">
-                                                    Integer <strong>dapibus ut elit</strong> non volutpat. Integer
-                                                    auctor purus a lectus suscipit
-                                                    fermentum. Vivamus lobortis nec erat consectetur elementum.
-                                                </p>
+                                                <?php if(!empty($resultmed[0]['fixa_cal'])):?>
+
+                                                    <p style="margin-top: 5px;">
+                                                        <b>Detalhes:</b>  <?php echo $resultmed[0]['fixa_cal'];?>
+                                                    </p>
+                                                <?php endif;?>
+
+                                                <?php if(!empty($resultmed[0]['posologia'])):?>
+                                                    <p>
+                                                        <b>Posologia:</b>  <?php echo $resultmed[0]['posologia'];?>
+                                                    </p>
+                                                <?php endif;?>
+                                                <?php if(!empty($resultmed[0]['indicacoes'])):?>
+
+                                                    <p>
+                                                        <b>Indicações:</b> <?php echo $resultmed[0]['indicacoes'];?>
+                                                    </p>
+                                                <?php endif;?>
+                                                <?php if(!empty($resultmed[0]['contra_indicacoes'])):?>
+
+                                                    <p>
+                                                        <b>Contra Indicações:</b> <?php echo $resultmed[0]['contra_indicacoes'];?>
+                                                    </p>
+                                                <?php endif;?>
                                             </div>
                                         </div>
                                         <div class="col-md-4" style="border: 1px solid #dfdfdf;">
-                                            <a><img style="width: 100%;"
-                                                    src="http://araujo.vteximg.com.br/arquivos/ids/2777086-1000-1000/07896714201177img-imagem-id-54544.jpg"></a>
+                                            <a>
+
+                                                <?php
+                                                $this->db->from('medicamentos');
+                                                $this->db->where('id', $result[0]['id_produto']);
+                                                $query = $this->db->get();
+                                                $rest = $query->result_array();
+                                                if (empty($rest[0]['image_1'])):
+
+
+                                                    $this->db->from('produtos_disponiveis');
+                                                    $this->db->where('id_pdp', $this->uri->segment(4));
+                                                    $query = $this->db->get();
+                                                    $resps = $query->result_array();
+                                                    if(!empty($resps[0]['image_1'])):
+                                                        ?>
+
+
+                                                        <img style="width: 100%;"
+                                                             src="<?php echo base_url('imagem?tp=5&&im=1&&image=' . $this->uri->segment(4) . '') ?>">
+                                                    <?php else:?>
+
+
+                                                        <img style="width: 330px;top: 0;position: absolute;"
+                                                             src="<?php echo base_url('assets/'.$version.'/img/remedio.jpg')?>"
+                                                             alt="<?php echo  str_replace('-',' ',ucwords($this->uri->segment(3)));?>">
+
+
+
+                                                    <?php endif; else:
+
+                                                    $this->db->from('produtos_disponiveis');
+                                                    $this->db->where('id_pdp', $this->uri->segment(4));
+                                                    $query = $this->db->get();
+                                                    if(!empty($query->result_array()['image_1'])):
+
+                                                        ?>
+
+
+                                                        <img style="width: 100%;"
+                                                             src="<?php echo base_url('imagem?tp=5&&im=1&&image=' . $this->uri->segment(4) . '') ?>">
+                                                    <?php else:?>
+
+                                                        <img style="width: 100%;"
+                                                             src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $result[0]['id_produto'] . '') ?>">
+                                                    <?php endif;?>
+
+
+                                                <?php endif; ?>
+
+                                            </a>
                                         </div>
 
                                            <span id="btnscr"> <a href="javascript:addcard('<?php echo $result[0]['id_loja'];?>' , '<?php echo '#MD0'.$resultmed[0]['id'].''; ?>' , '<?php echo $this->uri->segment(4);?>');" class="btn"
@@ -486,8 +666,7 @@ endif;
     <?php
 
     $this->db->from('produtos_disponiveis');
-    $this->db->like('nome_prod',$result[0]['desconto']);
-    $this->db->or_like('keywords',$result[0]['keywords']);
+    $this->db->like('keywords',$result[0]['keywords']);
     $get = $this->db->order_by('preco','asc','desconto','desc');
     $get = $this->db->limit(5,0);
 
@@ -502,7 +681,7 @@ endif;
         <tr style="border-top: 10px solid white;">
             <th style="color: #969696;padding-left: 3.5%;">PRODUTO</th>
             <th style="color: #969696;padding-left: 3.5%;">FARMÁCIA</th>
-            <th style="color: #969696;padding-left: 3.5%;">FRETE GRÁTIS</th>
+            <th style="color: #969696;padding-left: 3.5%;">EM ESTOQUE</th>
             <th style="color: #969696;padding-left: 3.5%;">TELEFONE</th>
             <th style="color: #969696;padding-left: 3.5%;">VALOR</th>
         </tr>
@@ -511,10 +690,21 @@ endif;
         foreach ($resultsd as $dds){
         ?>
         <tr>
-            <td style="font-weight: bold;color: #940f14;text-align: center;"><a style="color: #940f14;">Dorflex Sanofi
-                    30 Comprimidos</a></td>
-            <td style="font-weight: bold;color: #940f14;text-align: center;"><a style="color: #940f14;">Drogaria São
-                    Paulo</a></td>
+            <td style="font-weight: bold;color: #940f14;text-align: center;"><a style="color: #940f14;"><?php echo $dds['nome_prod'];?></a></td>
+
+            <?php
+
+            $this->db->from('lojas');
+            $this->db->where('id_loja',$dds['id_loja']);
+            $get = $this->db->get();
+            if($get->num_rows() > 0):
+                $resultlj = $get->result_array();
+            ?>
+            <td style="font-weight: bold;color: #940f14;text-align: center;"><a href="<?php echo base_url('loja/'.str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($resultlj[0]['nome_loja']))).'/'.$dds['id_loja']);?>" style="color: #940f14;"><?php echo $resultlj[0]['nome_loja']?></a></td>
+<?php else:?>
+
+                <td> -- --</td>
+                <?php endif;?>
             <td style="text-align: center;"><i style="color: #30944c;" class="fa fa-check" aria-hidden="true"></i></td>
             <td style="text-align: center;">(33) 3343-1704</td>
             <td style="text-align: center;">

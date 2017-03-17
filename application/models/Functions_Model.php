@@ -105,6 +105,10 @@ class Functions_Model extends CI_Model
                             if(isset($dds->fixacal)):  $fixacal = $dds->fixacal; else:  $fixacal = ''; endif;
                             if(isset($dds->opcional->miligramas)):  $miligramas = $dds->opcional->miligramas; else:  $miligramas = ''; endif;
                             if(isset($dds->opcional->indicacoes)):  $indicacoes = $dds->opcional->indicacoes; else:  $indicacoes = ''; endif;
+                            if(isset($dds->imagem1)):  $imagem1 = $dds->imagem1; else:  $imagem1 = ''; endif;
+                            if(isset($dds->imagem2)):  $imagem2 = $dds->imagem2; else:  $imagem2 = ''; endif;
+                            if(isset($dds->imagem3)):  $imagem3 = $dds->imagem3; else:  $imagem3 = ''; endif;
+                            if(isset($dds->imagem4)):  $imagem4 = $dds->imagem4; else:  $imagem4 = ''; endif;
                             if(isset($dds->opcional->contraIndicacoes)):  $contra_indicacoes = $dds->opcional->contraIndicacoes; else: echo $contra_indicacoes = ''; endif;
                             if(isset($dds->opcional->posologia)):  $posologia = $dds->opcional->posologia; else:  $posologia = ''; endif;
                             if(isset($dds->opcional->CaracteristicasFarmacologicas)):  $CaracteristicasFarmacologicas = $dds->opcional->CaracteristicasFarmacologicas; else:  $CaracteristicasFarmacologicas = ''; endif;
@@ -112,6 +116,24 @@ class Functions_Model extends CI_Model
                             echo $armazenagem;
 
                             $keyword = str_replace(' ', ',', $nome) . ',' . str_replace(' ', ',', $laboratorio) . ',' . str_replace(' ', ',', $formula) . ',' . str_replace(' ', ',', $substancia) . ',' . $nome . ',' . $formula . ',' . $substancia . ',' . $laboratorio;
+
+
+                            if(!empty($imagem1)):
+                                $date['image_1'] = file_get_contents(addslashes($imagem1));
+                            endif;
+
+                            if(!empty($imagem2)):
+                                $date['image_2'] = file_get_contents(addslashes($imagem2));
+                            endif;
+
+                              if(!empty($imagem3)):
+                                $date['image_3'] = file_get_contents(addslashes($imagem3));
+                            endif;
+
+                            if(!empty($imagem4)):
+                                $date['image_4'] = file_get_contents(addslashes($imagem4));
+                            endif;
+
                             $dada['keywords'] = $keyword;
                             $dada['marca'] = $laboratorio;
                             $dada['nome'] = $nome;
@@ -143,7 +165,7 @@ class Functions_Model extends CI_Model
 
                                     $dados['keywords'] = $keyword;
                                     $dados['id_produto'] = $this->db->insert_id();
-                                    $dados['nome_prod'] = $keyword;
+                                    $dados['nome_prod'] = $nome;
                                     $dados['cod_produto'] = '#MD0' . $this->db->insert_id();
                                     $dados['preco'] = $preco;
                                     $dados['desconto'] = $desconto;
@@ -151,10 +173,17 @@ class Functions_Model extends CI_Model
                                     $dados['unidades'] = $unidades;
                                     $dados['data_adicionado'] = date('YmdHis');
 
+                                    if(!empty($imagem1)):
+                                        $dados['image_1'] = file_get_contents(addslashes($imagem1));
+                                    endif;
+
+                                    if(!empty($imagem2)):
+                                        $dados['image_2'] = file_get_contents(addslashes($imagem2));
+                                    endif;
 
                                     $this->db->from('categorias');
                                     $this->db->like('nome', $categoria1);
-                                    $this->db->like('nome', $categoria2);
+                                    $this->db->or_like('nome', $categoria2);
                                     $get = $this->db->get();
                                     $count = $get->num_rows();
                                     if($count > 0):

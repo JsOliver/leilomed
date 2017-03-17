@@ -148,7 +148,7 @@ if ($page == 'lojaa'):
 
                   } else {
                       document.getElementById("xmlFileUpload").value = "";
-                      $("#errorDataXml").html('Erro Ao Envoar o Arquivo XML, Tente Novamente');
+                      $("#errorDataXml").html('Erro Ao Enviar o Arquivo XML, Tente Novamente');
                   }
               }
 
@@ -196,6 +196,35 @@ if ($page == 'lojaa'):
         });
     </script>
 <?php endif; ?>
+
+<?php
+if($page == 'meus-lances'):
+?>
+<script>
+    function cancelpedido(pedido,tipo,action) {
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url('actionpedido');?>",
+            data: {pedido: pedido, action: action},
+            success: function (result) {
+                
+                if(result == 11){
+                    $("#pedidoslnt"+pedido+""+tipo+"").remove();
+                }
+            },
+            error: function (result) {
+
+                alert("Ocorreu um erro, tente mais tarde");
+            }
+        });
+
+    }
+</script>
+<?php
+endif;
+?>
+
 <?php if ($page == 'logcad'): ?>
     <script>
         var SPMaskBehavior = function (val) {
@@ -627,6 +656,27 @@ endif;
 <?php
 if ($page == 'lojaa'):
     ?>
+
+    <script>
+
+        function removelista(id,tipo){
+            $("#infolance"+id+""+tipo+"").modal('hide');
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url('removelistaped');?>",
+                data: {pedido: id},
+                success: function (result) {
+
+                    $("#itemlist"+id+""+tipo+"").remove();
+                },
+                error: function (result) {
+
+                    alert("Ocorreu um erro, tente mais tarde");
+                }
+            });
+        }
+
+    </script>
     <script>
 
 
@@ -746,7 +796,13 @@ if ($page == 'lojaa'):
 <?php
 if ($page == 'lojaa'):
     ?>
-
+<script>
+    
+    function addProds() {
+        
+    }
+    
+    </script>
     <script>
 
         function lanceResposta(base,resposta,id,tipo,button) {
@@ -808,11 +864,13 @@ if ($page == 'lojaa'):
             var preco = $("#prizeprodutoAlt" + id + ""+tipo+"").val();
             var desconto = $("#descontoprodutoAlt" + id + ""+tipo+"").val();
             var unidade = $("#unidadeprodutoAlt" + id + ""+tipo+"").val();
+            var categoria = $("#categoriaprodutoAlt" + id + ""+tipo+"").val();
+
 
             $.ajax({
                 type: "POST",
                 url: "" + base + "ajaxalteritem",
-                data: {nome: nome, keywords: keywords, preco: preco, desconto: desconto, unidade: unidade,produtoid:id},
+                data: {nome: nome, keywords: keywords,categoria:categoria, preco: preco, desconto: desconto, unidade: unidade,produtoid:id},
                 success: function (result) {
 
                     if(result == 11){
