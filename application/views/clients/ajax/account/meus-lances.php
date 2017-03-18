@@ -25,13 +25,14 @@
 
             $this->db->from('lances');
             $this->db->where('id_cliente',$_SESSION['ID']);
-            if($tp == 1):
-                $this->db->where('status',1);
-                $this->db->or_where('status',2);
-                $this->db->or_where('status',3);
+            if($_POST['tipo'] == 22):
+                $this->db->where('resposta',0);
+                $this->db->where('status <',4);
+
             endif;
-            if($tp == 2):
+            if($_POST['tipo'] == 23):
                 $this->db->where('status',4);
+                $this->db->or_where('resposta >',0);
             endif;
             $this->db->order_by('id','desc');
 
@@ -108,8 +109,7 @@
                         <div class="dropdown-menu" style="float: left;text-align: left; padding: 30% 0 30% 30%; width: 10px;"
                              aria-labelledby="cong">
                             <a class="dropdown-item" href="javascript:cancelpedido('<?php echo $dds['id']; ?>','<?php echo $_POST['tipo']?>','1')">Cancelar</a><br>
-                            <!--
-                            <a class="dropdown-item" href="javascript:cancelpedido('<?php echo $dds['id']; ?>','<?php echo $_POST['tipo']?>','1')">Cancelar e Excluir</a>-->
+                            <a class="dropdown-item" href="javascript:cancelped('<?php echo $dds['id']; ?>','<?php echo $_POST['tipo']?>','2')">Cancelar e Excluir</a>
                         </div>
                     </div><br>
                     <?php
@@ -225,8 +225,18 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4" style="border: 1px solid #dfdfdf;">
-                                        <a><img style="width: 100%;"
-                                                src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $dds['id_produto'] . '') ?>"></a>
+                                        <a>
+                                            <img style="width: 100%;" src="
+                                            <?php
+
+                                            if(empty($results[0]['image_1'])):
+                                                echo base_url('assets/1/img/empty_prod_pannel.ico');
+                                            else:
+                                                echo base_url('imagem?tp=5&im=1&image='.$results[0]['id_pdp']);
+                                            endif;
+
+                                            ?>" />
+                                           </a>
                                         <br>
                                         <hr>
 

@@ -247,6 +247,7 @@ endif;
                 </ul><!--/end shop product prices-->
 
 
+
                 <p class="wishlist-category"><strong>Categoria:</strong>
                     <?php
 
@@ -280,7 +281,8 @@ endif;
                     <ul class="list-inline add-to-wishlist add-to-wishlist-brd">
                         <br>
                         <li class="wishlist-in">
-                            <a  data-toggle="modal" data-target="#addcard"  style="font-size: 9pt;font-weight: 600;">Adicionar a Lista de Interesse</a>
+                            <a  style="font-size: 9pt;font-weight: 600;">Produto de Responsabilidade do Vendedor</a>
+                           <!-- <a  data-toggle="modal" data-target="#addcard"  style="font-size: 9pt;font-weight: 600;">Adicionar a Lista de Interesse</a>-->
                         </li>
 
                     </ul>
@@ -655,7 +657,18 @@ endif;
                         language="javascript"></script>
                 <!-- LOMADEE - END -->
             </div>
+            <div class="row margin-bottom-5">
+                <div class="col-sm-12 result-category">
+                    <h2>Dados da Loja</h2><br><br><br><br>
+                    <p><b>Endereço:</b> <?php echo $resultlj[0]['rua'].' - '.$resultlj[0]['estado'].' / '.$resultlj[0]['cidade'];?></p>
+                    <p><b>Telefone:</b> <?php echo $resultlj[0]['telefone'];?></p>
+                    <p><b>Email de Contato:</b> <?php echo $resultlj[0]['email_contato'];?></p>
 
+
+
+                </div>
+
+            </div><!--/end result category-->
         </div><!--/end row-->
     </div>
 </div>
@@ -697,7 +710,8 @@ endif;
             $this->db->from('lojas');
             $this->db->where('id_loja',$dds['id_loja']);
             $get = $this->db->get();
-            if($get->num_rows() > 0):
+            $countlj = $get->num_rows();
+            if($countlj > 0):
                 $resultlj = $get->result_array();
             ?>
             <td style="font-weight: bold;color: #940f14;text-align: center;"><a href="<?php echo base_url('loja/'.str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($resultlj[0]['nome_loja']))).'/'.$dds['id_loja']);?>" style="color: #940f14;"><?php echo $resultlj[0]['nome_loja']?></a></td>
@@ -705,13 +719,39 @@ endif;
 
                 <td> -- --</td>
                 <?php endif;?>
-            <td style="text-align: center;"><i style="color: #30944c;" class="fa fa-check" aria-hidden="true"></i></td>
-            <td style="text-align: center;">(33) 3343-1704</td>
-            <td style="text-align: center;">
-                <span style="color: #727272;text-decoration: line-through;" class="line-through">de R$10.00</span> <span
-                    style="font-weight: bold;color: #940f14;" class="shop-red">R$8.90</span> &nbsp;&nbsp;&nbsp; <span
-                    style=" padding: 1% 2% 1% 2% ;color: white;font-weight: 600; background: #972227;">- 9% OFF</span>
-            </td>
+
+            <?php if($dds['unidades'] == '0'):?>
+                <td style="text-align: center;"><i style="color: #ae1b21;" class="fa fa-times" aria-hidden="true"></i></td>
+
+            <?php else:?>
+                <td style="text-align: center;"><i style="color: #30944c;" class="fa fa-check" aria-hidden="true"></i></td>
+
+
+                <?php endif;?>
+            <?php if($countlj > 0):?>
+            <td style="text-align: center;"><?php echo $resultlj[0]['telefone'];?></td>
+                <?php else:?>
+                <td> -- --</td>
+
+            <?php endif;?>
+            <?php if(empty($dds['desconto'])):
+            ?>
+                <td style="">
+                    <span style="color: #727272;margin: 0 0 0 10%;" class="line-through"><span
+                        style="font-weight: bold;color: #940f14;" class="shop-red">R$<?php echo number_format($dds['preco'],2,'.',',');?></span>
+                </td>
+                <?php else:?>
+
+                <td style="text-align: center;">
+                    <span style="color: #727272;text-decoration: line-through;" class="line-through">de R$<?php echo number_format($dds['preco'],2,'.',',');?></span> <span
+                        style="font-weight: bold;color: #940f14;" class="shop-red">R$<?php echo number_format($dds['preco'] - $dds['preco'] / 100 * $dds['desconto'], 2, ',', '.');?></span> &nbsp;&nbsp;&nbsp; <span
+                        style=" padding: 1% 2% 1% 2% ;color: white;font-weight: 600; background: #972227;">- <?php echo $dds['desconto'];?>% OFF</span>
+                </td>
+                <?php
+
+                endif;
+                ?>
+
         </tr>
 
         <?php }?>

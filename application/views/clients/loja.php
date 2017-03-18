@@ -88,14 +88,14 @@ endif;
                                 ?>
                                 <div class="col-md-4" title="<?php echo $dds['nome']; ?>">
                                     <div class="product-img product-img-brd">
-                                        <a href="<?php echo base_url('produto/' . $this->uri->segment(2) . '/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($dds['nome']))) . '/' . $dds['id_produto']); ?>"><img
+                                        <a href="<?php echo base_url('produto/' . $this->uri->segment(2) . '/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($dds['nome']))) . '/' . $dds['id_pdp']); ?>"><img
                                                 class="full-width img-responsive"
                                                 style="height: 200px; object-fit: cover; object-position: center;"
                                                 src="<?php echo base_url('imagem?tp=1&&im=1&&image=' . $dds['id'] . '') ?>"
                                                 alt=""></a>
 
                                         <a class="add-to-cart"
-                                           href="<?php echo base_url('produto/' . $this->uri->segment(2) . '/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($dds['nome']))) . '/' . $dds['id_produto']); ?>"><i
+                                           href="<?php echo base_url('produto/' . $this->uri->segment(2) . '/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($dds['nome']))) . '/' . $dds['id_pdp']); ?>"><i
                                                 class="fa fa-shopping-cart"></i>Ver Mais</a>
                                         <!--<div class="shop-rgba-dark-green rgba-banner">New</div>-->
                                     </div>
@@ -103,7 +103,7 @@ endif;
                                         <div class="overflow-h margin-bottom-5">
                                             <div class="pull-left">
                                                 <h4 class="title-price"><a
-                                                        href="<?php echo base_url('produto/' . $this->uri->segment(2) . '/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($dds['nome']))) . '/' . $dds['id_produto']); ?>"><?php echo ucwords(character_limiter($dds['nome'], 20)); ?></a>
+                                                        href="<?php echo base_url('produto/' . $this->uri->segment(2) . '/' . str_replace(' ', '-', str_replace($arrayreplace, '', strtolower($dds['nome']))) . '/' . $dds['id_pdp']); ?>"><?php echo ucwords(character_limiter($dds['nome'], 20)); ?></a>
                                                 </h4>
 
                                             </div>

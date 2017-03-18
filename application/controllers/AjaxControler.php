@@ -241,9 +241,9 @@ class AjaxControler extends CI_Controller
                 $result = $get->result_array();
 
                 $dado['status'] = '5';
-            $this->db->where('id_loja', $result[0]['loja']);
-            $this->db->where('id', $_POST['pedido']);
-            $this->db->update('lances',$dado);
+                $this->db->where('id_loja', $result[0]['loja']);
+                $this->db->where('id', $_POST['pedido']);
+                $this->db->update('lances', $dado);
 
 
             endif;
@@ -362,13 +362,12 @@ class AjaxControler extends CI_Controller
                                     $dados['desconto'] = $desconto;
 
                                     $this->db->from('users');
-                                    $this->db->where('id',$_SESSION['ID']);
+                                    $this->db->where('id', $_SESSION['ID']);
                                     $get = $this->db->get();
-                                    if($get->num_rows() > 0):
+                                    if ($get->num_rows() > 0):
                                         $resultlj = $get->result_array();
                                         $dados['id_loja'] = $resultlj[0]['loja'];
-                                        endif;
-
+                                    endif;
 
 
                                     $dados['unidades'] = $unidades;
@@ -585,6 +584,38 @@ class AjaxControler extends CI_Controller
 
     }
 
+    public function ajaxdeletestore()
+    {
+        if ($this->sessionsverify_model->logver() == true):
+
+            $this->db->from('users');
+            $this->db->where('id', $_SESSION['ID']);
+            $get = $this->db->get();
+            $count = $get->num_rows();
+            if ($count > 0):
+            $result = $get->result_array();
+
+            $this->db->where('id_loja',$result[0]['loja']);
+            $this->db->delete('lojas');
+
+
+            $this->db->where('id_loja',$result[0]['loja']);
+            $this->db->delete('produtos_disponiveis');
+
+                $this->db->where('id_loja',$result[0]['loja']);
+            $this->db->delete('produtos_disponiveis');
+
+                $this->db->where('id_loja',$result[0]['loja']);
+            $this->db->delete('lances');
+                $ddsa['loja'] = '0';
+                $this->db->where('id',$_SESSION['ID']);
+                $this->db->update('users',$ddsa);
+
+            echo 11;
+                endif;
+                endif;
+    }
+
     public function exibir()
     {
 
@@ -787,6 +818,8 @@ class AjaxControler extends CI_Controller
             else:
                 echo 0;
             endif;
+        else:
+            echo 0;
 
         endif;
     }
@@ -980,6 +1013,15 @@ class AjaxControler extends CI_Controller
                             $data['data'] = date('YmdHis');
                             $data['url_notificacao'] = base_url('minha-loja?pg=notificacao');
                             $this->db->insert('notificacoes', $data);
+
+
+                            $datact['nome'] = $_POST['nome'];
+                            $datact['titulo'] = 'Catálogo ' . $_POST['nome'];
+                            $datact['tipo'] = 2;
+                            $datact['data_add'] = date('YmdHis');
+                            $datact['data_add'] = date('YmdHis');
+                            $datact['add_by'] = $_SESSION['ID'];
+                            $this->db->insert('categorias', $datact);
 
                             echo 11;
 

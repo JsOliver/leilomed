@@ -46,7 +46,7 @@ if ($count > 0):
 
     <section>
         <label for="emailcog" class="input">
-            <input type="email" id="buscaestoque" size="85" style="padding: 1%;" placeholder="Buscar no Estoque" name="email" value="<?php echo $_POST['details']; ?>">
+            <input type="email" id="buscaestoque" size="85" style="padding: 1%;" placeholder="Buscar no Estoque" name="email" value="<?php if(isset($_POST['details'])): echo $_POST['details']; endif;?>">
 
         </label>            <a style="margin: 0 0 0 3%; " href="javascript:categoria('<?php echo base_url(''); ?>','32', '1','0','meusprodutos','meusprodutostab','<?php echo $_POST['keyword'];?>','',$('#buscaestoque').val());"><i class="icon-append fa fa-search"></i></a>
 

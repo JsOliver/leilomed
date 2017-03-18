@@ -24,10 +24,15 @@
 
     endif;
     $this->db->from('lances');
-    $this->db->where('id_loja', $_POST['keyword']);
-    $this->db->where('status !=', 5);
+    $this->db->join('lances_users_dados', 'lances_users_dados.id_lance = lances.id', 'inner');
+
+    if(!empty($_POST['details'])):
+        $this->db->like('lances_users_dados.email', $_POST['details']);
+    endif;
+    $this->db->where('lances.id_loja', $_POST['keyword']);
+    $this->db->where('lances.status !=', 5);
     $this->db->limit($max, $atual);
-    $this->db->order_by('resposta', 'asc','id', 'desc');
+    $this->db->order_by('lances.resposta', 'asc','lances.id', 'desc');
     $get = $this->db->get();
     $count = $get->num_rows();
 
@@ -35,10 +40,25 @@
 
         $result = $get->result_array();
         ?>
+    <?php
+    if($_POST['tipo'] == '32'):
 
+    ?>
+    <section>
+        <label for="emailcog" class="input">
+            <input type="email" id="buscaestoque" size="85" style="padding: 1%;" placeholder="Buscar no Estoque" name="email" value="<?php if(isset($_POST['details'])): echo $_POST['details']; endif;?>">
+
+        </label>            <a style="margin: 0 0 0 3%; " href="javascript:categoria('<?php echo base_url(''); ?>','32', '1','0','lancesfarma','lancesaltab','<?php echo $_POST['keyword'];?>','',$('#buscaestoque').val());"><i class="icon-append fa fa-search"></i></a>
+
+    </section>
+        <br>
+        <br>
+    <?php  endif; ?>
         <ul class="timeline-v2 timeline-me">
 
         <?php
+
+
 
         foreach ($result as $dds) {
 
@@ -46,7 +66,7 @@
         if ($dds['status'] == 1):
 
             $dado['status'] = 2;
-            $this->db->where('id', $dds['id']);
+            $this->db->where('id', $dds['id_lance']);
             $this->db->update('lances', $dado);
 
         endif;
@@ -70,10 +90,11 @@
         if ($count > 0):
             $result = $get->result_array();
             ?>
-            <li id="itemlist<?php echo $dds['id']; ?><?php echo $_POST['tipo']; ?>">
-                <a onclick="FunctionreadFtn('<?php echo base_url(''); ?>','<?php echo $dds['id']; ?>');"
+
+            <li id="itemlist<?php echo $dds['id_lance']; ?><?php echo $_POST['tipo']; ?>">
+                <a onclick="FunctionreadFtn('<?php echo base_url(''); ?>','<?php echo $dds['id_lance']; ?>');"
                    style="text-decoration: none;cursor: pointer;" data-toggle="modal"
-                   data-target="#infolance<?php echo $dds['id'] . $_POST['tipo']; ?>">
+                   data-target="#infolance<?php echo $dds['id_lance'] . $_POST['tipo']; ?>">
                     <time datetime="" class="cbp_tmtime">
                         <span><?php echo $result[0]['nome']; ?></span>
                         <span><?php echo $dia . '/' . $mes . '/' . $ano; ?></span>
@@ -115,7 +136,7 @@
 
 
                             $this->db->from('lances_users_dados');
-                            $this->db->where('id_lance', $dds['id']);
+                            $this->db->where('id_lance', $dds['id_lance']);
                             $get = $this->db->get();
                             $count = $get->num_rows();
                             if ($count > 0):
@@ -144,7 +165,7 @@
 
 
         <!-- Modal -->
-        <div class="modal fade" id="infolance<?php echo $dds['id'] . $_POST['tipo']; ?>" tabindex="-1" role="dialog"
+        <div class="modal fade" id="infolance<?php echo $dds['id_lance'] . $_POST['tipo']; ?>" tabindex="-1" role="dialog"
              aria-labelledby="myModalLabel" style="border-radius: 0px;margin: 2%;">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -166,14 +187,14 @@
                                 <?php
 
                                 $this->db->from('produtos_disponiveis');
-                                $this->db->where('id_produto', $dds['id_produto']);
+                                $this->db->where('id_pdp', $dds['id_produto']);
                                 $get = $this->db->get();
                                 if ($get->num_rows() > 0):
 
                                     $result = $get->result_array();
 
 
-                                    if ($result[0]['unidades'] <> '--'):
+                                    if (!empty($result[0]['unidades'])):
 
                                         echo '<b>' . $result[0]['unidades'] . '</b> unidades restantes.';
 
@@ -187,9 +208,10 @@
                                         echo '<br><b>' . $result[0]['desconto'] . '%</b> de desconto.';
 
                                     endif;
+                                    echo '<br><b>R$' . $result[0]['preco'] . '</b> Preço Original.';
 
                                 else:
-                                    echo 'Dadados do Produto Indisponível.';
+                                    echo 'Dados do Produto Indisponível.';
                                 endif;
 
                                 ?>
@@ -217,7 +239,7 @@
 
 
                                     $this->db->from('lances_users_dados');
-                                    $this->db->where('id_lance', $dds['id']);
+                                    $this->db->where('id_lance', $dds['id_lance']);
                                     $get = $this->db->get();
                                     $count = $get->num_rows();
                                     if ($count > 0):
@@ -284,7 +306,15 @@
                             </div>
                             <div class="col-md-4" style="border: 1px solid #dfdfdf;">
                                 <a><img style="width: 100%;"
-                                        src="http://127.0.0.1:8080/projects/leilomed/imagem?tp=1&amp;&amp;im=1&amp;&amp;image=2"
+                                        src="<?php
+
+                                        if(empty($result[0]['image_1'])):
+                                            echo base_url('assets/1/img/empty_prod_pannel.ico');
+                                            else:
+                                                echo base_url('imagem?tp=1&im=1&image='.$result[0]['id_pdp']);
+                                                endif;
+
+                                       ?>"
                                         data-pin-nopin="true"></a>
                                 <br>
                                 <hr>
@@ -327,23 +357,23 @@
                             </div>
 
                             <?php if ($dds['resposta'] > 0): ?>
-                                  <span style="text-align: center;"> <a href="javascript:removelista('<?php echo $dds['id']?>','<?php echo $_POST['tipo']?>')" style="margin-top: 5px;" class="btn btn-u" >Remover da Lista</a></span>
+                                  <span style="text-align: center;"> <a href="javascript:removelista('<?php echo $dds['id_lance']?>','<?php echo $_POST['tipo']?>')" style="margin-top: 5px;" class="btn btn-u" >Remover da Lista</a></span>
                             <?php endif;?>
 
 
                         </div>
                     </div>
         <?php if ($dds['resposta'] <= 0): ?>
-                    <div class="modal-footer" id="respfooter<?php echo $dds['id']; ?><?php echo $_POST['tipo']; ?>">
+                    <div class="modal-footer" id="respfooter<?php echo $dds['id_lance']; ?><?php echo $_POST['tipo']; ?>">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Sair</button>
                         <button type="button" class="btn btn-danger"
-                                id="denied<?php echo $dds['id']; ?><?php echo $_POST['tipo']; ?>"
-                                onclick="lanceResposta('<?php echo base_url(''); ?>','0','<?php echo $dds['id']; ?>','<?php echo $_POST['tipo']; ?>','denied');">
+                                id="denied<?php echo $dds['id_lance']; ?><?php echo $_POST['tipo']; ?>"
+                                onclick="lanceResposta('<?php echo base_url(''); ?>','0','<?php echo $dds['id_lance']; ?>','<?php echo $_POST['tipo']; ?>','denied');">
                             Recusar
                         </button>
-                        <button id="accept<?php echo $dds['id']; ?><?php echo $_POST['tipo']; ?>" type="button"
+                        <button id="accept<?php echo $dds['id_lance']; ?><?php echo $_POST['tipo']; ?>" type="button"
                                 class="btn btn-success"
-                                onclick="lanceResposta('<?php echo base_url(''); ?>','1','<?php echo $dds['id']; ?>','<?php echo $_POST['tipo']; ?>','accept');">
+                                onclick="lanceResposta('<?php echo base_url(''); ?>','1','<?php echo $dds['id_lance']; ?>','<?php echo $_POST['tipo']; ?>','accept');">
                             Aceitar
                         </button>
                     </div>

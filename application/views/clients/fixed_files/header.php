@@ -59,7 +59,7 @@
                                     style="font-size: 15pt;float: left;margin: 6px 0 0 -2px;"
                                     class="glyphicon glyphicon-user"></i> Olá Visitante,<br> já e cadastrado?</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url('carrinho'); ?>"
+                        <li><a href="<?php echo base_url('busca'); ?>"
                                style="font-size:9pt;color: white;background: none;text-decoration: none;"><i
                                     style="font-size: 15pt;float: left;margin: 6px 0 0 -2px;"
                                     class="glyphicon glyphicon-list"></i> Criar minha lista<br> de produtos</a></li>
@@ -78,12 +78,16 @@
                         </li>
                         <br>
                         <li role="separator" class="divider"></li>
-                        <li><a href="<?php echo base_url('carrinho'); ?>"
+                       <!-- <li><a href="<?php echo base_url('carrinho'); ?>"
                                style="padding-bottom:5%;font-size:9pt;color: white;background: none;text-decoration: none;"><i
                                     style="font-size: 15pt;float: left;margin: 0px 0 0 -2px;"
                                     class="fa fa-shopping-cart"></i> <span style=" margin: 4% 0 0 8%;float:left ">Meu Carrinho</span></a>
-                        </li>
-                        <br>
+                        </li>-->
+                        <li><a href="<?php echo base_url('busca'); ?>"
+                               style="font-size:9pt;color: white;background: none;text-decoration: none;"><i
+                                    style="font-size: 15pt;float: left;margin: 6px 0 0 -2px;"
+                                    class="glyphicon glyphicon-list"></i> Criar minha lista<br> de produtos</a></li>
+
 
                         <li><a href="<?php echo base_url('usercontroller/logout'); ?>"
                                style="padding-bottom:5%;font-size:9pt;color: white;background: none;text-decoration: none;"><i
@@ -129,8 +133,6 @@
                 <li style="border-right: 1px solid rgba(0, 0, 0, 0.10);"><a style="color: white;" href="<?php echo base_url('busca/higiene')?>">HIGIENE</a>
                 </li>
                 <li style="border-right: 1px solid rgba(0, 0, 0, 0.10);"><a style="color: white;"  href="<?php echo base_url('busca/perfumaria')?>">PERFUMARIA</a></li>
-                <li style="border-right: 1px solid rgba(0, 0, 0, 0.10);"><a style="color: white;" href="<?php echo base_url('busca/higiene')?>">HIGIENE</a>
-                </li>
                 <li style="border-right: 1px solid rgba(0, 0, 0, 0.10);"><a style="color: white;" href="<?php echo base_url('busca/nutricao')?>">NUTRIÇÃO</a>
                 </li>
                 <li style="border-right: 1px solid rgba(0, 0, 0, 0.10);"><a style="color: white;" href="<?php echo base_url('busca/infantis')?>">INFANTIS</a>
@@ -221,6 +223,8 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'lojaa' or $page ==
 
                         $this->db->from('notificacoes');
                         $this->db->where('id_user',$_SESSION['ID']);
+                        $this->db->limit(4,0);
+                        $this->db->order_by('id_notificacao','desc');
                         $get = $this->db->get();
                         $num = $get->num_rows();
                         if($num > 0):
@@ -255,6 +259,7 @@ if ($page == 'profile' or $page == 'meus-lances' or $page == 'lojaa' or $page ==
                                <a href="<?php echo $dds['url_notificacao']; ?>" target="_blank" style="text-decoration: none;"> <i class="icon-custom icon-sm rounded-x icon-bg-yellow icon-line fa fa-bolt"></i>
                                 <div class="overflow-h">
                                     <span><strong><?php echo $result[0]['nome_loja'];?></strong> <?php echo $tps;?></span>
+                                    <small><?php echo $dds['title'];?></small><br>
                                     <small><?php
 
                                         $data = $dds['data'];

@@ -750,6 +750,7 @@ if ($page == 'lojaa'):
                     nome: nome
                 },
                 success: function (result) {
+                    alert(result);
                     if (result == 11) {
                         window.location.reload();
                     } else {
@@ -759,7 +760,8 @@ if ($page == 'lojaa'):
 
                 },
                 error: function (result) {
-                    $("#resposta").html('Ocorreu um Erro, Tente Mais Tarde.');
+                    window.location.reload();
+
 
                 }
             });
@@ -797,7 +799,33 @@ if ($page == 'lojaa'):
 if ($page == 'lojaa'):
     ?>
 <script>
-    
+    function deleteStore() {
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url('');?>ajaxdeletestore",
+            data: {bas:'a'},
+            success: function (result) {
+
+                if(result == 11){
+
+                    $('#deleteloja').modal('hide');
+
+                    window.location.reload();
+
+
+                }else{
+
+                    alert(result);
+
+                }
+
+            },
+            error: function (result) {
+                alert('Erro');
+
+            }
+        });
+    }
     function addProds() {
         
     }

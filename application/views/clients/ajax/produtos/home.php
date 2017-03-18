@@ -1,5 +1,11 @@
 <?php if ($_POST['pg1'] == 11 and $_POST['tipo'] == 0):
-    echo '<h4>Exibindo resultados de <small>' . ucwords($_POST['keyword']) . '</small></h4>';
+    if (isset($_POST['keyword']) and !empty($_POST['keyword'])):
+        echo '<h4>Exibindo resultados de <small>' . ucwords($_POST['keyword']) . '</small></h4>';
+
+    else:
+        echo '<h4>Lista de Produtos || LeiloFarma</h4>';
+
+    endif;
 else:
 
     $this->db->from('categorias');
@@ -10,9 +16,13 @@ else:
     if ($count > 0):
 
         $result = $get->result_array();
+        if(isset($_POST['details']) and $_POST['details'] == 0):
+            echo '<h3>Exibindo Resultados</h3>';
+
+            else:
 
         echo '<h3>' . $result[0]['titulo'] . ' <small style="font-weight:bold; color:#972227;">' . ucwords($_POST['keyword']) . '</small></h3>';
-
+endif;
     else:
         if ($_POST['tipo'] <> 777):
 
@@ -80,7 +90,7 @@ endif;
         endif;
         if ($_POST['pg1'] == 11):
             $this->db->like('medicamentos.nome', $_POST['keyword']);
-              $this->db->or_like('produtos_disponiveis.keywords', $_POST['keyword']);
+            $this->db->or_like('produtos_disponiveis.keywords', $_POST['keyword']);
         endif;
 
         $this->db->order_by('produtos_disponiveis.preco', 'min');
@@ -111,6 +121,7 @@ endif;
         if ($_POST['tipo'] <> 0):
             $this->db->like('produtos_disponiveis.categorias', $_POST['tipo']);
         endif;
+
         if ($_POST['pg1'] == 11 and !empty($_POST['keyword'])):
 
             $this->db->like('medicamentos.nome', $_POST['keyword']);
@@ -124,7 +135,38 @@ endif;
             $this->db->or_like('produtos_disponiveis.keywords', str_replace(' ', '-', $_POST['keyword']));
         endif;
         $this->db->limit($max, $atual);
-        $this->db->order_by('produtos_disponiveis.preco', 'min','produtos_disponiveis.pesquisas_farma','desc');
+
+if(isset($_POST['details']) and $_POST['details'] == 0):
+
+    if($_POST['tipo'] == 'a1'):
+        $this->db->order_by('produtos_disponiveis.id_pdp', 'desc');
+
+        endif;
+
+    if($_POST['tipo'] == 'a2'):
+        $this->db->order_by('produtos_disponiveis.id_pdp', 'asc');
+
+        endif;
+
+    if($_POST['tipo'] == 'a3'):
+        $this->db->order_by('produtos_disponiveis.pesquisas_farma', 'desc');
+
+        endif;
+
+    if($_POST['tipo'] == 'a4'):
+        $this->db->order_by('produtos_disponiveis.preco', 'desc');
+
+        endif;
+
+    if($_POST['tipo'] == 'a5'):
+        $this->db->order_by('produtos_disponiveis.preco', 'asc');
+
+        endif;
+
+else:
+    $this->db->order_by('produtos_disponiveis.preco', 'min', 'produtos_disponiveis.pesquisas_farma', 'desc');
+
+endif;
         $get = $this->db->get();
         $count = $get->num_rows();
 
@@ -209,7 +251,7 @@ endif;
                                             ?>
                                         >
 
-                                            <?php echo $dds['nome']; ?></a></b></h4>
+                                            <?php echo substr($dds['nome'],0,35); ?></a></b></h4>
                                 <?php
 
                                 if ($countlg > 0):
@@ -262,7 +304,7 @@ endif;
     </div>
 <?php if ($count1 > 20): ?>
     <nav aria-label="">
-        <ul class="pager" style=" float: left; margin: 1% 0 5% 30%; right: 10%" >
+        <ul class="pager" style=" float: left; margin: 1% 0 5% 30%; right: 10%">
             <li>
                 <a href="javascript:categoria('<?php echo base_url(''); ?>',<?php echo $_POST['tipo']; ?>,'<?php if ($atualpg <= 1): echo $atualpg;
                 else: echo $atualpg - 1; endif; ?>','1','produtoshome','produtos','<?php echo $_POST['keyword'] ?>','<?php echo $_POST['pg1']; ?>');"

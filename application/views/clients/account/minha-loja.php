@@ -66,7 +66,7 @@ $result = $get->result_array();
                     <span><strong>Cidade:</strong> <?php echo $result[0]['cidade']; ?></span>
                     <span><strong>Estado:</strong> <?php echo $result[0]['estado']; ?></span>
                     <hr>
-
+<!--
                     <?php
                     if (empty($result[0]['descricao_loja'])):
                         ?>
@@ -81,16 +81,43 @@ $result = $get->result_array();
                         echo '<p style="float: left; text-align: left; width: 85%;">
 ' . $result[0]['descricao_loja'] . '</p>';
 
-                    endif; ?>
-                    <br>
-                    <br>
+                    endif; ?>-->
+
+
                     <div class="dropdown show pull-right">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" id="cong">
-                            <i class="fa fa-pencil "></i>
+                        <a class="btn btn-secondary dropdown-toggle" href="#" id="cong"  data-toggle="modal" data-target="#deleteloja">
+                            <i class="fa fa-trash "></i>
                         </a>
 
 
                     </div>
+
+
+                    <!-- Modal -->
+                    <div style="z-index: 1000000000000000000000;" class="modal fade" id="deleteloja" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document"  style="margin-top: 5%;z-index: 1000000000000000000000;">
+                            <div class="modal-content" style="margin-top: 5%;z-index: 1000000000000000000000;">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Excluir Loja</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Tem Certeza que Deseja Excluir sua Loja?</p>
+                                    <p><b>Esta ação não poderá se desfeita!</b></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" onclick="deleteStore();">Confirmar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php
+                    echo '<p><b>Email Administrativo</b>: '.$result[0]['email'].'</p>';
+                    echo '<p><b>Email de Contato</b>: '.$result[0]['email'].'</p>';
+                    echo '<p><b>Endereço</b>: '.$result[0]['rua'].'</p>';
+                    ?>
 
                 </div>
 

@@ -102,29 +102,15 @@
             </select>
             &nbsp;&nbsp;&nbsp;
             <i style="color: #940f14;" class="glyphicon glyphicon-th-list"></i>
-            <select onchange="categoria('<?php echo base_url('');?>',this.value,'1','1','produtoshome','produtos','','');" class="farmaceutica-filtro">
-                <option style="display: none;" selected disabled>Farmaceuticas</option>
-                <?php
-                $this->db->from('categorias');
-                $this->db->where('tipo',2);
-                $this->db->order_by('id','desc');
-                $get = $this->db->get();
-                $count = $get->num_rows();
-                if($count > 0):
+            <select onchange="categoria('<?php echo base_url('');?>',this.value,'1','1','produtoshome','produtos','','111','0','0');" class="farmaceutica-filtro">
+                <option style="display: none;" selected disabled>Ordenar Por</option>
 
-                    $result = $get->result_array();
-                    foreach ($result as $dds){
+                <option value="a1">Ultimos Adicionados</option>
+                <option value="a2">Mais Antigos</option>
+                <option value="a3">Mais Buscados</option>
+                <option value="a4">Maiores Preços</option>
+                <option value="a5">Menores Preços</option>
 
-                        echo '<option value="'.$dds['id'].'">'.$dds['nome'].'</option>';
-                    }
-
-                else:
-
-                    echo '<option value="0" disabled>Nenhuma Categoria</option>';
-
-                endif;
-
-                ?>
 
 
 
